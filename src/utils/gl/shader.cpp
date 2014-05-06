@@ -38,4 +38,9 @@ void Shader::Compile(const char* p_source) const
 	}
 }
 
+void Shader::Compile(const std::string& p_source) const
+{
+	Compile(p_source.data());
+}
+
 }
