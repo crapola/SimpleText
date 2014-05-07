@@ -13,6 +13,7 @@ struct EventProcessor
 			switch (event.type)
 			{
 				default:
+
 					break;
 				// Exit if the window is closed
 				case SDL_QUIT:
@@ -26,6 +27,7 @@ struct EventProcessor
 					{
 						return false;
 					}
+					(*static_cast<Td*>(this))(event.key);
 					break;
 				}
 				case SDL_WINDOWEVENT:

@@ -50,8 +50,12 @@ int main(int,char**) try
 
 	TEST("before loop")
 
-	struct Meh: public EventProcessor<Meh>
+	struct Meh: EventProcessor<Meh>
 	{
+		void operator()(SDL_KeyboardEvent& e)
+		{
+			std::cout<<"keyboard event ";
+		}
 		void operator()(SDL_WindowEvent& we)
 		{
 			switch (we.event)
@@ -64,10 +68,10 @@ int main(int,char**) try
 					break;
 				}
 			}
-			std::cout<<"e ";
+			std::cout<<"window event ";
 		}
 	} meh;
-	std::cout<<sizeof(Meh);
+
 	while (meh)
 	{
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
