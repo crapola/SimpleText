@@ -1,43 +1,41 @@
 #ifndef PROCESSEVENTS_H_INCLUDED
 #define PROCESSEVENTS_H_INCLUDED
 
-// Return false to quit
-bool ProcessEvents()
+template<class Td>
+struct EventProcessor
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
+	operator bool()
 	{
-		// Check for messages
-		switch (event.type)
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
 		{
-			default:
-				break;
-			// Exit if the window is closed
-			case SDL_QUIT:
-				return false;
-				break;
-			// Check for keypresses
-			case SDL_KEYDOWN:
+			// Check for messages
+			switch (event.type)
 			{
-				// Exit if ESCAPE is pressed
-				if (event.key.keysym.sym == SDLK_ESCAPE)
+				default:
+					break;
+				// Exit if the window is closed
+				case SDL_QUIT:
 					return false;
-				break;
-			}
-			case SDL_WINDOWEVENT:
-				switch (event.window.event)
+					break;
+				// Check for keypresses
+				case SDL_KEYDOWN:
 				{
-					default:
-						break;
-					case SDL_WINDOWEVENT_RESIZED:
+					// Exit if ESCAPE is pressed
+					if (event.key.keysym.sym == SDLK_ESCAPE)
 					{
-						break;
+						return false;
 					}
+					break;
 				}
-				break;
+				case SDL_WINDOWEVENT:
+					(*static_cast<Td*>(this))(event.window);
+					break;
+			}
 		}
-	}
-	return true;
-}
+		return true;
+	};
+};
 
 #endif // PROCESSEVENTS_H_INCLUDED
+

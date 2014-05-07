@@ -49,24 +49,32 @@
 			<Add library="opengl32" />
 			<Add directory="$(#sdl.lib)" />
 		</Linker>
-		<Unit filename="src/context.cpp" />
-		<Unit filename="src/context.h" />
-		<Unit filename="src/gl/buffer.cpp" />
-		<Unit filename="src/gl/buffer.h" />
-		<Unit filename="src/gl/glid.hpp" />
-		<Unit filename="src/gl/logerrors.cpp" />
-		<Unit filename="src/gl/logerrors.h" />
-		<Unit filename="src/gl/program.cpp" />
-		<Unit filename="src/gl/program.h" />
-		<Unit filename="src/gl/shader.cpp" />
-		<Unit filename="src/gl/shader.h" />
-		<Unit filename="src/glew.c">
+		<Unit filename="data/frag.glsl">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="data/vert.glsl">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="src/glew/glew.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
-		<Unit filename="src/window.cpp" />
-		<Unit filename="src/window.h" />
+		<Unit filename="src/utils/context.cpp" />
+		<Unit filename="src/utils/context.h" />
+		<Unit filename="src/utils/gl/buffer.cpp" />
+		<Unit filename="src/utils/gl/buffer.h" />
+		<Unit filename="src/utils/gl/glid.hpp" />
+		<Unit filename="src/utils/gl/logerrors.cpp" />
+		<Unit filename="src/utils/gl/logerrors.h" />
+		<Unit filename="src/utils/gl/program.cpp" />
+		<Unit filename="src/utils/gl/program.h" />
+		<Unit filename="src/utils/gl/shader.cpp" />
+		<Unit filename="src/utils/gl/shader.h" />
+		<Unit filename="src/utils/loadstring.cpp" />
+		<Unit filename="src/utils/loadstring.h" />
+		<Unit filename="src/utils/window.cpp" />
+		<Unit filename="src/utils/window.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

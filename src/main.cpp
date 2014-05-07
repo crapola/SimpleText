@@ -1,9 +1,5 @@
 #include <SDL2/SDL.h>
 
-#include "processevents.h"
-#include <iostream>
-#include <stdexcept>
-
 #include "utils/context.h"
 #include "utils/window.h"
 #include "utils/loadstring.h"
@@ -12,13 +8,19 @@
 #include "utils/gl/program.h"
 #include "utils/gl/logerrors.h"
 
-#include <fstream>
+#include "processevents.h"
+#include <iostream>
+#include <stdexcept>
 
 #define TEST(x) gl::LogErrors(x);
 
 float vertices[] =
 {
-	0.0f,  0.5f,0.5f, -0.5f,-0.5f, -0.5f
+	-0.5f, -0.5f,
+	-0.5f, 0.15f,
+	0.5f, -0.5f,
+	0.35f, 0.5f,
+	0.95,-0.5,1,.5
 };
 
 int main(int,char**) try
@@ -33,10 +35,8 @@ int main(int,char**) try
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	gl::Shader vs(GL_VERTEX_SHADER),fs(GL_FRAGMENT_SHADER);
-	std::string vcode(LoadString("data/vert.glsl"));
-	std::string fcode(LoadString("data/frag.glsl"));
-	vs.Compile(vcode);
-	fs.Compile(fcode);
+	vs.Compile(LoadString("data/vert.glsl"));
+	fs.Compile(LoadString("data/frag.glsl"));
 
 	gl::Program prog;
 	prog.Attach(vs);
@@ -49,10 +49,29 @@ int main(int,char**) try
 	glEnableVertexAttribArray(posAttrib);
 
 	TEST("before loop")
-	while (ProcessEvents())
+
+	struct Meh: public EventProcessor<Meh>
+	{
+		void operator()(SDL_WindowEvent& we)
+		{
+			switch (we.event)
+			{
+				default:
+					break;
+				case SDL_WINDOWEVENT_RESIZED:
+				{
+					std::cout<<"Resized.\n";
+					break;
+				}
+			}
+			std::cout<<"e ";
+		}
+	} meh;
+	std::cout<<sizeof(Meh);
+	while (meh)
 	{
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
 		SDL_Delay(16);
 		SDL_GL_SwapWindow(window);
 	}
