@@ -48,7 +48,7 @@ int main(int,char**) try
 	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posAttrib);
 
-	std::pair<float,float> reso={800,600};
+	std::pair<float,float> reso= {800,600};
 
 	GLuint uniblock=glGetUniformBlockIndex(prog,"uniblock");
 	gl::Buffer unibuf;
@@ -60,7 +60,7 @@ int main(int,char**) try
 
 	TEST("init")
 
-	struct Meh: EventProcessor<Meh>
+	struct Meh
 	{
 		std::pair<float,float>& cap;
 
@@ -82,6 +82,7 @@ int main(int,char**) try
 					cap.first=we.data1;
 					cap.second=we.data2;
 					std::cout<<"Resized\n";
+					// +bind
 					glBufferSubData(GL_UNIFORM_BUFFER,0,sizeof(float)*2,&cap);
 					glViewport(0,0,we.data1,we.data2);
 					break;
@@ -91,7 +92,7 @@ int main(int,char**) try
 		}
 	} meh(reso);
 
-	while (meh)
+	while (ProcessEvents(meh))
 	{
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
