@@ -48,10 +48,25 @@ int main(int,char**) try
 	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posAttrib);
 
-	TEST("before loop")
+	std::pair<float,float> reso={800,600};
+
+	GLuint uniblock=glGetUniformBlockIndex(prog,"uniblock");
+	gl::Buffer unibuf;
+	unibuf.Bind(GL_UNIFORM_BUFFER);
+	glUniformBlockBinding(prog,uniblock,0);
+
+	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_STREAM_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER,uniblock,unibuf);
+
+	TEST("init")
 
 	struct Meh: EventProcessor<Meh>
 	{
+		std::pair<float,float>& cap;
+
+		Meh(std::pair<float,float>& r):cap(r)
+		{
+		}
 		void operator()(SDL_KeyboardEvent& e)
 		{
 			std::cout<<"keyboard event ";
@@ -64,13 +79,17 @@ int main(int,char**) try
 					break;
 				case SDL_WINDOWEVENT_RESIZED:
 				{
-					std::cout<<"Resized.\n";
+					cap.first=we.data1;
+					cap.second=we.data2;
+					std::cout<<"Resized\n";
+					glBufferSubData(GL_UNIFORM_BUFFER,0,sizeof(float)*2,&cap);
+					glViewport(0,0,we.data1,we.data2);
 					break;
 				}
 			}
 			std::cout<<"window event ";
 		}
-	} meh;
+	} meh(reso);
 
 	while (meh)
 	{
@@ -80,7 +99,7 @@ int main(int,char**) try
 		SDL_GL_SwapWindow(window);
 	}
 
-	TEST("end of prog")
+	TEST("end")
 	return 0;
 }
 catch (const std::runtime_error& e)
