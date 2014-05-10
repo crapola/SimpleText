@@ -13,13 +13,13 @@ void main()
 	v+=vec4(sx,sy,0,0);
 	EmitVertex();
 
-	gl_Position+=vec4(0,sy,0,0);
+	gl_Position+=vec4(0,-sy,0,0);
 	EmitVertex();
 
-	gl_Position+=vec4(sx,-sy,0,0);
+	gl_Position+=vec4(sx,sy,0,0);
 	EmitVertex();
 
-	gl_Position+=vec4(0,sy,0,0);
+	gl_Position+=vec4(0,-sy,0,0);
 	EmitVertex();
 
 }

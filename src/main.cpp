@@ -22,6 +22,7 @@ using namespace std;
 struct Grid
 {
 	int16_t x,y;
+	int16_t w,h;
 };
 
 struct Character
@@ -30,36 +31,37 @@ struct Character
 	uint8_t c;
 };
 
-
-float vertices[] =
-{
-	-0.5f,-0.5f, 0, 0
-};
-
 int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
 	Context glcontext(window);
 	glClearColor(0,0.5,0.75,1.0);
 
-	// Text
-	const size_t NUMCHARS=200;
-	vector<Character> chars(NUMCHARS, {1,'a'});
+	/* Text */
+	const size_t NUMGRIDS=5;
+	const size_t NUMCHARS=32;
+	vector<Grid> grids(NUMGRIDS,{20,200,100,220});
+	short i=0;
+	for_each(grids.begin(),grids.end(),[&i](Grid& c)
+	{
+		c.x=i*40;
+		c.y=i*50;
+		i++;
+		cout<<c.x<<c.y;
+	});
+	vector<Character> chars(NUMCHARS, {0,'a'});
+	chars[12]={1,'z'};
 	for_each(chars.begin(),chars.end(),[](Character& c)
 	{
 		cout<<c.c;
 	});
 
-	gl::Buffer buff;
-	buff.Bind(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER,chars.size(),chars.data(),GL_STATIC_DRAW);
-
+	// Program
 	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),
 	fs(GL_FRAGMENT_SHADER);
 	vs.Compile(LoadString("data/vert.glsl"));
 	gs.Compile(LoadString("data/geo.glsl"));
 	fs.Compile(LoadString("data/frag.glsl"));
-
 	gl::Program prog;
 	prog.Attach(vs);
 	prog.Attach(gs);
@@ -67,13 +69,26 @@ int main(int,char**) try
 	prog.Link();
 	prog.Bind();
 
-	GLint posAttrib = glGetAttribLocation(prog,"chardata");
+	// Grid
+	gl::Buffer gridBuff;
+	gridBuff.Bind(GL_ARRAY_BUFFER);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Grid)*grids.size(),grids.data(),GL_STATIC_DRAW);
+	GLint gridAttrib = glGetAttribLocation(prog,"grid");
+	glVertexAttribIPointer(gridAttrib,2,GL_INT,0,0);
+	glEnableVertexAttribArray(gridAttrib);
+	glVertexAttribDivisor(gridAttrib,1);
+	TEST("Grid")
 
-	glVertexAttribIPointer(posAttrib,1,GL_UNSIGNED_SHORT,0,0);
-	glEnableVertexAttribArray(posAttrib);
-	TEST("text")
+	// Chars
+	gl::Buffer buff;
+	buff.Bind(GL_ARRAY_BUFFER);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*chars.size(),chars.data(),GL_DYNAMIC_DRAW);
+	GLint charAttrib = glGetAttribLocation(prog,"chardata");
+	glVertexAttribIPointer(charAttrib,1,GL_UNSIGNED_SHORT,0,0);
+	glEnableVertexAttribArray(charAttrib);
+	TEST("Chars")
 
-	// Window size
+	/* Window size */
 	pair<float,float> reso= {800,600};
 	GLuint uniblock=glGetUniformBlockIndex(prog,"uniblock");
 	gl::Buffer unibuf;
@@ -119,7 +134,8 @@ int main(int,char**) try
 	while (ProcessEvents(meh))
 	{
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		glDrawArrays(GL_POINTS,0,NUMCHARS);
+		//glDrawArrays(GL_POINTS,0,NUMCHARS);
+		glDrawArraysInstanced(GL_POINTS,0,NUMCHARS,5);
 		SDL_Delay(16);
 		SDL_GL_SwapWindow(window);
 	}
