@@ -6,12 +6,12 @@ namespace gl
 {
 Program::Program():Identifiable(glCreateProgram())
 {
-	std::cout<<"Created program id="<<_id<<"\n";
+	std::cout<<"+program id="<<_id<<"\n";
 }
 
 Program::~Program()
 {
-	std::cout<<"Deleting program id="<<_id<<"\n";
+	std::cout<<"-program id="<<_id<<"\n";
 	glDeleteProgram(_id);
 }
 

@@ -7,12 +7,12 @@ namespace gl
 
 Shader::Shader(GLenum p_type):Identifiable(glCreateShader(p_type))
 {
-	std::cout<<"Created shader type="<<p_type<<" id="<<_id<<"\n";
+	std::cout<<"+shader type="<<p_type<<" id="<<_id<<"\n";
 }
 
 Shader::~Shader()
 {
-	std::cout<<"Deleting shader id="<<_id<<"\n";
+	std::cout<<"-shader id="<<_id<<"\n";
 	glDeleteShader(_id);
 }
 
