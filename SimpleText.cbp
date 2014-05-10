@@ -52,6 +52,9 @@
 		<Unit filename="data/frag.glsl">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="data/geo.glsl">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="data/vert.glsl">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

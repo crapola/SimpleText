@@ -16,11 +16,7 @@
 
 float vertices[] =
 {
-	-0.5f, -0.5f,
-	-0.5f, 0.15f,
-	0.5f, -0.5f,
-	0.35f, 0.5f,
-	0.95,-0.5,1,.5
+	-0.5f,-0.5f, 0, 0
 };
 
 int main(int,char**) try
@@ -29,17 +25,20 @@ int main(int,char**) try
 	Context glcontext(window);
 
 	glClearColor(0,0.5,0.75,1.0);
-
+	//glClearColor(1.0,1.0,0.75,1.0);
 	gl::Buffer buff;
 	buff.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	gl::Shader vs(GL_VERTEX_SHADER),fs(GL_FRAGMENT_SHADER);
+	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),
+	fs(GL_FRAGMENT_SHADER);
 	vs.Compile(LoadString("data/vert.glsl"));
+	gs.Compile(LoadString("data/geo.glsl"));
 	fs.Compile(LoadString("data/frag.glsl"));
 
 	gl::Program prog;
 	prog.Attach(vs);
+	prog.Attach(gs);
 	prog.Attach(fs);
 	prog.Link();
 	prog.Bind();
@@ -67,7 +66,7 @@ int main(int,char**) try
 		Meh(std::pair<float,float>& r):cap(r)
 		{
 		}
-		void operator()(SDL_KeyboardEvent& e)
+		void operator()(SDL_KeyboardEvent&)
 		{
 			std::cout<<"keyboard event ";
 		}
@@ -95,7 +94,7 @@ int main(int,char**) try
 	while (ProcessEvents(meh))
 	{
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
+		glDrawArrays(GL_POINTS,0,2);
 		SDL_Delay(16);
 		SDL_GL_SwapWindow(window);
 	}
