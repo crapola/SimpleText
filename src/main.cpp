@@ -24,14 +24,15 @@ using namespace std;
 
 struct Grid
 {
-	int16_t y,x;
-	int16_t w,h;
+	GLshort x,y; // Pixels
+	GLshort w,h; // Number of characters
 };
 
 struct Character
 {
-	uint8_t flags;
-	uint8_t c;
+	GLushort colors;
+	GLubyte flags;
+	GLubyte c;
 };
 
 int main(int,char**) try
@@ -41,23 +42,22 @@ int main(int,char**) try
 	glClearColor(0,0.5,0.75,1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
 	/* Text */
 
 	// Buffers
 	const size_t NUMGRIDS=5;
-	const size_t NUMCHARS=32;
+	const size_t NUMCHARS=100;
 	vector<Grid> grids(NUMGRIDS, {0,0,10,20});
 	short i=0;
 	for_each(grids.begin(),grids.end(),[&i](Grid& c)
 	{
-		c.x=i*40;
-		c.y=i*50;
+		c.x=i*10;
+		c.y=i*20;
 		i++;
 		cout<<c.x<<c.y;
 	});
 	vector<Character> chars(NUMCHARS, {0,'a'});
-	chars[12]= {1,'z'};
 	for_each(chars.begin(),chars.end(),[](Character& c)
 	{
 		cout<<c.c;
@@ -78,8 +78,9 @@ int main(int,char**) try
 
 	// Texture
 	gl::Texture fontTex;
+	const size_t TEXTURE_WIDTH=2048;
 	const GLubyte* indata=static_cast<const GLubyte*>(g_fontTextureRaw);
-	GLubyte dest[2048*8]= {0};
+	GLubyte dest[TEXTURE_WIDTH*8]= {0};
 	{
 		// Convert 1bpp to 1Bpp (GL_RED)
 		for (int y=0; y<8; ++y)
@@ -90,7 +91,7 @@ int main(int,char**) try
 				{
 					if (((c)&(1<<b))!=0)
 					{
-						dest[x*8+(7-y)*2048+7-b]=255;
+						dest[x*8+(7-y)*TEXTURE_WIDTH+7-b]=255;
 					}
 				}
 			}
@@ -99,7 +100,7 @@ int main(int,char**) try
 	glBindTexture(GL_TEXTURE_2D,fontTex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,2048,8,0,GL_RED,GL_UNSIGNED_BYTE,dest);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,TEXTURE_WIDTH,8,0,GL_RED,GL_UNSIGNED_BYTE,dest);
 	GLint samplerLoc=glGetUniformLocation(prog,"tex");
 	glUniform1i(samplerLoc,0);
 	cout<<samplerLoc;
@@ -120,7 +121,7 @@ int main(int,char**) try
 	buff.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*chars.size(),chars.data(),GL_DYNAMIC_DRAW);
 	GLint charAttrib = glGetAttribLocation(prog,"chardata");
-	glVertexAttribIPointer(charAttrib,1,GL_UNSIGNED_SHORT,0,0);
+	glVertexAttribIPointer(charAttrib,2,GL_UNSIGNED_INT,0,0);
 	glEnableVertexAttribArray(charAttrib);
 	TEST("Chars")
 
@@ -130,7 +131,7 @@ int main(int,char**) try
 	gl::Buffer unibuf;
 	unibuf.Bind(GL_UNIFORM_BUFFER);
 	glUniformBlockBinding(prog,uniblock,0);
-	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_STREAM_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_UNIFORM_BUFFER,uniblock,unibuf);
 
 	TEST("init")
@@ -163,7 +164,7 @@ int main(int,char**) try
 					break;
 				}
 			}
-			cout<<"window event ";
+			//cout<<"window event ";
 		}
 	} meh(reso);
 
