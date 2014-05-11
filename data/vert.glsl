@@ -24,9 +24,10 @@ void main()
 
 	vec2 gridpos=ScreenPosToNDC(gridx,gridy);
 	charsizendc=vec2(8.f * 2.f/res.x,8.f * 2.f/res.y);
-	float x=mod(gl_VertexID,margin) * 9.f * 2.f/res.x;
-	float y=-(gl_VertexID/margin) * 9.f * 2.f/res.y;
-	vec2 position=gridpos+vec2(x,y);
+	vec2 charpos;
+	charpos.x=(gl_VertexID%margin) * 9.f * 2.f/res.x;
+	charpos.y=-(gl_VertexID/margin) * 9.f * 2.f/res.y;
+	vec2 position=gridpos+charpos;
 	gl_Position=vec4(position, 0.0, 1.0);
 
 }

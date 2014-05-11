@@ -9,6 +9,7 @@
 #include "utils/gl/buffer.h"
 #include "utils/gl/shader.h"
 #include "utils/gl/program.h"
+#include "utils/gl/texture.h"
 #include "utils/gl/logerrors.h"
 
 #include "processevents.h"
@@ -16,6 +17,8 @@
 #include <stdexcept>
 
 #define TEST(x) gl::LogErrors(x);
+
+extern const unsigned char g_fontTextureRaw[];
 
 using namespace std;
 
@@ -38,9 +41,11 @@ int main(int,char**) try
 	glClearColor(0,0.5,0.75,1.0);
 
 	/* Text */
+
+	// Buffers
 	const size_t NUMGRIDS=5;
 	const size_t NUMCHARS=32;
-	vector<Grid> grids(NUMGRIDS,{20,200,100,220});
+	vector<Grid> grids(NUMGRIDS, {20,200,100,220});
 	short i=0;
 	for_each(grids.begin(),grids.end(),[&i](Grid& c)
 	{
@@ -50,7 +55,7 @@ int main(int,char**) try
 		cout<<c.x<<c.y;
 	});
 	vector<Character> chars(NUMCHARS, {0,'a'});
-	chars[12]={1,'z'};
+	chars[12]= {1,'z'};
 	for_each(chars.begin(),chars.end(),[](Character& c)
 	{
 		cout<<c.c;
@@ -68,6 +73,35 @@ int main(int,char**) try
 	prog.Attach(fs);
 	prog.Link();
 	prog.Bind();
+
+	// Texture
+	gl::Texture fontTex;
+	const GLubyte* indata=static_cast<const GLubyte*>(g_fontTextureRaw);
+	GLubyte dest[2048*8]= {0};
+	{
+		// Convert 1bpp to 1Bpp (GL_RED)
+		for (int y=0; y<8; ++y)
+			for (int x=0; x<224; ++x)
+			{
+				GLubyte c=indata[x+y*224];
+				for (int b=0; b<8; ++b)
+				{
+					if (((c)&(1<<b))!=0)
+					{
+						dest[x*8+(7-y)*2048+7-b]=255;
+					}
+				}
+			}
+	}
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,fontTex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,2048,8,0,GL_RED,GL_UNSIGNED_BYTE,dest);
+	GLint samplerLoc=glGetUniformLocation(prog,"tex");
+	glUniform1i(samplerLoc,0);
+	cout<<samplerLoc;
+	TEST("Texture")
 
 	// Grid
 	gl::Buffer gridBuff;
@@ -149,3 +183,4 @@ catch (const runtime_error& e)
 	std::cout<<"Runtime error: "<<e.what();
 	return -1;
 }
+

@@ -16,6 +16,7 @@
 					<Add option="-g" />
 					<Add directory="src/" />
 					<Add directory="src/gl" />
+					<Add directory="src/utils/gl" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -27,6 +28,7 @@
 					<Add option="-O2" />
 					<Add directory="src/" />
 					<Add directory="src/gl" />
+					<Add directory="src/utils/gl" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -58,6 +60,7 @@
 		<Unit filename="data/vert.glsl">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="src/fonttexture.cpp" />
 		<Unit filename="src/glew/glew.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -74,6 +77,8 @@
 		<Unit filename="src/utils/gl/program.h" />
 		<Unit filename="src/utils/gl/shader.cpp" />
 		<Unit filename="src/utils/gl/shader.h" />
+		<Unit filename="src/utils/gl/texture.cpp" />
+		<Unit filename="src/utils/gl/texture.h" />
 		<Unit filename="src/utils/loadstring.cpp" />
 		<Unit filename="src/utils/loadstring.h" />
 		<Unit filename="src/utils/window.cpp" />
