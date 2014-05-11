@@ -1,5 +1,5 @@
 layout(location=0) in uint chardata;
-layout(location=1) in ivec2 grid;
+layout(location=1) in uvec2 grid;
 
 layout(std140) uniform uniblock
 {
@@ -10,19 +10,17 @@ const int margin=10;
 
 flat out vec2 charsizendc;
 
-vec2 ScreenPosToNDC(int x,int y)
+vec2 PixToNDC(vec2 v)
 {
-	return vec2( (2.0f*x)/res.x-1.0f, -(2.0f*y)/res.y+1.0f);
+	return vec2( (2.0f*v.x)/res.x-1.0f, -(2.0f*v.y)/res.y+1.0f);
 }
 
 void main()
 {
-	uint foo=chardata>>2;
+	uint foo=chardata;
 
-	int gridx=grid.x&0xFFFF;
-	int gridy=int((grid.x&0xFFFF0000)>>16);
+	vec2 gridpos=PixToNDC(unpackSnorm2x16(grid.x)*65535.f);
 
-	vec2 gridpos=ScreenPosToNDC(gridx,gridy);
 	charsizendc=vec2(8.f * 2.f/res.x,8.f * 2.f/res.y);
 	vec2 charpos;
 	charpos.x=(gl_VertexID%margin) * 9.f * 2.f/res.x;

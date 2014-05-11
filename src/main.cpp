@@ -24,7 +24,7 @@ using namespace std;
 
 struct Grid
 {
-	int16_t x,y;
+	int16_t y,x;
 	int16_t w,h;
 };
 
@@ -39,13 +39,15 @@ int main(int,char**) try
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
 	Context glcontext(window);
 	glClearColor(0,0.5,0.75,1.0);
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	/* Text */
 
 	// Buffers
 	const size_t NUMGRIDS=5;
 	const size_t NUMCHARS=32;
-	vector<Grid> grids(NUMGRIDS, {20,200,100,220});
+	vector<Grid> grids(NUMGRIDS, {0,0,10,20});
 	short i=0;
 	for_each(grids.begin(),grids.end(),[&i](Grid& c)
 	{
@@ -108,7 +110,7 @@ int main(int,char**) try
 	gridBuff.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Grid)*grids.size(),grids.data(),GL_STATIC_DRAW);
 	GLint gridAttrib = glGetAttribLocation(prog,"grid");
-	glVertexAttribIPointer(gridAttrib,2,GL_INT,0,0);
+	glVertexAttribIPointer(gridAttrib,2,GL_UNSIGNED_INT,0,0);
 	glEnableVertexAttribArray(gridAttrib);
 	glVertexAttribDivisor(gridAttrib,1);
 	TEST("Grid")
