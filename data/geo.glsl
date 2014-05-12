@@ -1,6 +1,7 @@
 layout(points) in;
 layout(triangle_strip,max_vertices=4) out;
 
+flat in uint charoffset[];
 flat in vec2 charsizendc[];
 
 out vec2 uv;
@@ -8,7 +9,8 @@ out vec2 uv;
 void main()
 {
 	const float tw=256.0f;
-	const vec2 uvc=vec2(32.f/tw,0);
+	//vec2 uvc=vec2((gl_PrimitiveIDIn-32)/tw,0);
+	vec2 uvc=vec2((charoffset[0]-32)/tw,0);
 	const float uvx=1.f/tw;
 	const float uvy=1.f;
 

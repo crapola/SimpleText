@@ -5,27 +5,34 @@ using namespace std;
 extern const unsigned char g_fontTextureRaw[];
 
 const size_t NUMGRIDS=5;
-const size_t NUMCHARS=100;
 
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
-_grids(NUMGRIDS,{0,0,30,5}),
-_chars(NUMCHARS, {0,0,'a'}),
+_grids(NUMGRIDS,{0,0,20,5}),
+_chars(),
 _gridBuf(),_charBuf(),_program(),_texture(),_gridAttrib()
 {
 	// Fill
-	float i=0;
-	for_each(_grids.begin(),_grids.end(),[&i](Grid& c)
+	int i=0;
+	size_t numChars=0;
+	for_each(_grids.begin(),_grids.end(),[&i,&numChars](Grid& c)
 	{
 		c.x=i*10;
 		c.y=i*20;
 		c.h+=i;
 		i++;
+		numChars+=c.w*c.h;
 	});
-	for_each(_chars.begin(),_chars.end(),[](Character& c)
+	// total size
+	cout<<numChars;
+	_chars.resize(numChars);
+	i=0;
+	for_each(_chars.begin(),_chars.end(),[&i](Character& c)
 	{
-		cout<<c.c;
+		c.colors=0;
+		c.flags=0;
+		c.c=i+32;
+		i++;
 	});
-
 	// Program
 	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),
 	fs(GL_FRAGMENT_SHADER);
@@ -79,7 +86,7 @@ _gridBuf(),_charBuf(),_program(),_texture(),_gridAttrib()
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_DYNAMIC_DRAW);
 	GLint charAttrib = glGetAttribLocation(_program,"chardata");
-	glVertexAttribIPointer(charAttrib,2,GL_UNSIGNED_INT,0,0);
+	glVertexAttribIPointer(charAttrib,1,GL_UNSIGNED_INT,0,0);
 	glEnableVertexAttribArray(charAttrib);
 	TEST("Chars")
 

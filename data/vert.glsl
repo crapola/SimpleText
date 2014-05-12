@@ -1,4 +1,4 @@
-layout(location=0) in uint chardata;
+layout(location=0) in uint chardata;//color16+flags8+char8
 layout(location=1) in vec4 grid;
 
 layout(std140) uniform resolutionUBO
@@ -6,7 +6,10 @@ layout(std140) uniform resolutionUBO
 	vec2 resolution;
 };
 
+flat out uint charoffset;
 flat out vec2 charsizendc;
+
+//------------------------------------------------------------------------------
 
 vec2 PixToNDC(vec2 v)
 {
@@ -15,7 +18,7 @@ vec2 PixToNDC(vec2 v)
 
 void main()
 {
-	uint foo=chardata;
+	charoffset=(chardata&0xFF000000)>>24;
 
 	vec2 gridpos=PixToNDC(grid.xy);
 
