@@ -17,6 +17,7 @@
 					<Add directory="src/" />
 					<Add directory="src/gl" />
 					<Add directory="src/utils/gl" />
+					<Add directory="src" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -29,6 +30,7 @@
 					<Add directory="src/" />
 					<Add directory="src/gl" />
 					<Add directory="src/utils/gl" />
+					<Add directory="src" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -66,6 +68,8 @@
 		</Unit>
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
+		<Unit filename="src/textrendererm1.cpp" />
+		<Unit filename="src/textrendererm1.h" />
 		<Unit filename="src/utils/context.cpp" />
 		<Unit filename="src/utils/context.h" />
 		<Unit filename="src/utils/gl/buffer.cpp" />
