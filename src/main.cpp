@@ -24,8 +24,8 @@ using namespace std;
 
 struct Grid
 {
-	GLshort x,y; // Pixels
-	GLshort w,h; // Number of characters
+	GLfloat x,y; // Pixels
+	GLfloat w,h; // Number of characters
 };
 
 struct Character
@@ -48,16 +48,16 @@ int main(int,char**) try
 	// Buffers
 	const size_t NUMGRIDS=5;
 	const size_t NUMCHARS=100;
-	vector<Grid> grids(NUMGRIDS, {0,0,10,20});
+	vector<Grid> grids(NUMGRIDS, {0,0,30,5});
 	short i=0;
 	for_each(grids.begin(),grids.end(),[&i](Grid& c)
 	{
 		c.x=i*10;
 		c.y=i*20;
+		c.h+=i;
 		i++;
-		cout<<c.x<<c.y;
 	});
-	vector<Character> chars(NUMCHARS, {0,'a'});
+	vector<Character> chars(NUMCHARS, {0,0,'a'});
 	for_each(chars.begin(),chars.end(),[](Character& c)
 	{
 		cout<<c.c;
@@ -112,8 +112,7 @@ int main(int,char**) try
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Grid)*grids.size(),grids.data(),GL_STATIC_DRAW);
 	GLint gridAttrib = glGetAttribLocation(prog,"grid");
 	glVertexAttribIPointer(gridAttrib,2,GL_UNSIGNED_INT,0,0);
-	glEnableVertexAttribArray(gridAttrib);
-	glVertexAttribDivisor(gridAttrib,1);
+	//glEnableVertexAttribArray(gridAttrib);
 	TEST("Grid")
 
 	// Chars
@@ -127,7 +126,7 @@ int main(int,char**) try
 
 	/* Window size */
 	pair<float,float> reso= {800,600};
-	GLuint uniblock=glGetUniformBlockIndex(prog,"uniblock");
+	GLuint uniblock=glGetUniformBlockIndex(prog,"resolutionUBO");
 	gl::Buffer unibuf;
 	unibuf.Bind(GL_UNIFORM_BUFFER);
 	glUniformBlockBinding(prog,uniblock,0);
@@ -171,10 +170,17 @@ int main(int,char**) try
 	while (ProcessEvents(meh))
 	{
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		//glDrawArrays(GL_POINTS,0,NUMCHARS);
-		glDrawArraysInstanced(GL_POINTS,0,NUMCHARS,5);
-		SDL_Delay(16);
+
+		size_t offset=0;
+		for (size_t i=0; i<NUMGRIDS; ++i)
+		{
+			size_t numpoints=grids[i].w*grids[i].h;
+			glVertexAttrib4f(gridAttrib,grids[i].x,grids[i].y,grids[i].w,grids[i].h);
+			glDrawArrays(GL_POINTS,offset,numpoints);
+			offset+=numpoints;
+		}
 		SDL_GL_SwapWindow(window);
+		SDL_Delay(16);
 	}
 
 	TEST("end")
