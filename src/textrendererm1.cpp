@@ -114,6 +114,18 @@ void TextRendererM1::Draw()
 	}
 }
 
+// Helper to glBufferSubData part of a vector.
+template<typename C>
+void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
+{
+	constexpr size_t valueSize=sizeof(typename C::value_type);
+	glBufferSubData(p_target,
+	valueSize*p_from,
+	valueSize*p_count,
+	p_container.data()+p_from
+				   );
+}
+
 void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
 {
 	// Get offset
@@ -131,6 +143,8 @@ void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
 	{
 		*it++= {0,0,c};
 	});
+
+	// Send those chars
 	_charBuf.Bind(GL_ARRAY_BUFFER);
-	glBufferSubData(GL_ARRAY_BUFFER,0,sizeof(Character)*_chars.size(),_chars.data());
+	VSubData(GL_ARRAY_BUFFER,_chars,off,p_s.size());
 }

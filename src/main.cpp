@@ -68,7 +68,7 @@ textrend.Print(1,2,2,"Hello world ... Hello world ... Hello world ... Hello worl
 		stringstream foo;
 		foo<<">> "<<time++<<" <<";
 		string s(foo.str());
-		textrend.Print(0,0,0,s);
+		textrend.Print(3,1,1,s);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		textrend.Draw();
