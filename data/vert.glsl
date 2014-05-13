@@ -26,8 +26,8 @@ void main()
 
 	charsizendc=vec2(8.f * 2.f/resolution.x,8.f * 2.f/resolution.y);
 	vec2 charpos;
-	charpos.x=(gl_VertexID%margin) * 9.f * 2.f/resolution.x;
-	charpos.y=-(gl_VertexID/margin) * 9.f * 2.f/resolution.y;
+	charpos.x=(gl_VertexID%margin) * 8.f * 2.f/resolution.x;
+	charpos.y=-(gl_VertexID/margin) * 8.f * 2.f/resolution.y;
 	vec2 position=gridpos+charpos;
 	gl_Position=vec4(position, 0.0, 1.0);
 

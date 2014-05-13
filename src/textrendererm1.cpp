@@ -7,9 +7,9 @@ extern const unsigned char g_fontTextureRaw[];
 const size_t NUMGRIDS=5;
 
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
-_grids(NUMGRIDS,{0,0,20,5}),
-_chars(),
-_gridBuf(),_charBuf(),_program(),_texture(),_gridAttrib()
+	_grids(NUMGRIDS, {0,0,50,5}),
+	   _chars(),
+	   _gridBuf(),_charBuf(),_program(),_texture(),_gridAttrib()
 {
 	// Fill
 	int i=0;
@@ -112,4 +112,25 @@ void TextRendererM1::Draw()
 		glDrawArrays(GL_POINTS,offset,numpoints);
 		offset+=numpoints;
 	}
+}
+
+void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
+{
+	// Get offset
+	auto last=_grids.begin()+p_g;
+	size_t off=std::accumulate(_grids.begin(),last,0,[](int acc,const Grid& g)
+	{
+		return acc+g.w*g.h;
+	});
+	int w=_grids[p_g].w;
+	off+=p_x+p_y*w;
+
+	// Copy string
+	auto it=_chars.begin()+off;
+	for_each(p_s.begin(),p_s.end(),[&it](const char c)
+	{
+		*it++= {0,0,c};
+	});
+	_charBuf.Bind(GL_ARRAY_BUFFER);
+	glBufferSubData(GL_ARRAY_BUFFER,0,sizeof(Character)*_chars.size(),_chars.data());
 }

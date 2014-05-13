@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 #include <SDL2/SDL.h>
 
@@ -15,18 +16,18 @@ int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
 	Context glcontext(window);
-	glClearColor(0,0.5,1.0,1.0);
+	glClearColor(0.0,0.0,1.0,1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Resolution UBO
-	pair<float,float> reso={400,600};
+	pair<float,float> reso={400,300};
 	gl::Buffer resbuf;
 	resbuf.Bind(GL_UNIFORM_BUFFER);
 	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_STATIC_DRAW);
 
 	TextRendererM1 textrend(resbuf);
-
+textrend.Print(1,2,2,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
 	TEST("init")
 
 	struct Meh
@@ -61,8 +62,13 @@ int main(int,char**) try
 		}
 	} meh(reso);
 
+	long time=0;
 	while (ProcessEvents(meh))
 	{
+		stringstream foo;
+		foo<<">> "<<time++<<" <<";
+		string s(foo.str());
+		textrend.Print(0,0,0,s);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		textrend.Draw();

@@ -1,6 +1,7 @@
 #ifndef TEXTRENDERERM1_H
 #define TEXTRENDERERM1_H
 #include <algorithm>
+#include <string>
 #include <vector>
 #include "utils/gl/buffer.h"
 #include "utils/loadstring.h"
@@ -17,7 +18,7 @@ public:
 	TextRendererM1(const gl::Buffer& resBuf);
 	~TextRendererM1();
 	void Draw();
-
+	void Print(int g,int x,int y,const std::string& s);
 private:
 	struct Grid
 	{
