@@ -21,13 +21,15 @@ int main(int,char**) try
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Resolution UBO
-	pair<float,float> reso={400,300};
+	pair<float,float> reso= {400,300};
 	gl::Buffer resbuf;
 	resbuf.Bind(GL_UNIFORM_BUFFER);
 	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_STATIC_DRAW);
 
 	TextRendererM1 textrend(resbuf);
-textrend.Print(1,2,2,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
+
+	textrend.Print(1,2,2,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
+
 	TEST("init")
 
 	struct Meh

@@ -1,6 +1,17 @@
-layout(location=0) in uint chardata;//color16+flags8+char8
-layout(location=1) in vec4 grid;
+/*
+	Character data
+	Packed uint32 color(16) flags(8) ascii(8)
+*/
+layout(location=0) in uint chardata;
+/*
+	Grid data
+	vec4(x,y,w,h)
+	x,y in pixels
+	w,h in characters
+*/
+layout(location=1) in vec4 grid;//x,y,w,h
 
+// Window size in pixels
 layout(std140) uniform resolutionUBO
 {
 	vec2 resolution;

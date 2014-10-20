@@ -1,4 +1,4 @@
-layout(location=0) uniform sampler2D tex;
+uniform sampler2D tex;
 
 in vec2 uv;
 

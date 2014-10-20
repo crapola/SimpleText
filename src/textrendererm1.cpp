@@ -120,9 +120,9 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 {
 	constexpr size_t valueSize=sizeof(typename C::value_type);
 	glBufferSubData(p_target,
-	valueSize*p_from,
-	valueSize*p_count,
-	p_container.data()+p_from
+					valueSize*p_from,
+					valueSize*p_count,
+					p_container.data()+p_from
 				   );
 }
 
@@ -141,7 +141,7 @@ void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
 	auto it=_chars.begin()+off;
 	for_each(p_s.begin(),p_s.end(),[&it](const char c)
 	{
-		*it++= {0,0,c};
+		*it++= {0,0,static_cast<GLubyte>(c)};
 	});
 
 	// Send those chars
