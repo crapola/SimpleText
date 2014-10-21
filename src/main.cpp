@@ -28,7 +28,7 @@ int main(int,char**) try
 
 	TextRendererM1 textrend(resbuf);
 
-	textrend.Print(1,2,2,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
+	textrend.Print(1,0,0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
 
 	TEST("init")
 
