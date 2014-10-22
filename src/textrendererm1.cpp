@@ -7,7 +7,7 @@ extern const unsigned char g_fontTextureRaw[];
 const size_t NUMGRIDS=5;
 
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
-	_grids(NUMGRIDS, {0,0,50,5}),
+	_grids(NUMGRIDS, {0,0,50,10}),
 	   _chars(),
 	   _gridBuf(),_charBuf(),_program(),_texture(),_gridAttrib()
 {
@@ -18,7 +18,7 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	{
 		c.x=i*10;
 		c.y=i*20;
-		c.h+=i;
+		//c.h+=i;c.w++;
 		i++;
 		numChars+=c.w*c.h;
 	});
@@ -75,11 +75,12 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	TEST("Texture")
 
 	// Grid
+	/*
 	_gridBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Grid)*_grids.size(),_grids.data(),GL_STATIC_DRAW);
 	_gridAttrib=glGetAttribLocation(_program,"grid");
 	glVertexAttribIPointer(_gridAttrib,2,GL_UNSIGNED_INT,0,0);
-	//glEnableVertexAttribArray(gridAttrib);
+	//glEnableVertexAttribArray(gridAttrib);*/
 	TEST("Grid")
 
 	// Chars
@@ -104,11 +105,14 @@ TextRendererM1::~TextRendererM1()
 
 void TextRendererM1::Draw()
 {
+	glUniform4fv(glGetUniformLocation(_program,"grid_data"),10,reinterpret_cast<const GLfloat*>(_grids.data()));
 	size_t offset=0;
 	for (size_t i=0; i<NUMGRIDS; ++i)
 	{
 		size_t numpoints=_grids[i].w*_grids[i].h;
-		glVertexAttrib4f(_gridAttrib,_grids[i].x,_grids[i].y,_grids[i].w,_grids[i].h);
+		//glVertexAttrib4f(_gridAttrib,_grids[i].x,_grids[i].y,_grids[i].w,_grids[i].h);
+
+
 		glDrawArrays(GL_POINTS,offset,numpoints);
 		offset+=numpoints;
 	}
@@ -128,6 +132,8 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 
 void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
 {
+	// too convoluted, because gids have different sizes
+
 	// Get offset
 	auto last=_grids.begin()+p_g;
 	size_t off=std::accumulate(_grids.begin(),last,0,[](int acc,const Grid& g)

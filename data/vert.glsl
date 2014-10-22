@@ -9,7 +9,9 @@ layout(location=0) in uint chardata;
 	x,y in pixels
 	w,h in characters
 */
-layout(location=1) in vec4 grid;//x,y,w,h
+//layout(location=1) in vec4 grido;//x,y,w,h
+#define MAX_GRIDS 16
+uniform vec4[MAX_GRIDS] grid_data;
 
 // Window size in pixels
 layout(std140) uniform resolutionUBO
@@ -31,6 +33,7 @@ void main()
 {
 	charoffset=(chardata&0xFF000000)>>24;
 
+	vec4 grid=grid_data[(gl_VertexID/500)];
 	vec2 gridpos=PixToNDC(grid.xy);
 
 	int margin=int(grid.z);

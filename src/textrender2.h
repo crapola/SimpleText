@@ -1,7 +1,6 @@
 #ifndef TEXTRENDER2_H
 #define TEXTRENDER2_H
 
-
 class textrender2
 {
 public:

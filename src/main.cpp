@@ -19,7 +19,8 @@ int main(int,char**) try
 	glClearColor(0.0,0.0,1.0,1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	// Wires
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	// Resolution UBO
 	pair<float,float> reso= {400,300};
 	gl::Buffer resbuf;
@@ -70,7 +71,7 @@ int main(int,char**) try
 		stringstream foo;
 		foo<<">> "<<time++<<" <<";
 		string s(foo.str());
-		textrend.Print(3,1,1,s);
+		textrend.Print(2,1,1,s);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		textrend.Draw();

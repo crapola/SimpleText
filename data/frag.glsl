@@ -8,4 +8,5 @@ void main()
 {
 	float tx=texture(tex,uv).r;
 	outColor=vec4(tx,tx,0,1);
+	//outColor=vec4(1,1,1,1);
 }
