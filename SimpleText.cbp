@@ -12,7 +12,6 @@
 				<Option type="1" />
 				<Option compiler="gnu_gcc_compiler_64_bits" />
 				<Compiler>
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add directory="src/" />
 					<Add directory="src/gl" />
@@ -38,8 +37,8 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++11" />
 			<Add option="-Wall" />
-			<Add option="-mwindows" />
 			<Add option="-DGLEW_STATIC" />
 			<Add directory="$(#sdl64.include)" />
 		</Compiler>

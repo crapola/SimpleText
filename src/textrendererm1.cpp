@@ -9,7 +9,7 @@ const size_t NUMGRIDS=5;
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_grids(NUMGRIDS, {0,0,50,10}),
 	   _chars(),
-	   _gridBuf(),_charBuf(),_program(),_texture(),_gridAttrib()
+	   _charBuf(),_program(),_texture(),_gridAttrib()
 {
 	// Fill
 	int i=0;
@@ -74,15 +74,6 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	cout<<samplerLoc;
 	TEST("Texture")
 
-	// Grid
-	/*
-	_gridBuf.Bind(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(Grid)*_grids.size(),_grids.data(),GL_STATIC_DRAW);
-	_gridAttrib=glGetAttribLocation(_program,"grid");
-	glVertexAttribIPointer(_gridAttrib,2,GL_UNSIGNED_INT,0,0);
-	//glEnableVertexAttribArray(gridAttrib);*/
-	TEST("Grid")
-
 	// Chars
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_DYNAMIC_DRAW);
@@ -106,16 +97,7 @@ TextRendererM1::~TextRendererM1()
 void TextRendererM1::Draw()
 {
 	glUniform4fv(glGetUniformLocation(_program,"grid_data"),10,reinterpret_cast<const GLfloat*>(_grids.data()));
-	size_t offset=0;
-	for (size_t i=0; i<NUMGRIDS; ++i)
-	{
-		size_t numpoints=_grids[i].w*_grids[i].h;
-		//glVertexAttrib4f(_gridAttrib,_grids[i].x,_grids[i].y,_grids[i].w,_grids[i].h);
-
-
-		glDrawArrays(GL_POINTS,offset,numpoints);
-		offset+=numpoints;
-	}
+	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
 // Helper to glBufferSubData part of a vector.

@@ -33,7 +33,7 @@ private:
 	};
 	std::vector<Grid> _grids;
 	std::vector<Character> _chars;
-	gl::Buffer _gridBuf,_charBuf;
+	gl::Buffer _charBuf;
 	gl::Program _program;
 	gl::Texture _texture;
 	GLint _gridAttrib;
