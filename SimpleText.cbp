@@ -89,6 +89,7 @@
 		<Unit filename="src/utils/loadstring.h" />
 		<Unit filename="src/utils/window.cpp" />
 		<Unit filename="src/utils/window.h" />
+		<Unit filename="src/vecmap.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

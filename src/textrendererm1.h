@@ -10,13 +10,21 @@
 #include "utils/gl/texture.h"
 #include "utils/gl/logerrors.h"
 
+#include "vecmap.hpp"
+
 #define TEST(x) gl::LogErrors(x);
 
 class TextRendererM1
 {
 public:
+	typedef size_t TextHandle;
+
 	TextRendererM1(const gl::Buffer& resBuf);
 	~TextRendererM1();
+
+	TextHandle Create(int x,int y,int w,int h);
+	void Delete(TextHandle);
+	// Draw everything
 	void Draw();
 	void Print(int g,int x,int y,const std::string& s);
 private:
@@ -37,6 +45,7 @@ private:
 	gl::Program _program;
 	gl::Texture _texture;
 	GLint _gridAttrib;
+	VecMap<Character> _map;
 };
 
 #endif // TEXTRENDERERM1_H

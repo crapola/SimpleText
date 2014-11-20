@@ -26,13 +26,14 @@ flat out vec2 charsizendc;
 
 vec2 PixToNDC(vec2 v)
 {
-	return vec2( (2.0f*v.x)/resolution.x-1.0f, -(2.0f*v.y)/resolution.y+1.0f);
+	return vec2( (2.0f*v.x)/resolution.x-1.0f, -(2.0f*v.y)/resolution.y+1.0f );
 }
 
 void main()
 {
 	charoffset=(chardata&0xFF000000)>>24;
 
+	// can't use ID, grids different sizes..
 	vec4 grid=grid_data[(gl_VertexID/500)];
 	vec2 gridpos=PixToNDC(grid.xy);
 
@@ -41,7 +42,7 @@ void main()
 	charsizendc=vec2(8.f * 2.f/resolution.x,8.f * 2.f/resolution.y);
 	vec2 charpos;
 	charpos.x=(gl_VertexID%margin) * 8.f * 2.f/resolution.x;
-	charpos.y=-(gl_VertexID/margin) * 8.f * 2.f/resolution.y;
+	charpos.y=-( (gl_VertexID%500) / margin) * 8.f * 2.f/resolution.y;//<--
 	vec2 position=gridpos+charpos;
 	gl_Position=vec4(position, 0.0, 1.0);
 

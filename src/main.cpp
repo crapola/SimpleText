@@ -29,7 +29,10 @@ int main(int,char**) try
 
 	TextRendererM1 textrend(resbuf);
 
-	textrend.Print(1,0,0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
+	auto g=textrend.Create(5,100,50,10);
+
+
+	textrend.Print(0,0,0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
 
 	TEST("init")
 
@@ -71,7 +74,7 @@ int main(int,char**) try
 		stringstream foo;
 		foo<<">> "<<time++<<" <<";
 		string s(foo.str());
-		textrend.Print(2,1,1,s);
+		textrend.Print(1,1,1,s);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		textrend.Draw();

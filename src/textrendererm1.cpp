@@ -4,12 +4,24 @@
 using namespace std;
 extern const unsigned char g_fontTextureRaw[];
 
-const size_t NUMGRIDS=5;
+const size_t NUMGRIDS=2;
+
+// Helper to glBufferSubData part of a vector.
+template<typename C>
+void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
+{
+	constexpr size_t valueSize=sizeof(typename C::value_type);
+	glBufferSubData(p_target,
+					valueSize*p_from,
+					valueSize*p_count,
+					p_container.data()+p_from
+				   );
+}
 
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_grids(NUMGRIDS, {0,0,50,10}),
 	   _chars(),
-	   _charBuf(),_program(),_texture(),_gridAttrib()
+	   _charBuf(),_program(),_texture(),_gridAttrib(),_map(_chars)
 {
 	// Fill
 	int i=0;
@@ -94,22 +106,30 @@ TextRendererM1::~TextRendererM1()
 
 }
 
-void TextRendererM1::Draw()
+TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_h)
 {
-	glUniform4fv(glGetUniformLocation(_program,"grid_data"),10,reinterpret_cast<const GLfloat*>(_grids.data()));
-	glDrawArrays(GL_POINTS,0,_chars.size());
+	_grids.push_back({p_x,p_y,p_w,p_h});
+
+	for (int i=0;i<p_w*p_h;++i)
+	{
+		_chars.push_back({0,0,33});
+	};
+	// update
+	_charBuf.Bind(GL_ARRAY_BUFFER);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_DYNAMIC_DRAW);
+
+	return 0;
 }
 
-// Helper to glBufferSubData part of a vector.
-template<typename C>
-void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
+void TextRendererM1::Delete(TextRendererM1::TextHandle p_t)
 {
-	constexpr size_t valueSize=sizeof(typename C::value_type);
-	glBufferSubData(p_target,
-					valueSize*p_from,
-					valueSize*p_count,
-					p_container.data()+p_from
-				   );
+
+}
+
+void TextRendererM1::Draw()
+{
+	glUniform4fv(glGetUniformLocation(_program,"grid_data"),_grids.size(),reinterpret_cast<const GLfloat*>(_grids.data()));
+	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
 void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
