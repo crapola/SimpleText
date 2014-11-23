@@ -4,7 +4,7 @@
 using namespace std;
 extern const unsigned char g_fontTextureRaw[];
 
-const size_t NUMGRIDS=2;
+const size_t NUMGRIDS=1;
 
 // Helper to glBufferSubData part of a vector.
 template<typename C>
@@ -21,7 +21,7 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_grids(NUMGRIDS, {0,0,50,10}),
 	   _chars(),
-	   _charBuf(),_program(),_texture(),_gridAttrib(),_map(_chars)
+	   _charBuf(),_program(),_texture(),_gridAttrib()
 {
 	// Fill
 	int i=0;
@@ -40,6 +40,7 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	i=0;
 	for_each(_chars.begin(),_chars.end(),[&i](Character& c)
 	{
+		c.grid=0;
 		c.colors=0;
 		c.flags=0;
 		c.c=i+32;
@@ -109,10 +110,10 @@ TextRendererM1::~TextRendererM1()
 TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_h)
 {
 	_grids.push_back({p_x,p_y,p_w,p_h});
-
+	size_t gn=_grids.size()-1;
 	for (int i=0;i<p_w*p_h;++i)
 	{
-		_chars.push_back({0,0,33});
+		_chars.push_back({0,gn,0,33});
 	};
 	// update
 	_charBuf.Bind(GL_ARRAY_BUFFER);
@@ -147,9 +148,9 @@ void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
 
 	// Copy string
 	auto it=_chars.begin()+off;
-	for_each(p_s.begin(),p_s.end(),[&it](const char c)
+	for_each(p_s.begin(),p_s.end(),[&it,p_g](const char c)
 	{
-		*it++= {0,0,static_cast<GLubyte>(c)};
+		*it++= {0,p_g,0,static_cast<GLubyte>(c)};
 	});
 
 	// Send those chars

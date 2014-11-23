@@ -1,6 +1,6 @@
 /*
 	Character data
-	Packed uint32 color(16) flags(8) ascii(8)
+	Packed uint32 color(16) grid(4) flags(4) ascii(8)
 */
 layout(location=0) in uint chardata;
 /*
@@ -9,7 +9,6 @@ layout(location=0) in uint chardata;
 	x,y in pixels
 	w,h in characters
 */
-//layout(location=1) in vec4 grido;//x,y,w,h
 #define MAX_GRIDS 16
 uniform vec4[MAX_GRIDS] grid_data;
 
@@ -32,9 +31,10 @@ vec2 PixToNDC(vec2 v)
 void main()
 {
 	charoffset=(chardata&0xFF000000)>>24;
+	unsigned int mygrid=(chardata&0x000F0000)>>16;
 
-	// can't use ID, grids different sizes..
-	vec4 grid=grid_data[(gl_VertexID/500)];
+	vec4 grid=grid_data[mygrid];
+
 	vec2 gridpos=PixToNDC(grid.xy);
 
 	int margin=int(grid.z);

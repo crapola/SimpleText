@@ -10,8 +10,6 @@
 #include "utils/gl/texture.h"
 #include "utils/gl/logerrors.h"
 
-#include "vecmap.hpp"
-
 #define TEST(x) gl::LogErrors(x);
 
 class TextRendererM1
@@ -36,7 +34,8 @@ private:
 	struct Character
 	{
 		GLushort colors;
-		GLubyte flags;
+		GLubyte grid:4;
+		GLubyte flags:4;
 		GLubyte c;
 	};
 	std::vector<Grid> _grids;
@@ -45,7 +44,6 @@ private:
 	gl::Program _program;
 	gl::Texture _texture;
 	GLint _gridAttrib;
-	VecMap<Character> _map;
 };
 
 #endif // TEXTRENDERERM1_H
