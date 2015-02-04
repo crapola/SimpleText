@@ -21,18 +21,22 @@ int main(int,char**) try
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Wires
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glEnable(GL_COLOR_LOGIC_OP);
+	glLogicOp(GL_EQUIV);
+
 	// Resolution UBO
-	pair<float,float> reso= {400,300};
+	pair<float,float> reso={400,300};
 	gl::Buffer resbuf;
 	resbuf.Bind(GL_UNIFORM_BUFFER);
 	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_STATIC_DRAW);
 
 	TextRendererM1 textrend(resbuf);
 
-	auto g=textrend.Create(5,50,50,10);
+	auto g=textrend.Create(80,80,12,14);
 
 
-	textrend.Print(0,0,0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
+	textrend.Print(g,0,0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
 
 	TEST("init")
 

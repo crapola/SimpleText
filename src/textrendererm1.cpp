@@ -19,7 +19,7 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 }
 
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
-	_grids(NUMGRIDS, {0,0,50,10}),
+	_grids(NUMGRIDS, {0,0,10,10}),
 	   _chars(),
 	   _charBuf(),_program(),_texture(),_gridAttrib()
 {
@@ -113,13 +113,13 @@ TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_
 	size_t gn=_grids.size()-1;
 	for (int i=0;i<p_w*p_h;++i)
 	{
-		_chars.push_back({0,gn,0,33});
+		_chars.push_back({0,gn,0,'!'});
 	};
 	// update
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_DYNAMIC_DRAW);
 
-	return 0;
+	return gn;
 }
 
 void TextRendererM1::Delete(TextRendererM1::TextHandle p_t)
