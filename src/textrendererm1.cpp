@@ -21,7 +21,7 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	   _charBuf(),_program(),_texture()
 {
 	// Fill
-	_chars.resize(400);
+	_chars.resize(200);
 	int i=0;
 	for_each(_chars.begin(),_chars.end(),[&i](Character& c)
 	{
@@ -117,17 +117,18 @@ void TextRendererM1::Draw()
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
-void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
+void TextRendererM1::Print(int p_o, const string& p_s)
 {
 
 	// Copy string
-	auto it=_chars.begin()+0;
-	for_each(p_s.begin(),p_s.end(),[&it,p_g,p_x,p_y](const char c)
+	auto it=_chars.begin()+p_o;
+	for_each(p_s.begin(),p_s.end(),[&it](const char c)
 	{
-		*it++= {0,0,static_cast<GLubyte>(c),p_x,p_y};
+		*it={111,111,static_cast<GLubyte>(c),it->x,it->y};
+		++it;
 	});
 
 	// Send those chars
 	_charBuf.Bind(GL_ARRAY_BUFFER);
-	VSubData(GL_ARRAY_BUFFER,_chars,0,p_s.size());
+	VSubData(GL_ARRAY_BUFFER,_chars,p_o,p_s.size());
 }

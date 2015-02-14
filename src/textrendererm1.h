@@ -24,7 +24,7 @@ public:
 	void Delete(TextHandle);
 	// Draw everything
 	void Draw();
-	void Print(int g,int x,int y,const std::string& s);
+	void Print(int offset,const std::string& s);
 private:
 	struct Character
 	{

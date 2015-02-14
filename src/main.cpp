@@ -78,7 +78,7 @@ int main(int,char**) try
 		stringstream foo;
 		foo<<">> "<<time++<<" <<";
 		string s(foo.str());
-		//textrend.Print(0,1,1,s);
+		textrend.Print(0,s);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		textrend.Draw();

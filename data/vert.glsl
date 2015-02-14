@@ -21,9 +21,8 @@ vec2 PixToNDC(vec2 v)
 
 vec2 GetPos()
 {
-	vec2 bla=vec2(chardata.y&0xFFFF,(chardata.y>>16)&0xFFFF);
-	//return PixToNDC(unpackHalf2x16(v));
-	return PixToNDC(bla);
+	vec2 u=vec2(chardata.y&0xFFFF,(chardata.y>>16)&0xFFFF);
+	return PixToNDC(u);
 }
 
 void main()
