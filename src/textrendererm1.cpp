@@ -4,8 +4,6 @@
 using namespace std;
 extern const unsigned char g_fontTextureRaw[];
 
-const size_t NUMGRIDS=1;
-
 // Helper to glBufferSubData part of a vector.
 template<typename C>
 void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
@@ -19,31 +17,20 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 }
 
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
-	_grids(NUMGRIDS, {0,0,10,10}),
 	   _chars(),
-	   _charBuf(),_program(),_texture(),_gridAttrib()
+	   _charBuf(),_program(),_texture()
 {
 	// Fill
+	_chars.resize(400);
 	int i=0;
-	size_t numChars=0;
-	for_each(_grids.begin(),_grids.end(),[&i,&numChars](Grid& c)
-	{
-		c.x=i*10;
-		c.y=i*20;
-		//c.h+=i;c.w++;
-		i++;
-		numChars+=c.w*c.h;
-	});
-	// total size
-	cout<<numChars;
-	_chars.resize(numChars);
-	i=0;
 	for_each(_chars.begin(),_chars.end(),[&i](Character& c)
 	{
-		c.grid=0;
-		c.colors=0;
-		c.flags=0;
-		c.c=i+32;
+		c.colors=33;
+		c.flags=33;
+		c.c=(i+32)%256;
+
+		c.x=8*(i%20);
+		c.y=8*(i/20);
 		i++;
 	});
 	// Program
@@ -91,7 +78,7 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_DYNAMIC_DRAW);
 	GLint charAttrib = glGetAttribLocation(_program,"chardata");
-	glVertexAttribIPointer(charAttrib,1,GL_UNSIGNED_INT,0,0);
+	glVertexAttribIPointer(charAttrib,2,GL_UNSIGNED_INT,0,0);
 	glEnableVertexAttribArray(charAttrib);
 	TEST("Chars")
 
@@ -109,16 +96,14 @@ TextRendererM1::~TextRendererM1()
 
 TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_h)
 {
-	_grids.push_back({p_x,p_y,p_w,p_h});
-	size_t gn=_grids.size()-1;
+	size_t gn=1;
 	for (int i=0;i<p_w*p_h;++i)
 	{
-		_chars.push_back({0,gn,0,'!'});
+		_chars.push_back({0,gn,0,'0'+i});
 	};
 	// update
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_DYNAMIC_DRAW);
-
 	return gn;
 }
 
@@ -129,31 +114,20 @@ void TextRendererM1::Delete(TextRendererM1::TextHandle p_t)
 
 void TextRendererM1::Draw()
 {
-	glUniform4fv(glGetUniformLocation(_program,"grid_data"),_grids.size(),reinterpret_cast<const GLfloat*>(_grids.data()));
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
 void TextRendererM1::Print(int p_g, int p_x, int p_y, const string& p_s)
 {
-	// too convoluted, because gids have different sizes
-
-	// Get offset
-	auto last=_grids.begin()+p_g;
-	size_t off=std::accumulate(_grids.begin(),last,0,[](int acc,const Grid& g)
-	{
-		return acc+g.w*g.h;
-	});
-	int w=_grids[p_g].w;
-	off+=p_x+p_y*w;
 
 	// Copy string
-	auto it=_chars.begin()+off;
-	for_each(p_s.begin(),p_s.end(),[&it,p_g](const char c)
+	auto it=_chars.begin()+0;
+	for_each(p_s.begin(),p_s.end(),[&it,p_g,p_x,p_y](const char c)
 	{
-		*it++= {0,p_g,0,static_cast<GLubyte>(c)};
+		*it++= {0,0,static_cast<GLubyte>(c),p_x,p_y};
 	});
 
 	// Send those chars
 	_charBuf.Bind(GL_ARRAY_BUFFER);
-	VSubData(GL_ARRAY_BUFFER,_chars,off,p_s.size());
+	VSubData(GL_ARRAY_BUFFER,_chars,0,p_s.size());
 }
