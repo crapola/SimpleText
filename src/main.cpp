@@ -23,8 +23,8 @@ int main(int,char**) try
 	// Wires
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	glEnable(GL_COLOR_LOGIC_OP);
-	glLogicOp(GL_EQUIV);
+	//glEnable(GL_COLOR_LOGIC_OP);
+	//glLogicOp(GL_EQUIV);
 
 	// Resolution UBO
 	pair<float,float> reso={400,300};

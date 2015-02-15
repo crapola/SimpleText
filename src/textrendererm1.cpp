@@ -23,17 +23,18 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_charBuf(),_program(),_texture()
 {
 	// Fill
-	_chars.resize(200);
+	_chars.resize(600);
+	const int w=40;
 	int i=0;
 	for_each(_chars.begin(),_chars.end(),[&i](Character& c)
 	{
-		c.colors=33;
-		c.flags=33;
-		c.c=(i+32)%256;
+		c.colors=0;
+		c.flags=0;
+		c.c=i+32;
 
-		c.x=g_fontTexture.charSize*(i%20);
-		c.y=g_fontTexture.charSize*(i/20);
-		i++;
+		c.x=g_fontTexture.charSize*(i%w);
+		c.y=g_fontTexture.charSize*(i/w);
+		++i;
 	});
 	// Program
 	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),
@@ -49,7 +50,7 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 
 	// Texture
 	constexpr int cs=g_fontTexture.charSize;
-	constexpr int tw=g_fontTexture.textureWidth;
+	constexpr int tw=2048;
 	const GLubyte* indata=static_cast<const GLubyte*>(g_fontTexture.rawData);
 	GLubyte dest[tw*cs]= {0};
 	{
@@ -63,7 +64,7 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 					if (((c)&(1<<b))!=0)
 					{
 						constexpr int cs2=cs-1;
-						dest[x*cs+(cs2-y)*g_fontTexture.textureWidth+cs2-b]=255;
+						dest[x*cs+(cs2-y)*tw+cs2-b]=255;
 					}
 				}
 			}
@@ -72,7 +73,7 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	glBindTexture(GL_TEXTURE_2D,_texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,g_fontTexture.textureWidth,8,0,GL_RED,GL_UNSIGNED_BYTE,dest);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,tw,8,0,GL_RED,GL_UNSIGNED_BYTE,dest);
 	GLint samplerLoc=glGetUniformLocation(_program,"tex");
 	glUniform1i(samplerLoc,0);
 	TEST("Texture")
@@ -102,7 +103,7 @@ TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_
 	size_t gn=1;
 	for (int i=0; i<p_w*p_h; ++i)
 	{
-		_chars.push_back({0,gn,0,'0'+i});
+		_chars.push_back({0,0,'0'+i,0,0});
 	};
 	// update
 	_charBuf.Bind(GL_ARRAY_BUFFER);

@@ -4,7 +4,7 @@
 extern const struct FontTexture
 {
 	constexpr static int
-		w=1792,textureWidth=2048,
+		//w=1792,
 		h=8,
 		charSize=8,
 		symCount=224;
