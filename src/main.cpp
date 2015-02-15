@@ -11,6 +11,7 @@
 #include "textrendererm1.h"
 
 using namespace std;
+#define TEST(x) gl::LogErrors(x);
 
 int main(int,char**) try
 {
@@ -36,7 +37,7 @@ int main(int,char**) try
 	//auto g=textrend.Create(80,80,15,15);
 
 
-	//textrend.Print(0,0,0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
+	textrend.Print(0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
 
 	TEST("init")
 

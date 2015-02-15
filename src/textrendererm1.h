@@ -10,8 +10,6 @@
 #include "utils/gl/texture.h"
 #include "utils/gl/logerrors.h"
 
-#define TEST(x) gl::LogErrors(x);
-
 class TextRendererM1
 {
 public:
@@ -41,4 +39,3 @@ private:
 };
 
 #endif // TEXTRENDERERM1_H
-

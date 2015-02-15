@@ -6,7 +6,7 @@ out vec4 outColor;
 
 void main()
 {
-	float tx=texture(tex,uv).r;
-	outColor=vec4(tx,tx,0,1);
+	float r=texture(tex,uv).r;
+	outColor=vec4(r,r,0,1);
 	//outColor=vec4(1,1,1,1);
 }

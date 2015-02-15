@@ -1,8 +1,10 @@
 #include <iostream>
 #include "textrendererm1.h"
+#include "fonttexture.h"
+
+#define TEST(x) gl::LogErrors(x);
 
 using namespace std;
-extern const unsigned char g_fontTextureRaw[];
 
 // Helper to glBufferSubData part of a vector.
 template<typename C>
@@ -17,8 +19,8 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 }
 
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
-	   _chars(),
-	   _charBuf(),_program(),_texture()
+	_chars(),
+	_charBuf(),_program(),_texture()
 {
 	// Fill
 	_chars.resize(200);
@@ -29,8 +31,8 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 		c.flags=33;
 		c.c=(i+32)%256;
 
-		c.x=8*(i%20);
-		c.y=8*(i/20);
+		c.x=g_fontTexture.charSize*(i%20);
+		c.y=g_fontTexture.charSize*(i/20);
 		i++;
 	});
 	// Program
@@ -46,20 +48,22 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_program.Bind();
 
 	// Texture
-	const size_t TEXTURE_WIDTH=2048;
-	const GLubyte* indata=static_cast<const GLubyte*>(g_fontTextureRaw);
-	GLubyte dest[TEXTURE_WIDTH*8]= {0};
+	constexpr int cs=g_fontTexture.charSize;
+	constexpr int tw=g_fontTexture.textureWidth;
+	const GLubyte* indata=static_cast<const GLubyte*>(g_fontTexture.rawData);
+	GLubyte dest[tw*cs]= {0};
 	{
 		// Convert 1bpp to 1Bpp (GL_RED)
-		for (int y=0; y<8; ++y)
-			for (int x=0; x<224; ++x)
+		for (int y=0; y<cs; ++y)
+			for (int x=0; x<g_fontTexture.symCount; ++x)
 			{
-				GLubyte c=indata[x+y*224];
-				for (int b=0; b<8; ++b)
+				GLubyte c=indata[x+y*g_fontTexture.symCount];
+				for (int b=0; b<cs; ++b)
 				{
 					if (((c)&(1<<b))!=0)
 					{
-						dest[x*8+(7-y)*TEXTURE_WIDTH+7-b]=255;
+						constexpr int cs2=cs-1;
+						dest[x*cs+(cs2-y)*g_fontTexture.textureWidth+cs2-b]=255;
 					}
 				}
 			}
@@ -68,10 +72,9 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	glBindTexture(GL_TEXTURE_2D,_texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,TEXTURE_WIDTH,8,0,GL_RED,GL_UNSIGNED_BYTE,dest);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,g_fontTexture.textureWidth,8,0,GL_RED,GL_UNSIGNED_BYTE,dest);
 	GLint samplerLoc=glGetUniformLocation(_program,"tex");
 	glUniform1i(samplerLoc,0);
-	cout<<samplerLoc;
 	TEST("Texture")
 
 	// Chars
@@ -97,7 +100,7 @@ TextRendererM1::~TextRendererM1()
 TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_h)
 {
 	size_t gn=1;
-	for (int i=0;i<p_w*p_h;++i)
+	for (int i=0; i<p_w*p_h; ++i)
 	{
 		_chars.push_back({0,gn,0,'0'+i});
 	};
@@ -119,12 +122,11 @@ void TextRendererM1::Draw()
 
 void TextRendererM1::Print(int p_o, const string& p_s)
 {
-
 	// Copy string
 	auto it=_chars.begin()+p_o;
 	for_each(p_s.begin(),p_s.end(),[&it](const char c)
 	{
-		*it={111,111,static_cast<GLubyte>(c),it->x,it->y};
+		*it= {111,111,static_cast<GLubyte>(c),it->x,it->y};
 		++it;
 	});
 

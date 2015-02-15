@@ -63,6 +63,7 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/fonttexture.cpp" />
+		<Unit filename="src/fonttexture.h" />
 		<Unit filename="src/glew/glew.c">
 			<Option compilerVar="CC" />
 		</Unit>
