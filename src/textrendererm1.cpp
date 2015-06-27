@@ -23,8 +23,8 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_charBuf(),_program(),_texture()
 {
 	// Fill
-	_chars.resize(600);
-	const int w=40;
+	_chars.resize(1000);
+	const int w=80;
 	int i=0;
 	for_each(_chars.begin(),_chars.end(),[&i](Character& c)
 	{

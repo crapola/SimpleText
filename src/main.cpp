@@ -17,7 +17,7 @@ int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
 	Context glcontext(window);
-	glClearColor(0.0,0.0,1.0,1.0);
+	glClearColor(0.0f,0.0f,1.0f,1.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Wires

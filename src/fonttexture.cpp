@@ -1,2 +1,3 @@
 #include "fonttexture.h"
-const FontTexture g_fontTexture;
+
+constexpr unsigned char FontTexture::rawData[];
