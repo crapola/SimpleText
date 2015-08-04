@@ -37,9 +37,10 @@ int main(int,char**) try
 	std::cout<<"yolo "<<sizeof(resbuf)<<'\n';
 
 	auto test1=textrend.Create(0,0,15,15);
-	auto test2=textrend.Create(100,100,30,15);
+	auto test2=textrend.Create(120,100,30,15);
 
 	textrend.Print(0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
+	textrend.Print(223,"Simple Text");
 
 	TEST("init")
 
@@ -78,14 +79,15 @@ int main(int,char**) try
 	long time=0;
 	while (ProcessEvents(meh))
 	{
+		// Counter
 		stringstream foo;
 		foo<<">> "<<time++<<" <<";
 		string s(foo.str());
 		textrend.Print(0,s);
+
+		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
 		textrend.Draw();
-
 		SDL_GL_SwapWindow(window);
 		SDL_Delay(16);
 	}

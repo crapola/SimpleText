@@ -20,6 +20,4 @@ private:
 	SDL_Window* _window;
 };
 
-
-
 #endif // WINDOW_H
