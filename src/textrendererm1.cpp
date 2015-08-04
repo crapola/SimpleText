@@ -12,9 +12,9 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 {
 	constexpr size_t valueSize=sizeof(typename C::value_type);
 	glBufferSubData(p_target,
-					valueSize*p_from,
-					valueSize*p_count,
-					p_container.data()+p_from
+			valueSize*p_from,
+			valueSize*p_count,
+			p_container.data()+p_from
 				   );
 }
 
@@ -22,20 +22,6 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_chars(),
 	_charBuf(),_program(),_texture()
 {
-	// Fill
-	_chars.resize(1000);
-	const int w=80;
-	int i=0;
-	for_each(_chars.begin(),_chars.end(),[&i](Character& c)
-	{
-		c.colors=0;
-		c.flags=0;
-		c.c=i+32;
-
-		c.x=g_fontTexture.charSize*(i%w);
-		c.y=g_fontTexture.charSize*(i/w);
-		++i;
-	});
 	// Program
 	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),
 	fs(GL_FRAGMENT_SHADER);
@@ -103,11 +89,19 @@ TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_
 	size_t gn=1;
 	for (int i=0; i<p_w*p_h; ++i)
 	{
-		_chars.push_back({0,0,'0'+i,0,0});
+		_chars.push_back(
+		{
+			0,
+			0,
+			'0'+i,
+			p_x+g_fontTexture.charSize*(i%p_w),
+			p_y+g_fontTexture.charSize*(i/p_w)
+		}
+		);
 	};
 	// update
 	_charBuf.Bind(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_STATIC_DRAW);
 	return gn;
 }
 

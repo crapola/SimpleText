@@ -2,7 +2,6 @@
 #include <iostream>//
 namespace gl
 {
-
 Buffer::Buffer():Identifiable(0)
 {
 	glGenBuffers(1,&_id);

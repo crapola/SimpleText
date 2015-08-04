@@ -34,8 +34,10 @@ int main(int,char**) try
 
 	TextRendererM1 textrend(resbuf);
 
-	//auto g=textrend.Create(80,80,15,15);
+	std::cout<<"yolo "<<sizeof(resbuf)<<'\n';
 
+	auto test1=textrend.Create(0,0,15,15);
+	auto test2=textrend.Create(100,100,30,15);
 
 	textrend.Print(0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
 
