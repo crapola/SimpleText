@@ -32,12 +32,15 @@ int main(int,char**) try
 	resbuf.Bind(GL_UNIFORM_BUFFER);
 	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_STATIC_DRAW);
 
+
 	TextRendererM1 textrend(resbuf);
 
 	std::cout<<"yolo "<<sizeof(resbuf)<<'\n';
 
 	auto test1=textrend.Create(0,0,15,15);
 	auto test2=textrend.Create(120,100,30,15);
+	std::cout<<"test1="<<test1<<", test2="<<test2;
+	textrend.Delete(test2);
 
 	textrend.Print(0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
 	textrend.Print(223,"Simple Text");

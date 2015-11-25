@@ -1,6 +1,7 @@
 #ifndef TEXTRENDERERM1_H
 #define TEXTRENDERERM1_H
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
 #include "utils/gl/buffer.h"
@@ -36,6 +37,10 @@ private:
 	gl::Buffer _charBuf;
 	gl::Program _program;
 	gl::Texture _texture;
+
+	// Handles
+	static TextHandle _unid;
+	std::map<TextHandle,size_t> _handles;
 };
 
 #endif // TEXTRENDERERM1_H

@@ -18,6 +18,8 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 				   );
 }
 
+size_t TextRendererM1::_unid=0;
+
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_chars(),
 	_charBuf(),_program(),_texture()
@@ -86,7 +88,7 @@ TextRendererM1::~TextRendererM1()
 
 TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_h)
 {
-	size_t gn=1;
+	size_t offset=_chars.size();
 	for (int i=0; i<p_w*p_h; ++i)
 	{
 		_chars.push_back(
@@ -102,12 +104,24 @@ TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_
 	// update
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_STATIC_DRAW);
-	return gn;
+
+	TextHandle key=_unid++;
+	_handles.emplace(key,offset);
+	return key;
 }
 
 void TextRendererM1::Delete(TextRendererM1::TextHandle p_t)
 {
-
+	auto it=_handles.find(p_t);
+	if (it!=_handles.end())
+	{
+		std::cout<<"Delete text {"<<it->first<<":"<<it->second<<"}\n";
+		// delete and shift other indices...
+	}
+	else
+	{
+		std::cout<<"Error: Text handle invalid.";
+	}
 }
 
 void TextRendererM1::Draw()
