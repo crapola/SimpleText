@@ -37,16 +37,16 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	_program.Bind();
 
 	// Texture
-	constexpr int cs=g_fontTexture.charSize;
+	constexpr int cs=FontTexture::charSize;
 	constexpr int tw=2048;
-	const GLubyte* indata=static_cast<const GLubyte*>(g_fontTexture.rawData);
+	const GLubyte* indata=static_cast<const GLubyte*>(FontTexture::rawData);
 	GLubyte dest[tw*cs]= {0};
 	{
 		// Convert 1bpp to 1Bpp (GL_RED)
 		for (int y=0; y<cs; ++y)
-			for (int x=0; x<g_fontTexture.symCount; ++x)
+			for (int x=0; x<FontTexture::symCount; ++x)
 			{
-				GLubyte c=indata[x+y*g_fontTexture.symCount];
+				GLubyte c=indata[x+y*FontTexture::symCount];
 				for (int b=0; b<cs; ++b)
 				{
 					if (((c)&(1<<b))!=0)
@@ -96,8 +96,8 @@ TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_
 			0,
 			0,
 			'0'+i,
-			p_x+g_fontTexture.charSize*(i%p_w),
-			p_y+g_fontTexture.charSize*(i/p_w)
+			p_x+FontTexture::charSize*(i%p_w),
+			p_y+FontTexture::charSize*(i/p_w)
 		}
 		);
 	};

@@ -1,14 +1,14 @@
 /*	1bpp BMP 1792x8
  *	224 characters 8x8
  */
-const struct FontTexture
+namespace FontTexture
 {
-	static constexpr int
+	constexpr int
 		//w=1792,
 		h=8,
 		charSize=8,
 		symCount=224;
-	static constexpr unsigned char rawData[symCount*h]=
+	constexpr unsigned char rawData[symCount*h]=
 	{
 		// Header
 		// 66,77,62,7,0,0,0,0,0,0,62,0,0,0,40,0,0,0,0,7,0,0,8,0,0,0,1,0,1,0,0,0,
@@ -94,4 +94,4 @@ const struct FontTexture
 		10,0,160,170,170,1,0,126,126,56,16,108,16,0,0,0,0,15,60,12,24,153,16,
 		24,24,16,8,0,0,128,2,56,56,56,56,0,60,24,0
 	};
-} g_fontTexture;
+};
