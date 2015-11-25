@@ -39,7 +39,8 @@ int main(int,char**) try
 
 	auto test1=textrend.Create(0,0,15,15);
 	auto test2=textrend.Create(120,100,30,15);
-	std::cout<<"test1="<<test1<<", test2="<<test2;
+	auto test3=textrend.Create(200,150,8,8);
+
 	textrend.Delete(test2);
 
 	textrend.Print(0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");

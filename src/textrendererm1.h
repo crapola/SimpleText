@@ -3,8 +3,9 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "utils/gfx/gl/buffer.h"
+#include "utils/indexmap.h"
 #include "utils/loadstring.h"
+#include "utils/gfx/gl/buffer.h"
 #include "utils/gfx/gl/shader.h"
 #include "utils/gfx/gl/program.h"
 #include "utils/gfx/gl/texture.h"
@@ -38,6 +39,5 @@ private:
 	gl::Texture _texture;
 
 	// Handles
-	static TextHandle _unid;
-	std::map<TextHandle,size_t> _handles;
+	IndexMap _handles;
 };
