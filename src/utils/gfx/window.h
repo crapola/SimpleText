@@ -1,5 +1,4 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#pragma once
 #include <SDL2/SDL.h>
 
 // SDL window and initialization.
@@ -19,5 +18,3 @@ public:
 private:
 	SDL_Window* _window;
 };
-
-#endif // WINDOW_H

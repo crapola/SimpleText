@@ -1,15 +1,14 @@
-#ifndef TEXTRENDERERM1_H
-#define TEXTRENDERERM1_H
+#pragma once
 #include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
-#include "utils/gl/buffer.h"
+#include "utils/gfx/gl/buffer.h"
 #include "utils/loadstring.h"
-#include "utils/gl/shader.h"
-#include "utils/gl/program.h"
-#include "utils/gl/texture.h"
-#include "utils/gl/logerrors.h"
+#include "utils/gfx/gl/shader.h"
+#include "utils/gfx/gl/program.h"
+#include "utils/gfx/gl/texture.h"
+#include "utils/gfx/gl/logerrors.h"
 
 class TextRendererM1
 {
@@ -42,5 +41,3 @@ private:
 	static TextHandle _unid;
 	std::map<TextHandle,size_t> _handles;
 };
-
-#endif // TEXTRENDERERM1_H

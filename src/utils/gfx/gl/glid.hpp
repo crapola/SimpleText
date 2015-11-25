@@ -1,5 +1,4 @@
-#ifndef GLID_HPP_INCLUDED
-#define GLID_HPP_INCLUDED
+#pragma once
 #include <GL/glew.h>
 namespace gl
 {
@@ -18,4 +17,3 @@ protected:
 	GLuint _id;
 };
 }
-#endif // GLID_HPP_INCLUDED

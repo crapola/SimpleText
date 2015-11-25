@@ -1,5 +1,4 @@
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 #include "glid.hpp"
 namespace gl
 {
@@ -16,4 +15,3 @@ private:
 	static constexpr const char* _versionString="#version 420\n";
 };
 }
-#endif // SHADER_H

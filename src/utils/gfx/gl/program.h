@@ -1,5 +1,4 @@
-#ifndef PROGRAM_H
-#define PROGRAM_H
+#pragma once
 #include "glid.hpp"
 namespace gl
 {
@@ -17,4 +16,3 @@ private:
 	using Identifiable::_id;
 };
 }
-#endif // PROGRAM_H

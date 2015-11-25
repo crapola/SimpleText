@@ -1,5 +1,4 @@
-#ifndef CONTEXT_H
-#define CONTEXT_H
+#pragma once
 #include <SDL2/SDL.h>
 
 // GLEW context for an SDL window.
@@ -14,5 +13,3 @@ public:
 private:
 	SDL_GLContext _context; // void*
 };
-
-#endif // CONTEXT_H

@@ -21,8 +21,7 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 size_t TextRendererM1::_unid=0;
 
 TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
-	_chars(),
-	_charBuf(),_program(),_texture()
+	_chars(),_charBuf(),_program(),_texture(),_handles()
 {
 	// Program
 	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),

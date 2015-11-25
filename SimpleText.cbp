@@ -13,10 +13,6 @@
 				<Option compiler="gnu_gcc_compiler_64_bits" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="src/" />
-					<Add directory="src/gl" />
-					<Add directory="src/utils/gl" />
-					<Add directory="src" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -26,10 +22,6 @@
 				<Option compiler="gnu_gcc_compiler_64_bits" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add directory="src/" />
-					<Add directory="src/gl" />
-					<Add directory="src/utils/gl" />
-					<Add directory="src" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -37,8 +29,8 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 			<Add option="-DGLEW_STATIC" />
 			<Add directory="$(#sdl64.include)" />
 		</Compiler>
@@ -63,30 +55,30 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/fonttexture.h" />
-		<Unit filename="src/glew/glew.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
 		<Unit filename="src/textrendererm1.cpp" />
 		<Unit filename="src/textrendererm1.h" />
-		<Unit filename="src/utils/context.cpp" />
-		<Unit filename="src/utils/context.h" />
-		<Unit filename="src/utils/gl/buffer.cpp" />
-		<Unit filename="src/utils/gl/buffer.h" />
-		<Unit filename="src/utils/gl/glid.hpp" />
-		<Unit filename="src/utils/gl/logerrors.cpp" />
-		<Unit filename="src/utils/gl/logerrors.h" />
-		<Unit filename="src/utils/gl/program.cpp" />
-		<Unit filename="src/utils/gl/program.h" />
-		<Unit filename="src/utils/gl/shader.cpp" />
-		<Unit filename="src/utils/gl/shader.h" />
-		<Unit filename="src/utils/gl/texture.cpp" />
-		<Unit filename="src/utils/gl/texture.h" />
+		<Unit filename="src/utils/gfx/context.cpp" />
+		<Unit filename="src/utils/gfx/context.h" />
+		<Unit filename="src/utils/gfx/gl/buffer.cpp" />
+		<Unit filename="src/utils/gfx/gl/buffer.h" />
+		<Unit filename="src/utils/gfx/gl/glid.hpp" />
+		<Unit filename="src/utils/gfx/gl/logerrors.cpp" />
+		<Unit filename="src/utils/gfx/gl/logerrors.h" />
+		<Unit filename="src/utils/gfx/gl/program.cpp" />
+		<Unit filename="src/utils/gfx/gl/program.h" />
+		<Unit filename="src/utils/gfx/gl/shader.cpp" />
+		<Unit filename="src/utils/gfx/gl/shader.h" />
+		<Unit filename="src/utils/gfx/gl/texture.cpp" />
+		<Unit filename="src/utils/gfx/gl/texture.h" />
+		<Unit filename="src/utils/gfx/glew/glew.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/gfx/window.cpp" />
+		<Unit filename="src/utils/gfx/window.h" />
 		<Unit filename="src/utils/loadstring.cpp" />
 		<Unit filename="src/utils/loadstring.h" />
-		<Unit filename="src/utils/window.cpp" />
-		<Unit filename="src/utils/window.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

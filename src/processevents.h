@@ -1,5 +1,4 @@
-#ifndef PROCESSEVENTS_H_INCLUDED
-#define PROCESSEVENTS_H_INCLUDED
+#pragma once
 
 template<typename T>
 bool ProcessEvents(T& t)
@@ -34,6 +33,3 @@ bool ProcessEvents(T& t)
 	}
 	return true;
 }
-
-#endif // PROCESSEVENTS_H_INCLUDED
-

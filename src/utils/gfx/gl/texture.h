@@ -1,5 +1,4 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
 #include "glid.hpp"
 namespace gl
 {
@@ -13,4 +12,3 @@ private:
 	using Identifiable::_id;
 };
 }
-#endif // TEXTURE_H

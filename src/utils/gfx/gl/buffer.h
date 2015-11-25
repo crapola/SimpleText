@@ -1,5 +1,4 @@
-#ifndef BUFFER_H
-#define BUFFER_H
+#pragma once
 #include "glid.hpp"
 namespace gl
 {
@@ -17,5 +16,3 @@ private:
 	using Identifiable::_id;
 };
 }
-#endif // BUFFER_H
-
