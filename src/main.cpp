@@ -42,9 +42,10 @@ int main(int,char**) try
 	auto test3=textrend.Create(200,150,8,8);
 
 	textrend.Delete(test2);
+	//textrend.Delete(test1);
 
-	textrend.Print(0,"Hello world ... Hello world ... Hello world ... Hello world ... Hello world ... ");
-	textrend.Print(223,"Simple Text");
+	textrend.Print(0,"Hello world ...");
+	textrend.Print(63,"Simple Text");
 
 	TEST("init")
 

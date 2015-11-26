@@ -112,7 +112,7 @@ void TextRendererM1::Delete(TextRendererM1::TextHandle p_t)
 	size_t offset=_handles[p_t];
 	size_t next=_handles.Next(p_t);
 	int shift=next>offset?next-offset:0;
-	std::cout<<"off "<<offset<<" shift= "<<shift;
+	//std::cout<<"off "<<offset<<" shift= "<<shift;
 	_handles.Remove(p_t,shift);
 	_handles.Print();
 
@@ -130,15 +130,27 @@ void TextRendererM1::Draw()
 
 void TextRendererM1::Print(int p_o, const string& p_s)
 {
+	// Return if offset out of bounds
+	if (p_o>=_chars.size())
+	{
+		std:cerr<<"fuck";
+		return;
+	}
 	// Copy string
 	auto it=_chars.begin()+p_o;
-	for_each(p_s.begin(),p_s.end(),[&it](const char c)
+	size_t numChars=0;
+	find_if(p_s.begin(),p_s.end(),[&it,this,&numChars](const char c)
 	{
 		*it= {111,111,static_cast<GLubyte>(c),it->x,it->y};
 		++it;
+		++numChars;
+		if (it==_chars.end())
+			return true;
+		else
+			return false;
 	});
 
 	// Send those chars
 	_charBuf.Bind(GL_ARRAY_BUFFER);
-	VSubData(GL_ARRAY_BUFFER,_chars,p_o,p_s.size());
+	VSubData(GL_ARRAY_BUFFER,_chars,p_o,numChars);
 }
