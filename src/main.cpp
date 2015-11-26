@@ -32,21 +32,18 @@ int main(int,char**) try
 	resbuf.Bind(GL_UNIFORM_BUFFER);
 	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_STATIC_DRAW);
 
-
 	TextRendererM1 textrend(resbuf);
 
 	std::cout<<"yolo "<<sizeof(resbuf)<<'\n';
 
-	auto test1=textrend.Create(0,0,15,15);
-	auto test2=textrend.Create(120,100,30,15);
-	auto test3=textrend.Create(200,150,8,8);
+	auto test1=textrend.Create(0,0,20,20);
+	auto test2=textrend.Create(150,0,16,16);
+	auto test3=textrend.Create(0,150,16,16);
+	auto test4=textrend.Create(150,150,16,16);
 
 	textrend.Delete(test2);
-	//textrend.Delete(test1);
 
-	textrend.Print(0,"Hello world ...");
-	textrend.Print(63,"Simple Text");
-
+	textrend.Print(656+16*16-8," ! HELLO WORLD ! ");
 	TEST("init")
 
 	struct Meh

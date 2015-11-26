@@ -25,6 +25,8 @@ public:
 	void Draw();
 	void Print(int offset,const std::string& s);
 private:
+	void UploadWholeBuffer();
+
 	struct Character
 	{
 		GLushort colors;

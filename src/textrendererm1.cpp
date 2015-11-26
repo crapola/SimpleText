@@ -98,10 +98,7 @@ TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_
 		}
 		);
 	};
-	// update
-	_charBuf.Bind(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_STATIC_DRAW);
-
+	UploadWholeBuffer();
 	TextHandle key=_handles.Add(offset);
 	return key;
 }
@@ -118,9 +115,7 @@ void TextRendererM1::Delete(TextRendererM1::TextHandle p_t)
 
 	auto charEnd=(shift==0)?_chars.end():_chars.begin()+offset+shift;
 	_chars.erase(_chars.begin()+offset,charEnd);
-	// update
-	_charBuf.Bind(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_STATIC_DRAW);
+	UploadWholeBuffer();
 }
 
 void TextRendererM1::Draw()
@@ -133,24 +128,25 @@ void TextRendererM1::Print(int p_o, const string& p_s)
 	// Return if offset out of bounds
 	if (p_o>=_chars.size())
 	{
-		std:cerr<<"fuck";
 		return;
 	}
 	// Copy string
 	auto it=_chars.begin()+p_o;
-	size_t numChars=0;
-	find_if(p_s.begin(),p_s.end(),[&it,this,&numChars](const char c)
+	size_t numChars=min(p_s.size(),_chars.size()-p_o);
+	for_each(p_s.begin(),p_s.begin()+numChars,[&it](const char c)
 	{
 		*it= {111,111,static_cast<GLubyte>(c),it->x,it->y};
 		++it;
-		++numChars;
-		if (it==_chars.end())
-			return true;
-		else
-			return false;
 	});
 
-	// Send those chars
+	// Send those chars. todo: delay this
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	VSubData(GL_ARRAY_BUFFER,_chars,p_o,numChars);
+}
+
+void TextRendererM1::UploadWholeBuffer()
+{
+	_charBuf.Bind(GL_ARRAY_BUFFER);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),
+			GL_STATIC_DRAW);
 }
