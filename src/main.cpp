@@ -43,7 +43,7 @@ int main(int,char**) try
 
 	textrend.Delete(test2);
 
-	textrend.Print(656+16*16-8," ! HELLO WORLD ! ");
+	textrend.Print(656+16*16-8," ! HELLO WORLD !! ");
 	TEST("init")
 
 	struct Meh
