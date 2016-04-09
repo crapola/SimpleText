@@ -100,7 +100,7 @@ int main(int,char**) try
 catch (const runtime_error& e)
 {
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,u8"Error",u8"Sum ting wong",0);
-	std::cout<<"Runtime error: "<<e.what();
+	std::cerr<<"Runtime error: "<<e.what();
 	return -1;
 }
 

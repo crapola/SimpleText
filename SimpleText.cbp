@@ -4,22 +4,35 @@
 	<Project>
 		<Option title="SimpleText" />
 		<Option pch_mode="2" />
-		<Option compiler="gnu_gcc_compiler_64_bits" />
+		<Option compiler="gcc" />
+		<MakeCommands>
+			<Build command="" />
+			<CompileFile command="" />
+			<Clean command="" />
+			<DistClean command="" />
+			<AskRebuildNeeded command="" />
+			<SilentBuild command=" &gt; $(CMD_NULL)" />
+		</MakeCommands>
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/SimpleText" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gnu_gcc_compiler_64_bits" />
-				<Compiler>
-					<Add option="-g" />
-				</Compiler>
+				<Option compiler="gcc" />
+				<MakeCommands>
+					<Build command="" />
+					<CompileFile command="" />
+					<Clean command="" />
+					<DistClean command="" />
+					<AskRebuildNeeded command="" />
+					<SilentBuild command=" &gt; $(CMD_NULL)" />
+				</MakeCommands>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/SimpleText" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/obj/Release/" />
 				<Option type="0" />
-				<Option compiler="gnu_gcc_compiler_64_bits" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -29,21 +42,14 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
-			<Add option="-std=c++11" />
 			<Add option="-DGLEW_STATIC" />
-			<Add directory="$(#sdl64.include)" />
+			<Add directory="src/glew" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
 			<Add library="SDL2main" />
-			<Add library="SDL2.dll" />
-			<Add library="user32" />
-			<Add library="gdi32" />
-			<Add library="winmm" />
-			<Add library="dxguid" />
+			<Add library="SDL2" />
 			<Add library="opengl32" />
-			<Add directory="$(#sdl64.lib)" />
 		</Linker>
 		<Unit filename="data/frag.glsl">
 			<Option target="&lt;{~None~}&gt;" />
@@ -55,6 +61,9 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/fonttexture.h" />
+		<Unit filename="src/glew/GL/glew.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
 		<Unit filename="src/textrendererm1.cpp" />
@@ -72,9 +81,6 @@
 		<Unit filename="src/utils/gfx/gl/shader.h" />
 		<Unit filename="src/utils/gfx/gl/texture.cpp" />
 		<Unit filename="src/utils/gfx/gl/texture.h" />
-		<Unit filename="src/utils/gfx/glew/glew.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="src/utils/gfx/window.cpp" />
 		<Unit filename="src/utils/gfx/window.h" />
 		<Unit filename="src/utils/indexmap.cpp" />
