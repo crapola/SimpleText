@@ -18,7 +18,7 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 				   );
 }
 
-TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
+TextRendererM1::TextRendererM1():
 	_chars(),_charBuf(),_program(),_texture(),_handles()
 {
 	// Program
@@ -72,10 +72,8 @@ TextRendererM1::TextRendererM1(const gl::Buffer& p_resBuf):
 	TEST("Chars")
 
 	// Window size
-	GLuint uniblock=glGetUniformBlockIndex(_program,"resolutionUBO");
-	//p_resBuf.Bind(GL_UNIFORM_BUFFER);
-	glUniformBlockBinding(_program,uniblock,0);
-	glBindBufferBase(GL_UNIFORM_BUFFER,uniblock,p_resBuf);
+	Resolution(800,600);
+	TEST("Size")
 }
 
 TextRendererM1::~TextRendererM1()
@@ -92,9 +90,9 @@ TextRendererM1::TextHandle TextRendererM1::Create(int p_x,int p_y,int p_w,int p_
 		{
 			0,
 			0,
-			'0'+i,
-			p_x+FontTexture::charSize*(i%p_w),
-			p_y+FontTexture::charSize*(i/p_w)
+			GLubyte('0'+i),
+			GLshort(p_x+FontTexture::charSize*(i%p_w)),
+			GLshort(p_y+FontTexture::charSize*(i/p_w))
 		}
 		);
 	};
@@ -123,7 +121,7 @@ void TextRendererM1::Draw()
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
-void TextRendererM1::Print(int p_o, const string& p_s)
+void TextRendererM1::Print(size_t p_o, const string& p_s)
 {
 	// Return if offset out of bounds
 	if (p_o>=_chars.size())
@@ -142,6 +140,12 @@ void TextRendererM1::Print(int p_o, const string& p_s)
 	// Send those chars. todo: delay this
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	VSubData(GL_ARRAY_BUFFER,_chars,p_o,numChars);
+}
+
+void TextRendererM1::Resolution(int p_w,int p_h)
+{
+	GLint resolution=glGetUniformLocation(_program,"resolution");
+	glUniform2f(resolution,static_cast<float>(p_w),static_cast<float>(p_h));
 }
 
 void TextRendererM1::UploadWholeBuffer()

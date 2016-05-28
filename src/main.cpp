@@ -22,19 +22,10 @@ int main(int,char**) try
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Wires
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 	//glEnable(GL_COLOR_LOGIC_OP);
 	//glLogicOp(GL_EQUIV);
 
-	// Resolution UBO
-	pair<float,float> reso={400,300};
-	gl::Buffer resbuf;
-	resbuf.Bind(GL_UNIFORM_BUFFER);
-	glBufferData(GL_UNIFORM_BUFFER,sizeof(float)*2,&reso,GL_STATIC_DRAW);
-
-	TextRendererM1 textrend(resbuf);
-
-	std::cout<<"yolo "<<sizeof(resbuf)<<'\n';
+	TextRendererM1 textrend;
 
 	auto test1=textrend.Create(0,0,20,20);
 	auto test2=textrend.Create(150,0,16,16);
@@ -48,9 +39,7 @@ int main(int,char**) try
 
 	struct Meh
 	{
-		pair<float,float>& cap;
-
-		Meh(pair<float,float>& r):cap(r)
+		Meh()
 		{
 		}
 		void operator()(SDL_KeyboardEvent&)
@@ -65,18 +54,15 @@ int main(int,char**) try
 					break;
 				case SDL_WINDOWEVENT_RESIZED:
 				{
-					cap.first=we.data1;
-					cap.second=we.data2;
+					//cap.first=we.data1;
+					//cap.second=we.data2;
 					cout<<"Resized\n";
-					// +bind
-					glBufferSubData(GL_UNIFORM_BUFFER,0,sizeof(float)*2,&cap);
 					glViewport(0,0,we.data1,we.data2);
 					break;
 				}
 			}
-			//cout<<"window event ";
 		}
-	} meh(reso);
+	} meh;
 
 	long time=0;
 	while (ProcessEvents(meh))

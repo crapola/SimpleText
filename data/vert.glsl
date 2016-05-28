@@ -4,11 +4,7 @@
 */
 layout(location=0) in ivec2 chardata;
 
-// Window size in pixels
-layout(std140) uniform resolutionUBO
-{
-	vec2 resolution;
-};
+uniform vec2 resolution;
 
 flat out uint charoffset;
 flat out vec2 charsizendc;

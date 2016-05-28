@@ -16,14 +16,15 @@ class TextRendererM1
 public:
 	typedef size_t TextHandle;
 
-	TextRendererM1(const gl::Buffer& resBuf);
+	TextRendererM1();
 	~TextRendererM1();
 
 	TextHandle Create(int x,int y,int w,int h);
 	void Delete(TextHandle);
 	// Draw everything
 	void Draw();
-	void Print(int offset,const std::string& s);
+	void Print(size_t offset,const std::string& s);
+	void Resolution(int width,int height);
 private:
 	void UploadWholeBuffer();
 
