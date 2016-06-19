@@ -34,12 +34,13 @@ int main(int,char**) try
 
 	textrend.Delete(test2);
 
-	textrend.Print(656+16*16-8," ! HELLO WORLD !!! ");
+	textrend.Print(656," ! HELLO WORLD !!! ");
 	TEST("init")
 
 	struct Meh
 	{
-		Meh()
+		TextRendererM1& t;
+		Meh(TextRendererM1& t):t(t)
 		{
 		}
 		void operator()(SDL_KeyboardEvent&)
@@ -50,19 +51,18 @@ int main(int,char**) try
 		{
 			switch (we.event)
 			{
-				default:
-					break;
-				case SDL_WINDOWEVENT_RESIZED:
-				{
-					//cap.first=we.data1;
-					//cap.second=we.data2;
-					cout<<"Resized\n";
-					glViewport(0,0,we.data1,we.data2);
-					break;
-				}
+			default:
+				break;
+			case SDL_WINDOWEVENT_RESIZED:
+			{
+				cout<<"Resized\n";
+				glViewport(0,0,we.data1,we.data2);
+				t.Resolution(we.data1/3,we.data2/2);
+				break;
+			}
 			}
 		}
-	} meh;
+	} meh(textrend);
 
 	long time=0;
 	while (ProcessEvents(meh))
@@ -71,7 +71,9 @@ int main(int,char**) try
 		stringstream foo;
 		foo<<">> "<<time++<<" <<";
 		string s(foo.str());
-		if (time%11==0) textrend.Print(0,s);
+		auto o=textrend.Offset(test4);
+		cout<<o<<" ";
+		if (time%11==0) textrend.Print(o,s);
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);

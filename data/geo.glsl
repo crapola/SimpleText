@@ -9,7 +9,7 @@ out vec2 uv;
 void main()
 {
 	const float tw=256.0f;
-	//vec2 uvc=vec2((gl_PrimitiveIDIn-32)/tw,0);
+
 	vec2 uvc=vec2((charoffset[0]-32)/tw,0);
 	const float uvx=1.f/tw;
 	const float uvy=1.f;
@@ -34,5 +34,4 @@ void main()
 	gl_Position+=vec4(0,-sy,0,0);
 	uv=uvc+vec2(uvx,uvy);
 	EmitVertex();
-
 }

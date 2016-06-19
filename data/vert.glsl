@@ -1,6 +1,9 @@
 /*
 	Character data
-
+		GLushort colors;
+		GLubyte flags;
+		GLubyte c;
+		GLshort x,y;
 */
 layout(location=0) in ivec2 chardata;
 

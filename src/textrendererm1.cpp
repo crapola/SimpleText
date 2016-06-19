@@ -12,9 +12,9 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 {
 	constexpr size_t valueSize=sizeof(typename C::value_type);
 	glBufferSubData(p_target,
-			valueSize*p_from,
-			valueSize*p_count,
-			p_container.data()+p_from
+					valueSize*p_from,
+					valueSize*p_count,
+					p_container.data()+p_from
 				   );
 }
 
@@ -122,11 +122,17 @@ void TextRendererM1::Draw()
 	{
 		cout<<"u";
 		_charBuf.Bind(GL_ARRAY_BUFFER);
-		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),_chars.To());
+		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),_chars.To()-_chars.From());
+		cout<<"("<<_chars.From()<<","<<_chars.To()<<").";
 		_chars.Reset();
 	}
 	cout<<"d";
 	glDrawArrays(GL_POINTS,0,_chars.size());
+}
+
+size_t TextRendererM1::Offset(TextHandle p_h) const
+{
+	return _handles[p_h];
 }
 
 void TextRendererM1::Print(size_t p_o, const string& p_s)
@@ -139,11 +145,10 @@ void TextRendererM1::Print(size_t p_o, const string& p_s)
 	// Copy string
 	auto it=_chars.begin()+p_o;
 	size_t numChars=min(p_s.size(),_chars.size()-p_o);
-	// Write
-	for(size_t i=0;i<numChars;++i)
+	for(size_t i=0; i<=numChars; ++i)
 	{
-		const Character& c=_chars[i+p_o];
-		_chars[i+p_o]={111,111,static_cast<GLubyte>(p_s[i]),c.x,c.y};
+		const Character& c=_chars.at(i+p_o);
+		_chars[i+p_o]= {111,111,static_cast<GLubyte>(p_s[i]),c.x,c.y};
 	}
 }
 
@@ -157,5 +162,5 @@ void TextRendererM1::UploadWholeBuffer()
 {
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),
-			GL_STATIC_DRAW);
+				 GL_STATIC_DRAW);
 }

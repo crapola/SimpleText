@@ -23,6 +23,7 @@ public:
 	void Delete(TextHandle);
 	// Draw everything
 	void Draw();
+	size_t Offset(TextHandle) const;
 	void Print(size_t offset,const std::string& s);
 	void Resolution(int width,int height);
 private:
