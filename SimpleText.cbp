@@ -72,6 +72,7 @@
 		<Unit filename="src/processevents.h" />
 		<Unit filename="src/textrendererm1.cpp" />
 		<Unit filename="src/textrendererm1.h" />
+		<Unit filename="src/utils/backcache.hpp" />
 		<Unit filename="src/utils/gfx/context.cpp" />
 		<Unit filename="src/utils/gfx/context.h" />
 		<Unit filename="src/utils/gfx/gl/buffer.cpp" />

@@ -118,6 +118,14 @@ void TextRendererM1::Delete(TextRendererM1::TextHandle p_t)
 
 void TextRendererM1::Draw()
 {
+	if (_chars.Pending())
+	{
+		cout<<"u";
+		_charBuf.Bind(GL_ARRAY_BUFFER);
+		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),_chars.To());
+		_chars.Reset();
+	}
+	cout<<"d";
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
@@ -131,15 +139,12 @@ void TextRendererM1::Print(size_t p_o, const string& p_s)
 	// Copy string
 	auto it=_chars.begin()+p_o;
 	size_t numChars=min(p_s.size(),_chars.size()-p_o);
-	for_each(p_s.begin(),p_s.begin()+numChars,[&it](const char c)
+	// Write
+	for(size_t i=0;i<numChars;++i)
 	{
-		*it= {111,111,static_cast<GLubyte>(c),it->x,it->y};
-		++it;
-	});
-
-	// Send those chars. todo: delay this
-	_charBuf.Bind(GL_ARRAY_BUFFER);
-	VSubData(GL_ARRAY_BUFFER,_chars,p_o,numChars);
+		const Character& c=_chars[i+p_o];
+		_chars[i+p_o]={111,111,static_cast<GLubyte>(p_s[i]),c.x,c.y};
+	}
 }
 
 void TextRendererM1::Resolution(int p_w,int p_h)

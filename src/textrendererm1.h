@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <map>
 #include <string>
-#include <vector>
+#include "utils/backcache.hpp"
 #include "utils/indexmap.h"
 #include "utils/loadstring.h"
 #include "utils/gfx/gl/buffer.h"
@@ -36,7 +36,7 @@ private:
 		GLshort x,y;	//y
 	};
 
-	std::vector<Character> _chars;
+	BackCache<Character> _chars;
 	gl::Buffer _charBuf;
 	gl::Program _program;
 	gl::Texture _texture;
