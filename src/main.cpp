@@ -13,6 +13,7 @@
 using namespace std;
 #define TEST(x) gl::LogErrors(x);
 
+
 int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
@@ -72,8 +73,8 @@ int main(int,char**) try
 		foo<<">> "<<time++<<" <<";
 		string s(foo.str());
 		auto o=textrend.Offset(test4);
-		cout<<o<<" ";
-		if (time%11==0) textrend.Print(o,s);
+		//cout<<o<<" ";
+		if (time%7==0) textrend.Print(o,s);
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);

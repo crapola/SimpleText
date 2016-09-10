@@ -47,12 +47,12 @@
 		</Build>
 		<Compiler>
 			<Add option="-DGLEW_STATIC" />
-			<Add directory="src/glew" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
 			<Add library="SDL2main" />
 			<Add library="SDL2" />
+			<Add library="glew32" />
 			<Add library="opengl32" />
 		</Linker>
 		<Unit filename="data/frag.glsl">
@@ -65,9 +65,6 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/fonttexture.h" />
-		<Unit filename="src/glew/GL/glew.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
 		<Unit filename="src/textrendererm1.cpp" />

@@ -123,7 +123,7 @@ void TextRendererM1::Draw()
 		cout<<"u";
 		_charBuf.Bind(GL_ARRAY_BUFFER);
 		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),_chars.To()-_chars.From());
-		cout<<"("<<_chars.From()<<","<<_chars.To()<<").";
+		cout<<"("<<_chars.From()<<","<<_chars.To()<<")\n";
 		_chars.Reset();
 	}
 	cout<<"d";
