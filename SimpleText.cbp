@@ -21,6 +21,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="src/utils" />
 				</Compiler>
 				<MakeCommands>
 					<Build command="" />
@@ -39,6 +40,7 @@
 				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="src/utils" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -67,8 +69,8 @@
 		<Unit filename="src/fonttexture.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
-		<Unit filename="src/textrendererm1.cpp" />
-		<Unit filename="src/textrendererm1.h" />
+		<Unit filename="src/textrenderer.cpp" />
+		<Unit filename="src/textrenderer.h" />
 		<Unit filename="src/utils/backcache.hpp" />
 		<Unit filename="src/utils/gfx/context.cpp" />
 		<Unit filename="src/utils/gfx/context.h" />

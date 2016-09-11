@@ -8,7 +8,7 @@
 #include "utils/gfx/window.h"
 #include "processevents.h"
 
-#include "textrendererm1.h"
+#include "textrenderer.h"
 
 using namespace std;
 #define TEST(x) gl::LogErrors(x);
@@ -26,22 +26,18 @@ int main(int,char**) try
 	//glEnable(GL_COLOR_LOGIC_OP);
 	//glLogicOp(GL_EQUIV);
 
-	TextRendererM1 textrend;
+	TextRenderer textrend;
 
-	auto test1=textrend.Create(0,0,20,20);
-	auto test2=textrend.Create(150,0,16,16);
-	auto test3=textrend.Create(0,150,16,16);
-	auto test4=textrend.Create(150,150,16,16);
+	textrend.Add(100);
+	textrend.Delete(50,50);
 
-	textrend.Delete(test2);
-
-	textrend.Print(656," ! HELLO WORLD !!! ");
+	textrend.Write(0,">! HELLO WORLD !<");
 	TEST("init")
 
 	struct Meh
 	{
-		TextRendererM1& t;
-		Meh(TextRendererM1& t):t(t)
+		TextRenderer& t;
+		Meh(TextRenderer& t):t(t)
 		{
 		}
 		void operator()(SDL_KeyboardEvent&)
@@ -72,9 +68,8 @@ int main(int,char**) try
 		stringstream foo;
 		foo<<">> "<<time++<<" <<";
 		string s(foo.str());
-		auto o=textrend.Offset(test4);
-		//cout<<o<<" ";
-		if (time%7==0) textrend.Print(o,s);
+
+		if (time%5==0) textrend.Write(50,s);
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
