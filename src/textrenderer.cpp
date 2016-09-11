@@ -1,4 +1,5 @@
 #include "textrenderer.h"
+#include <algorithm> // for_each
 #include <iostream>
 #include "fonttexture.h"
 
@@ -154,7 +155,7 @@ void TextRenderer::Draw()
 	{
 		cout<<"u";
 		_charBuf.Bind(GL_ARRAY_BUFFER);
-		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),_chars.To()-_chars.From());
+		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),1+_chars.To()-_chars.From());
 		cout<<"("<<_chars.From()<<","<<_chars.To()<<")\n";
 		_chars.Reset();
 	}
@@ -166,6 +167,16 @@ size_t TextRenderer::Offset(TextHandle p_h) const
 {
 	return _handles[p_h];
 }*/
+
+void TextRenderer::ForEach(size_t p_from,size_t p_to,std::function<Character(Character)> f)
+{
+	//std::for_each(_chars.begin(),_chars.end(),f);
+	for (size_t i=p_from; i<p_to; ++i)
+	{
+		//_chars[i]=f(_chars.at(i));
+		auto c=_chars.at(i);_chars[i]=f(c);
+	}
+}
 
 void TextRenderer::Format(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 {
@@ -195,7 +206,8 @@ void TextRenderer::Write(size_t p_o, const string& p_s)
 	// Copy string
 	auto it=_chars.begin()+p_o;
 	size_t numChars=min(p_s.size(),_chars.size()-p_o);
-	for(size_t i=0; i<=numChars; ++i)
+	cout<<"numChars="<<numChars;
+	for(size_t i=0; i<numChars; ++i)
 	{
 		const Character& c=_chars.at(i+p_o);
 		_chars[i+p_o]= {111,111,static_cast<GLubyte>(p_s[i]),c.x,c.y};

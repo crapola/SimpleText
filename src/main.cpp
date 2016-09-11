@@ -32,6 +32,14 @@ int main(int,char**) try
 
 	textrend.Write(0,">! HELLO WORLD !<");
 	textrend.Format(0,30,200,200,0);
+
+	textrend.ForEach(0,40,[](auto c)->TextRenderer::Character
+	{
+		TextRenderer::Character a=c;
+		a.y=320;
+		return a;
+	});
+
 	TEST("init")
 
 	struct Meh
@@ -66,10 +74,10 @@ int main(int,char**) try
 	{
 		// Counter
 		stringstream foo;
-		foo<<">> "<<time++<<" <<";
+		foo<<">> "<<time++;
 		string s(foo.str());
 
-		if (time%5==0) textrend.Write(50,s);
+		if (time%5==0) textrend.Write(99,"x");
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);

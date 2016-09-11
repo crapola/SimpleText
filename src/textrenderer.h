@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <string>
 #include "utils/backcache.hpp"
 #include "utils/loadstring.h"
@@ -10,6 +11,13 @@
 
 class TextRenderer
 {
+	struct Character
+	{
+		GLushort colors;
+		GLubyte flags;
+		GLubyte c;		//x 24
+		GLshort x,y;	//y
+	};
 public:
 	TextRenderer();
 	~TextRenderer();
@@ -19,19 +27,14 @@ public:
 	void Delete(size_t from,size_t to);
 	// Draw everything
 	void Draw();
+	void ForEach(size_t from,size_t to,std::function<Character(Character)> f);
 	void Format(size_t offset,size_t lenght,int x_px,int y_px,int width);
 	void Write(size_t offset,const std::string& s);
 	void Resolution(int width,int height);
 private:
 	void UploadWholeBuffer();
 
-	struct Character
-	{
-		GLushort colors;
-		GLubyte flags;
-		GLubyte c;		//x 24
-		GLshort x,y;	//y
-	};
+
 
 	BackCache<Character> _chars;
 	gl::Buffer _charBuf;
