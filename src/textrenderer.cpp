@@ -1,5 +1,5 @@
-#include <iostream>
 #include "textrenderer.h"
+#include <iostream>
 #include "fonttexture.h"
 
 #define TEST(x) gl::LogErrors(x);
@@ -83,14 +83,14 @@ TextRenderer::~TextRenderer()
 
 void TextRenderer::Add(size_t p_count)
 {
-/*
-	vector<Character> extra(p_count,{0,
-			0,
-			GLubyte('0'),
-			GLshort(0),
-			GLshort(0)});
-	_chars.insert(_chars.end(),extra.begin(),extra.end());
-*/
+	/*
+		vector<Character> extra(p_count,{0,
+				0,
+				GLubyte('0'),
+				GLshort(0),
+				GLshort(0)});
+		_chars.insert(_chars.end(),extra.begin(),extra.end());
+	*/
 	for (size_t i=0; i<p_count; ++i)
 	{
 		_chars.push_back(
@@ -166,6 +166,24 @@ size_t TextRenderer::Offset(TextHandle p_h) const
 {
 	return _handles[p_h];
 }*/
+
+void TextRenderer::Format(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
+{
+	if (p_w<=0) p_w=p_l;
+
+	for (size_t i=0; i<p_l; ++i)
+	{
+		Character c
+		{
+			0,
+			0,
+			_chars.at(p_o+i).c,
+			GLshort(p_x+FontTexture::charSize*(i%p_w)),
+			GLshort(p_y+FontTexture::charSize*(i/p_w))
+		};
+		_chars[p_o+i]=c;
+	};
+}
 
 void TextRenderer::Write(size_t p_o, const string& p_s)
 {

@@ -1,6 +1,4 @@
 #pragma once
-#include <algorithm>
-#include <map>
 #include <string>
 #include "utils/backcache.hpp"
 #include "utils/loadstring.h"
@@ -21,7 +19,7 @@ public:
 	void Delete(size_t from,size_t to);
 	// Draw everything
 	void Draw();
-
+	void Format(size_t offset,size_t lenght,int x_px,int y_px,int width);
 	void Write(size_t offset,const std::string& s);
 	void Resolution(int width,int height);
 private:

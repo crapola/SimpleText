@@ -13,7 +13,6 @@
 using namespace std;
 #define TEST(x) gl::LogErrors(x);
 
-
 int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
@@ -32,6 +31,7 @@ int main(int,char**) try
 	textrend.Delete(50,50);
 
 	textrend.Write(0,">! HELLO WORLD !<");
+	textrend.Format(0,30,200,200,0);
 	TEST("init")
 
 	struct Meh
