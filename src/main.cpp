@@ -48,23 +48,37 @@ int main(int,char**) try
 		Meh(TextRenderer& t):t(t)
 		{
 		}
-		void operator()(SDL_KeyboardEvent&)
+		void operator()(SDL_KeyboardEvent& ke)
 		{
 			cout<<"keyboard event ";
+			if (ke.type==SDL_KEYUP)
+			{
+				switch(ke.keysym.sym)
+				{
+					default:
+						break;
+					case SDLK_a:
+					{
+						cout<<"Adding more ";
+						t.Add(100);
+						break;
+					}
+				}
+			}
 		}
 		void operator()(SDL_WindowEvent& we)
 		{
 			switch (we.event)
 			{
-			default:
-				break;
-			case SDL_WINDOWEVENT_RESIZED:
-			{
-				cout<<"Resized\n";
-				glViewport(0,0,we.data1,we.data2);
-				t.Resolution(we.data1/3,we.data2/2);
-				break;
-			}
+				default:
+					break;
+				case SDL_WINDOWEVENT_RESIZED:
+				{
+					cout<<"Resized\n";
+					glViewport(0,0,we.data1,we.data2);
+					t.Resolution(we.data1/3,we.data2/2);
+					break;
+				}
 			}
 		}
 	} meh(textrend);
@@ -77,7 +91,7 @@ int main(int,char**) try
 		foo<<">> "<<time++;
 		string s(foo.str());
 
-		if (time%5==0) textrend.Write(99,"x");
+		if (time%5==0) textrend.Write(80,s);
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -91,8 +105,8 @@ int main(int,char**) try
 }
 catch (const runtime_error& e)
 {
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,u8"Error",u8"Sum ting wong",0);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,u8"Error",u8"Sum ting wong",
+							 0);
 	std::cerr<<"Runtime error: "<<e.what();
 	return -1;
 }
-

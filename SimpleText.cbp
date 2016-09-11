@@ -71,6 +71,9 @@
 		<Unit filename="src/processevents.h" />
 		<Unit filename="src/textrenderer.cpp" />
 		<Unit filename="src/textrenderer.h" />
+		<Unit filename="src/textrenderer_types.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src/utils/backcache.hpp" />
 		<Unit filename="src/utils/gfx/context.cpp" />
 		<Unit filename="src/utils/gfx/context.h" />

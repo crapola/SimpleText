@@ -9,7 +9,8 @@ using namespace std;
 
 // Helper to glBufferSubData part of a vector.
 template<typename C>
-void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
+void VSubData(GLenum p_target,const C& p_container,size_t p_from,
+			  size_t p_count)
 {
 	constexpr size_t valueSize=sizeof(typename C::value_type);
 	glBufferSubData(p_target,
@@ -37,7 +38,8 @@ TextRenderer::TextRenderer():
 	// Texture
 	constexpr int cs=FontTexture::charSize;
 	constexpr int tw=2048;
-	const GLubyte* indata=static_cast<const GLubyte*>(FontTexture::rawData);
+	const GLubyte* indata=static_cast<const GLubyte*>
+						  (FontTexture::rawData);
 	GLubyte dest[tw*cs]= {0};
 	{
 		// Convert 1bpp to 1Bpp (GL_RED)
@@ -59,14 +61,17 @@ TextRenderer::TextRenderer():
 	glBindTexture(GL_TEXTURE_2D,_texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,tw,8,0,GL_RED,GL_UNSIGNED_BYTE,dest);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RED,tw,8,0,GL_RED,
+				 GL_UNSIGNED_BYTE,dest);
 	GLint samplerLoc=glGetUniformLocation(_program,"tex");
 	glUniform1i(samplerLoc,0);
 	TEST("Texture")
 
 	// Chars
 	_charBuf.Bind(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),
+				 _chars.data(),
+				 GL_DYNAMIC_DRAW);
 	GLint charAttrib = glGetAttribLocation(_program,"chardata");
 	glVertexAttribIPointer(charAttrib,2,GL_UNSIGNED_INT,0,0);
 	glEnableVertexAttribArray(charAttrib);
@@ -92,6 +97,7 @@ void TextRenderer::Add(size_t p_count)
 				GLshort(0)});
 		_chars.insert(_chars.end(),extra.begin(),extra.end());
 	*/
+	size_t l=_chars.size();
 	for (size_t i=0; i<p_count; ++i)
 	{
 		_chars.push_back(
@@ -99,8 +105,8 @@ void TextRenderer::Add(size_t p_count)
 			0,
 			0,
 			GLubyte('0'+i),
-			GLshort(i*8%128),
-			GLshort(i)
+			GLshort(l+i*8%128),
+			GLshort(l+i)
 		}
 		);
 	};
@@ -155,7 +161,10 @@ void TextRenderer::Draw()
 	{
 		cout<<"u";
 		_charBuf.Bind(GL_ARRAY_BUFFER);
-		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),1+_chars.To()-_chars.From());
+		// Need to add 1 to get count because BackCache's range is a closed
+		// interval.
+		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),
+				 1+_chars.To()-_chars.From());
 		cout<<"("<<_chars.From()<<","<<_chars.To()<<")\n";
 		_chars.Reset();
 	}
@@ -168,13 +177,15 @@ size_t TextRenderer::Offset(TextHandle p_h) const
 	return _handles[p_h];
 }*/
 
-void TextRenderer::ForEach(size_t p_from,size_t p_to,std::function<Character(Character)> f)
+void TextRenderer::ForEach(size_t p_from,size_t p_to,
+						   std::function<Character(Character)> f)
 {
 	//std::for_each(_chars.begin(),_chars.end(),f);
 	for (size_t i=p_from; i<p_to; ++i)
 	{
 		//_chars[i]=f(_chars.at(i));
-		auto c=_chars.at(i);_chars[i]=f(c);
+		auto c=_chars.at(i);
+		_chars[i]=f(c);
 	}
 }
 
@@ -217,12 +228,14 @@ void TextRenderer::Write(size_t p_o, const string& p_s)
 void TextRenderer::Resolution(int p_w,int p_h)
 {
 	GLint resolution=glGetUniformLocation(_program,"resolution");
-	glUniform2f(resolution,static_cast<float>(p_w),static_cast<float>(p_h));
+	glUniform2f(resolution,static_cast<float>(p_w),
+				static_cast<float>(p_h));
 }
 
 void TextRenderer::UploadWholeBuffer()
 {
 	_charBuf.Bind(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),
+				 _chars.data(),
 				 GL_STATIC_DRAW);
 }

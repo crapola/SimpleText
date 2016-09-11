@@ -17,6 +17,7 @@ bool ProcessEvents(T& t)
 				break;
 			// Check for keypresses
 			case SDL_KEYDOWN:
+			case SDL_KEYUP:
 			{
 				// Exit if ESCAPE is pressed
 				if (event.key.keysym.sym == SDLK_ESCAPE)
