@@ -84,12 +84,11 @@ TextRenderer::TextRenderer():
 
 TextRenderer::~TextRenderer()
 {
-
 }
 
 void TextRenderer::Add(size_t p_count)
 {
-	/*
+	/* use this later
 		vector<Character> extra(p_count,{0,
 				0,
 				GLubyte('0'),
@@ -171,11 +170,6 @@ void TextRenderer::Draw()
 	cout<<"d";
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
-/*
-size_t TextRenderer::Offset(TextHandle p_h) const
-{
-	return _handles[p_h];
-}*/
 
 void TextRenderer::ForEach(size_t p_from,size_t p_to,
 						   std::function<Character(Character)> f)

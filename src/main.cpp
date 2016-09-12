@@ -63,6 +63,12 @@ int main(int,char**) try
 						t.Add(100);
 						break;
 					}
+					case SDLK_d:
+					{
+						cout<<"Deleting ";
+						t.Delete(0,23);
+						break;
+					}
 				}
 			}
 		}

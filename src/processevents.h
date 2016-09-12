@@ -1,5 +1,5 @@
 #pragma once
-
+// Dispatches SDL events to T.
 template<typename T>
 bool ProcessEvents(T& t)
 {
