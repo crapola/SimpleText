@@ -3,8 +3,10 @@ layout(triangle_strip,max_vertices=4) out;
 
 flat in uint charoffset[];
 flat in vec2 charsizendc[];
+in vec4 charColor[];
 
 out vec2 uv;
+out vec4 fragColor;
 
 void main()
 {
@@ -18,6 +20,8 @@ void main()
 	float sy=charsizendc[0].y;
 
 	vec4 v=gl_in[0].gl_Position;
+
+	fragColor=charColor[0];
 
 	gl_Position=v;
 	uv=uvc+vec2(0,0);

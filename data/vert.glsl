@@ -11,6 +11,7 @@ uniform vec2 resolution;
 
 flat out uint charoffset;
 flat out vec2 charsizendc;
+out vec4 charColor;
 
 //----------------------------------------------------------------------------
 
@@ -33,10 +34,16 @@ uint GetChar()
 	return chardata.x>>24&0xFF;
 }
 
+vec4 GetColor()
+{
+	return vec4(1,1,0,1);
+}
+
 void main()
 {
 	charsizendc=vec2(8.f * 2.f/resolution.x,8.f * 2.f/resolution.y);
 	charoffset=GetChar();
 	vec2 position=GetPos();
+	charColor=GetColor();
 	gl_Position=vec4(position, 0.0, 1.0);
 }
