@@ -13,6 +13,11 @@
 using namespace std;
 #define TEST(x) gl::LogErrors(x);
 
+constexpr Color2B(int r,int g,int b)
+{
+	return ((r<<4)|(g<<2)|b);
+}
+
 int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
@@ -31,12 +36,15 @@ int main(int,char**) try
 	textrend.Delete(50,50);
 
 	textrend.Write(0,">! HELLO WORLD !<");
-	textrend.Format(0,30,200,200,0);
+	textrend.Format(0,30,200,200,10);
 
 	textrend.ForEach(0,40,[](auto c)->TextRenderer::Character
 	{
+		static int i=0;
 		TextRenderer::Character a=c;
-		a.y=320;
+		a.y+=30;
+		a.colors=(Color2B(3,3,0)+i)<<8;
+		i--;
 		return a;
 	});
 
