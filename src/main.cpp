@@ -36,7 +36,7 @@ int main(int,char**) try
 	textrend.Delete(50,50);
 
 	textrend.Write(0,">! HELLO WORLD !<");
-	textrend.Format(0,30,200,200,10);
+	textrend.Paragraph(0,30,200,200,10);
 
 	textrend.ForEach(0,40,[](auto c)->TextRenderer::Character
 	{
@@ -105,7 +105,7 @@ int main(int,char**) try
 		foo<<">> "<<time++;
 		string s(foo.str());
 
-		if (time%5==0) textrend.Write(80,s);
+		if (time%5==0) textrend.Write(0,s);
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);

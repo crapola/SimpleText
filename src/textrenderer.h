@@ -15,16 +15,17 @@ class TextRenderer
 public:
 	TextRenderer();
 	~TextRenderer();
-	// Add a number of characters to the end
+	// Add a number of characters to the end.
 	void Add(size_t count);
-	// Delete characters in range [from,to[
+	// Delete characters in range [from,to[.
 	void Delete(size_t from,size_t to);
-	// Draw everything
+	// Draw everything.
 	void Draw();
-	// Apply function to range
+	// Apply function to range.
 	void ForEach(size_t from,size_t to,std::function<Character(Character)> f);
-	void Format(size_t offset,size_t lenght,int x_px,int y_px,int width);
+	void Paragraph(size_t offset,size_t lenght,int x_px,int y_px,int width);
 	void Write(size_t offset,const std::string& s);
+	// Set pixel resolution.
 	void Resolution(int width,int height);
 private:
 	void UploadWholeBuffer();

@@ -112,47 +112,11 @@ void TextRenderer::Add(size_t p_count)
 	UploadWholeBuffer();
 }
 
-/*TextRenderer::TextHandle TextRenderer::Create(int p_x,int p_y,int p_w,int p_h)
-{
-	size_t offset=_chars.size();
-	for (int i=0; i<p_w*p_h; ++i)
-	{
-		_chars.push_back(
-		{
-			0,
-			0,
-			GLubyte('0'+i),
-			GLshort(p_x+FontTexture::charSize*(i%p_w)),
-			GLshort(p_y+FontTexture::charSize*(i/p_w))
-		}
-		);
-	};
-	UploadWholeBuffer();
-	TextHandle key=_handles.Add(offset);
-	return key;
-}*/
-
 void TextRenderer::Delete(size_t p_from,size_t p_to)
 {
 	_chars.erase(_chars.begin()+p_from,_chars.begin()+p_to);
 	UploadWholeBuffer();
 }
-
-/*
-void TextRenderer::Delete(TextRenderer::TextHandle p_t)
-{
-	_handles.Print();
-	size_t offset=_handles[p_t];
-	size_t next=_handles.Next(p_t);
-	int shift=next>offset?next-offset:0;
-	//std::cout<<"off "<<offset<<" shift= "<<shift;
-	_handles.Remove(p_t,shift);
-	_handles.Print();
-
-	auto charEnd=(shift==0)?_chars.end():_chars.begin()+offset+shift;
-	_chars.erase(_chars.begin()+offset,charEnd);
-	UploadWholeBuffer();
-}*/
 
 void TextRenderer::Draw()
 {
@@ -183,7 +147,7 @@ void TextRenderer::ForEach(size_t p_from,size_t p_to,
 	}
 }
 
-void TextRenderer::Format(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
+void TextRenderer::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 {
 	if (p_w<=0) p_w=p_l;
 
@@ -191,8 +155,8 @@ void TextRenderer::Format(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 	{
 		Character c
 		{
-			0,
-			0,
+			_chars.at(p_o+i).colors,
+			_chars.at(p_o+i).flags,
 			_chars.at(p_o+i).c,
 			GLshort(p_x+FontTexture::charSize*(i%p_w)),
 			GLshort(p_y+FontTexture::charSize*(i/p_w))
@@ -214,8 +178,7 @@ void TextRenderer::Write(size_t p_o, const string& p_s)
 	cout<<"numChars="<<numChars;
 	for(size_t i=0; i<numChars; ++i)
 	{
-		const Character& c=_chars.at(i+p_o);
-		_chars[i+p_o]= {111,111,static_cast<GLubyte>(p_s[i]),c.x,c.y};
+		_chars[i+p_o].c=static_cast<GLubyte>(p_s[i]);
 	}
 }
 
