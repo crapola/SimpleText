@@ -1,13 +1,11 @@
 #pragma once
-#include <functional>
-#include <string>
 #include "misc/backcache.hpp"
-#include "misc/loadstring.h"
 #include "gfx/gl/buffer.h"
 #include "gfx/gl/shader.h"
 #include "gfx/gl/program.h"
 #include "gfx/gl/texture.h"
-#include "gfx/gl/logerrors.h"
+#include <functional>
+#include <string>
 
 class TextRenderer
 {

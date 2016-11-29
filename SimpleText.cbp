@@ -76,8 +76,6 @@
 		<Unit filename="src/textrenderer.cpp" />
 		<Unit filename="src/textrenderer.h" />
 		<Unit filename="src/textrenderer_types.h" />
-		<Unit filename="src/textrendererm1.cpp" />
-		<Unit filename="src/textrendererm1.h" />
 		<Unit filename="src/utils/gfx/include/gfx/context.h" />
 		<Unit filename="src/utils/gfx/include/gfx/gl/buffer.h" />
 		<Unit filename="src/utils/gfx/include/gfx/gl/debug.h" />
@@ -87,13 +85,17 @@
 		<Unit filename="src/utils/gfx/include/gfx/gl/texture.h" />
 		<Unit filename="src/utils/gfx/include/gfx/gl/vao.h" />
 		<Unit filename="src/utils/gfx/include/gfx/window.h" />
-		<Unit filename="src/utils/gfx/src/context.cpp" />
+		<Unit filename="src/utils/gfx/src/context.cpp">
+			<Option weight="0" />
+		</Unit>
 		<Unit filename="src/utils/gfx/src/gl/buffer.cpp" />
 		<Unit filename="src/utils/gfx/src/gl/debug.cpp" />
 		<Unit filename="src/utils/gfx/src/gl/glid.hpp" />
 		<Unit filename="src/utils/gfx/src/gl/logerrors.cpp" />
 		<Unit filename="src/utils/gfx/src/gl/program.cpp" />
-		<Unit filename="src/utils/gfx/src/gl/shader.cpp" />
+		<Unit filename="src/utils/gfx/src/gl/shader.cpp">
+			<Option weight="0" />
+		</Unit>
 		<Unit filename="src/utils/gfx/src/gl/texture.cpp" />
 		<Unit filename="src/utils/gfx/src/gl/vao.cpp" />
 		<Unit filename="src/utils/gfx/src/window.cpp" />
