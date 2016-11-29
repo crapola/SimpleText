@@ -6,6 +6,7 @@
 #include <iostream>
 
 #define TEST(x) gl::LogErrors(x);
+//#define TEST(x)
 
 using namespace std;
 

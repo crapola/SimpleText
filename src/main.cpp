@@ -7,12 +7,11 @@
 #include "gfx/context.h"
 #include "gfx/window.h"
 #include "processevents.h"
-#include "gfx/gl/logerrors.h"
+#include "gfx/gl/debug.h"
 
 #include "textrenderer.h"
 
 using namespace std;
-#define TEST(x) gl::LogErrors(x);
 
 constexpr Color2B(int r,int g,int b)
 {
@@ -22,16 +21,23 @@ constexpr Color2B(int r,int g,int b)
 int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
+	// Required for glDebugMessageCallback
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS,SDL_GL_CONTEXT_DEBUG_FLAG);
 	Context glcontext(window);
+
 	glClearColor(0.0f,0.0f,1.0f,1.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	gl::InitDebugProc();
 	// Wires
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//glEnable(GL_COLOR_LOGIC_OP);
 	//glLogicOp(GL_EQUIV);
 
 	TextRenderer textrend;
+
+	//glUseProgram(123);
 
 	textrend.Add(100);
 	textrend.Delete(50,50);
@@ -48,8 +54,6 @@ int main(int,char**) try
 		i--;
 		return a;
 	});
-
-	TEST("init")
 
 	struct Meh
 	{
@@ -106,7 +110,7 @@ int main(int,char**) try
 		foo<<">> "<<time++;
 		string s(foo.str());
 
-		if (time%5==0) textrend.Write(0,s);
+		if (time%3==0) textrend.Write(0,s);
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -115,7 +119,6 @@ int main(int,char**) try
 		SDL_Delay(16);
 	}
 
-	TEST("end")
 	return 0;
 }
 catch (const runtime_error& e)
