@@ -21,8 +21,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="src/utils" />
-					<Add directory="src/utils/gfx/gl" />
 				</Compiler>
 				<MakeCommands>
 					<Build command="" />
@@ -51,6 +49,8 @@
 		</Build>
 		<Compiler>
 			<Add option="-DGLEW_STATIC" />
+			<Add directory="src/utils/gfx/include" />
+			<Add directory="src/utils/misc/include" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
@@ -69,35 +69,37 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/fonttexture.h" />
+		<Unit filename="src/indexmap.cpp" />
+		<Unit filename="src/indexmap.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
 		<Unit filename="src/textrenderer.cpp" />
 		<Unit filename="src/textrenderer.h" />
-		<Unit filename="src/textrenderer_types.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="src/utils/backcache.hpp" />
-		<Unit filename="src/utils/gfx/context.cpp" />
-		<Unit filename="src/utils/gfx/context.h" />
-		<Unit filename="src/utils/gfx/gl/buffer.cpp" />
-		<Unit filename="src/utils/gfx/gl/buffer.h" />
-		<Unit filename="src/utils/gfx/gl/glid.hpp" />
-		<Unit filename="src/utils/gfx/gl/logerrors.cpp" />
-		<Unit filename="src/utils/gfx/gl/logerrors.h" />
-		<Unit filename="src/utils/gfx/gl/program.cpp" />
-		<Unit filename="src/utils/gfx/gl/program.h" />
-		<Unit filename="src/utils/gfx/gl/shader.cpp" />
-		<Unit filename="src/utils/gfx/gl/shader.h" />
-		<Unit filename="src/utils/gfx/gl/texture.cpp" />
-		<Unit filename="src/utils/gfx/gl/texture.h" />
-		<Unit filename="src/utils/gfx/gl/vao.cpp" />
-		<Unit filename="src/utils/gfx/gl/vao.h" />
-		<Unit filename="src/utils/gfx/window.cpp" />
-		<Unit filename="src/utils/gfx/window.h" />
-		<Unit filename="src/utils/indexmap.cpp" />
-		<Unit filename="src/utils/indexmap.h" />
-		<Unit filename="src/utils/loadstring.cpp" />
-		<Unit filename="src/utils/loadstring.h" />
+		<Unit filename="src/textrenderer_types.h" />
+		<Unit filename="src/textrendererm1.cpp" />
+		<Unit filename="src/textrendererm1.h" />
+		<Unit filename="src/utils/gfx/include/gfx/context.h" />
+		<Unit filename="src/utils/gfx/include/gfx/gl/buffer.h" />
+		<Unit filename="src/utils/gfx/include/gfx/gl/debug.h" />
+		<Unit filename="src/utils/gfx/include/gfx/gl/logerrors.h" />
+		<Unit filename="src/utils/gfx/include/gfx/gl/program.h" />
+		<Unit filename="src/utils/gfx/include/gfx/gl/shader.h" />
+		<Unit filename="src/utils/gfx/include/gfx/gl/texture.h" />
+		<Unit filename="src/utils/gfx/include/gfx/gl/vao.h" />
+		<Unit filename="src/utils/gfx/include/gfx/window.h" />
+		<Unit filename="src/utils/gfx/src/context.cpp" />
+		<Unit filename="src/utils/gfx/src/gl/buffer.cpp" />
+		<Unit filename="src/utils/gfx/src/gl/debug.cpp" />
+		<Unit filename="src/utils/gfx/src/gl/glid.hpp" />
+		<Unit filename="src/utils/gfx/src/gl/logerrors.cpp" />
+		<Unit filename="src/utils/gfx/src/gl/program.cpp" />
+		<Unit filename="src/utils/gfx/src/gl/shader.cpp" />
+		<Unit filename="src/utils/gfx/src/gl/texture.cpp" />
+		<Unit filename="src/utils/gfx/src/gl/vao.cpp" />
+		<Unit filename="src/utils/gfx/src/window.cpp" />
+		<Unit filename="src/utils/misc/include/misc/backcache.hpp" />
+		<Unit filename="src/utils/misc/include/misc/loadstring.h" />
+		<Unit filename="src/utils/misc/src/loadstring.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

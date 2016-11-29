@@ -1,7 +1,7 @@
+#include "../../include/gfx/gl/logerrors.h"
 #include <array>
 #include <iostream>
 #include <GL/glew.h>
-#include "logerrors.h"
 
 constexpr const char* GLEnumToString(GLenum p_e)
 {

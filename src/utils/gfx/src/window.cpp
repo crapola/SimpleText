@@ -1,4 +1,4 @@
-#include "window.h"
+#include "../include/gfx/window.h"
 #include <iostream>
 #include <stdexcept>
 

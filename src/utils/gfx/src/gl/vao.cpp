@@ -1,5 +1,6 @@
-#include "vao.h"
+#include "../../include/gfx/gl/vao.h"
 #include <iostream>
+
 namespace gl
 {
 VAO::VAO()

@@ -1,4 +1,4 @@
-#include "context.h"
+#include "../include/gfx/context.h"
 #include <GL/glew.h>
 #include <iostream>
 #include <stdexcept>

@@ -4,8 +4,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "utils/gfx/context.h"
-#include "utils/gfx/window.h"
+#include "gfx/context.h"
+#include "gfx/window.h"
 #include "processevents.h"
 
 #include "textrenderer.h"

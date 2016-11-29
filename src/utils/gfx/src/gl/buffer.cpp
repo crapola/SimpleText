@@ -1,4 +1,4 @@
-#include "buffer.h"
+#include "../../include/gfx/gl/buffer.h"
 #include <iostream>//
 namespace gl
 {

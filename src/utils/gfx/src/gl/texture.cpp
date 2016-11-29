@@ -1,5 +1,6 @@
-#include "texture.h"
-#include <iostream>//
+#include "../../include/gfx/gl/texture.h"
+#include <iostream>
+
 namespace gl
 {
 Texture::Texture():Identifiable(0)

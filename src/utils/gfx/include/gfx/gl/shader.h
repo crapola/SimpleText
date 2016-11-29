@@ -1,5 +1,7 @@
 #pragma once
-#include "glid.hpp"
+#include "../../../src/gl/glid.hpp"
+#include <string>
+
 namespace gl
 {
 class Shader: Identifiable

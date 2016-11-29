@@ -1,5 +1,5 @@
 #pragma once
-#include "glid.hpp"
+#include "../../../src/gl/glid.hpp"
 namespace gl
 {
 class Buffer: Identifiable

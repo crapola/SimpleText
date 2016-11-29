@@ -1,6 +1,6 @@
+#include "../../include/gfx/gl/shader.h"
 #include <iostream>	// Errors
 #include <vector> 	// Error string buffer
-#include "shader.h"
 
 namespace gl
 {

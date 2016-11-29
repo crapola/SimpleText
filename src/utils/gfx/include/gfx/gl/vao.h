@@ -1,12 +1,12 @@
 #pragma once
-#include "glid.hpp"
+#include "../../../src/gl/glid.hpp"
 namespace gl
 {
-class Texture: Identifiable
+class VAO : Identifiable
 {
 public:
-	Texture();
-	~Texture();
+	VAO();
+	~VAO();
 	using Identifiable::operator GLuint;
 private:
 	using Identifiable::_id;
