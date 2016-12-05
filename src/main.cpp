@@ -37,6 +37,8 @@ int main(int,char**) try
 
 	TextRenderer textrend;
 
+
+
 	//glUseProgram(123);
 
 	textrend.Add(100);

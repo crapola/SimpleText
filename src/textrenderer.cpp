@@ -12,8 +12,7 @@ using namespace std;
 
 // Helper to glBufferSubData part of a vector.
 template<typename C>
-void VSubData(GLenum p_target,const C& p_container,size_t p_from,
-			  size_t p_count)
+void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 {
 	constexpr size_t valueSize=sizeof(typename C::value_type);
 	glBufferSubData(p_target,
@@ -24,8 +23,10 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,
 }
 
 TextRenderer::TextRenderer():
-	_chars(),_charBuf(),_program(),_texture()
+	_chars(),_charBuf(),_program(),_texture(),_vao()
 {
+	_vao.Bind();
+
 	// Program
 	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),
 	fs(GL_FRAGMENT_SHADER);
@@ -41,18 +42,17 @@ TextRenderer::TextRenderer():
 	// Texture
 	constexpr int cs=FontTexture::charSize;
 	constexpr int tw=2048;
-	const GLubyte* indata=static_cast<const GLubyte*>
-						  (FontTexture::rawData);
+	const GLubyte* indata=static_cast<const GLubyte*>(FontTexture::rawData);
 	GLubyte dest[tw*cs]= {0};
 	{
 		// Convert 1bpp to 1Bpp (GL_RED)
-		for (int y=0; y<cs; ++y)
-			for (int x=0; x<FontTexture::symCount; ++x)
+		for(int y=0; y<cs; ++y)
+			for(int x=0; x<FontTexture::symCount; ++x)
 			{
 				GLubyte c=indata[x+y*FontTexture::symCount];
-				for (int b=0; b<cs; ++b)
+				for(int b=0; b<cs; ++b)
 				{
-					if (((c)&(1<<b))!=0)
+					if(((c)&(1<<b))!=0)
 					{
 						constexpr int cs2=cs-1;
 						dest[x*cs+(cs2-y)*tw+cs2-b]=255;
@@ -72,8 +72,7 @@ TextRenderer::TextRenderer():
 
 	// Chars
 	_charBuf.Bind(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),
-				 _chars.data(),
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),_chars.data(),
 				 GL_DYNAMIC_DRAW);
 	GLint charAttrib = glGetAttribLocation(_program,"chardata");
 	glVertexAttribIPointer(charAttrib,2,GL_UNSIGNED_INT,0,0);
@@ -83,6 +82,10 @@ TextRenderer::TextRenderer():
 	// Window size
 	Resolution(800,600);
 	TEST("Size")
+
+	_vao.Unbind();
+
+	cout<<"sizeof(Character)="<<sizeof(Character)<<'\n';
 }
 
 TextRenderer::~TextRenderer()
@@ -100,14 +103,14 @@ void TextRenderer::Add(size_t p_count)
 		_chars.insert(_chars.end(),extra.begin(),extra.end());
 	*/
 	size_t l=_chars.size();
-	for (size_t i=0; i<p_count; ++i)
+	for(size_t i=0; i<p_count; ++i)
 	{
 		_chars.push_back(
 		{
 			0,
 			0,
 			GLubyte('0'+i),
-			GLshort(l+i*8%128),
+			GLshort(l+i*16%128),
 			GLshort(l+i)
 		}
 		);
@@ -123,7 +126,7 @@ void TextRenderer::Delete(size_t p_from,size_t p_to)
 
 void TextRenderer::Draw()
 {
-	if (_chars.Pending())
+	if(_chars.Pending())
 	{
 		cout<<"u";
 		_charBuf.Bind(GL_ARRAY_BUFFER);
@@ -135,6 +138,9 @@ void TextRenderer::Draw()
 		_chars.Reset();
 	}
 	cout<<"d";
+
+	_vao.Bind();
+	_program.Bind();
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
@@ -142,7 +148,7 @@ void TextRenderer::ForEach(size_t p_from,size_t p_to,
 						   std::function<Character(Character)> f)
 {
 	//std::for_each(_chars.begin(),_chars.end(),f);
-	for (size_t i=p_from; i<p_to; ++i)
+	for(size_t i=p_from; i<p_to; ++i)
 	{
 		//_chars[i]=f(_chars.at(i));
 		auto c=_chars.at(i);
@@ -152,9 +158,9 @@ void TextRenderer::ForEach(size_t p_from,size_t p_to,
 
 void TextRenderer::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 {
-	if (p_w<=0) p_w=p_l;
+	if(p_w<=0) p_w=p_l;
 
-	for (size_t i=0; i<p_l; ++i)
+	for(size_t i=0; i<p_l; ++i)
 	{
 		Character c
 		{
@@ -171,7 +177,7 @@ void TextRenderer::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 void TextRenderer::Write(size_t p_o, const string& p_s)
 {
 	// Return if offset out of bounds
-	if (p_o>=_chars.size())
+	if(p_o>=_chars.size())
 	{
 		return;
 	}

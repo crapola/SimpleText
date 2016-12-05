@@ -8,4 +8,6 @@ struct Character
 	GLubyte c;		//ivec2.x 24
 	// Position in pixels
 	GLshort x,y;	//ivec2.y
+
+	//+2 padding
 };

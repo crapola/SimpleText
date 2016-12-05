@@ -4,6 +4,7 @@
 #include "gfx/gl/shader.h"
 #include "gfx/gl/program.h"
 #include "gfx/gl/texture.h"
+#include "gfx/gl/vao.h"
 #include <functional>
 #include <string>
 
@@ -21,6 +22,7 @@ public:
 	void Draw();
 	// Apply function to range.
 	void ForEach(size_t from,size_t to,std::function<Character(Character)> f);
+	// Arrange in a box
 	void Paragraph(size_t offset,size_t lenght,int x_px,int y_px,int width);
 	void Write(size_t offset,const std::string& s);
 	// Set pixel resolution.
@@ -32,4 +34,5 @@ private:
 	gl::Buffer _charBuf;
 	gl::Program _program;
 	gl::Texture _texture;
+	gl::VAO _vao;
 };
