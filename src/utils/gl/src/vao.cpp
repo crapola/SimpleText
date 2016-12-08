@@ -1,4 +1,4 @@
-#include "../../include/gfx/gl/vao.h"
+#include "../include/gl/vao.h"
 #include <iostream>
 
 namespace gl

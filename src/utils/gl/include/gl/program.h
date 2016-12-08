@@ -1,14 +1,16 @@
 #pragma once
-#include "../../../src/gl/glid.hpp"
+#include "../../src/glid.hpp"
 namespace gl
 {
-class VAO: Identifiable
+class Program: Identifiable
 {
 public:
-	VAO();
-	~VAO();
+	Program();
+	~Program();
 	using Identifiable::operator GLuint;
+	void Attach(GLuint shader) const;
 	void Bind() const;
+	void Link() const;
 	static void Unbind();
 private:
 	using Identifiable::_id;

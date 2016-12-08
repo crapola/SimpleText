@@ -1,5 +1,5 @@
 #include "textrenderer.h"
-#include "gfx/gl/logerrors.h"
+#include "gl/logerrors.h"
 #include "misc/loadstring.h"
 #include "fonttexture.h"
 #include <algorithm> // for_each

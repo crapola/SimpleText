@@ -7,7 +7,7 @@
 #include "gfx/context.h"
 #include "gfx/window.h"
 #include "processevents.h"
-#include "gfx/gl/debug.h"
+#include "gl/debug.h"
 
 #include "textrenderer.h"
 

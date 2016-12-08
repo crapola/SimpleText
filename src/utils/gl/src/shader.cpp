@@ -1,4 +1,4 @@
-#include "../../include/gfx/gl/shader.h"
+#include "../include/gl/shader.h"
 #include <iostream>	// Errors
 #include <vector> 	// Error string buffer
 

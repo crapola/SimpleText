@@ -1,4 +1,4 @@
-#include "../../include/gfx/gl/texture.h"
+#include "../include/gl/texture.h"
 #include <iostream>
 
 namespace gl

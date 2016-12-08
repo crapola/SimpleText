@@ -1,4 +1,4 @@
-#include "../../include/gfx/gl/program.h"
+#include "../include/gl/program.h"
 #include <iostream>	// Errors
 #include <vector> 	// Error string buffer
 

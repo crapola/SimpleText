@@ -1,10 +1,10 @@
 #pragma once
 #include "misc/backcache.hpp"
-#include "gfx/gl/buffer.h"
-#include "gfx/gl/shader.h"
-#include "gfx/gl/program.h"
-#include "gfx/gl/texture.h"
-#include "gfx/gl/vao.h"
+#include "gl/buffer.h"
+#include "gl/shader.h"
+#include "gl/program.h"
+#include "gl/texture.h"
+#include "gl/vao.h"
 #include <functional>
 #include <string>
 

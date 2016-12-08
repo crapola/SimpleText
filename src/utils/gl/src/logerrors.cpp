@@ -1,4 +1,4 @@
-#include "../../include/gfx/gl/logerrors.h"
+#include "../include/gl/logerrors.h"
 #include <array>
 #include <iostream>
 #include <GL/glew.h>
