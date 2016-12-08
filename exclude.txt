@@ -1,5 +1,0 @@
-bin\
-copystage.bat
-exclude.txt
-SimpleText.depend
-SimpleText.layout
