@@ -47,7 +47,9 @@ int main(int,char**) try
 	textrend.Write(0,">! HELLO WORLD !<");
 	textrend.Paragraph(0,30,200,200,10);
 
-	textrend.ForEach(0,40,[](auto c)->TextRenderer::Character
+	textrend.SetColor(0,100,Color2B(3,3,0)<<8);
+
+	textrend.ForEach(0,16,[](auto c)->TextRenderer::Character
 	{
 		static int i=0;
 		TextRenderer::Character a=c;
@@ -56,6 +58,8 @@ int main(int,char**) try
 		i--;
 		return a;
 	});
+
+
 
 	struct Meh
 	{

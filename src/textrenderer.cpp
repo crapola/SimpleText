@@ -144,11 +144,11 @@ void TextRenderer::Draw()
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
-void TextRenderer::ForEach(size_t p_from,size_t p_to,
+void TextRenderer::ForEach(size_t p_from,size_t p_len,
 						   std::function<Character(Character)> f)
 {
 	//std::for_each(_chars.begin(),_chars.end(),f);
-	for(size_t i=p_from; i<p_to; ++i)
+	for(size_t i=p_from; i<p_from+p_len; ++i)
 	{
 		//_chars[i]=f(_chars.at(i));
 		auto c=_chars.at(i);
@@ -172,6 +172,14 @@ void TextRenderer::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 		};
 		_chars[p_o+i]=c;
 	};
+}
+
+void TextRenderer::SetColor(size_t p_o,size_t p_l,unsigned short p_color)
+{
+	for(size_t i=p_o;i<p_o+p_l;++i)
+	{
+		_chars[i].colors=p_color;
+	}
 }
 
 void TextRenderer::Write(size_t p_o, const string& p_s)

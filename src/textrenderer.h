@@ -21,9 +21,12 @@ public:
 	// Draw everything.
 	void Draw();
 	// Apply function to range.
-	void ForEach(size_t from,size_t to,std::function<Character(Character)> f);
-	// Arrange in a box
+	void ForEach(size_t offset,size_t lenght,std::function<Character(Character)> f);
+	// Arrange in a box.
 	void Paragraph(size_t offset,size_t lenght,int x_px,int y_px,int width);
+	// Set color for range of characters.
+	void SetColor(size_t offset,size_t lenght,unsigned short color);
+	// Write string at offset.
 	void Write(size_t offset,const std::string& s);
 	// Set pixel resolution.
 	void Resolution(int width,int height);
