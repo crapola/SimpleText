@@ -1,8 +1,10 @@
 #pragma once
 #include <SDL2/SDL.h>
 
-// GLEW context for an SDL window.
-
+/**
+ *  \brief GLEW context for an SDL window.
+ *  This is a debug context, unless NDEBUG is defined.
+ */
 class Context
 {
 public:

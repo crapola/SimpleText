@@ -92,7 +92,7 @@ TextRenderer::~TextRenderer()
 {
 }
 
-void TextRenderer::Add(size_t p_count)
+size_t TextRenderer::Add(size_t p_count)
 {
 	/* use this later
 		vector<Character> extra(p_count,{0,
@@ -116,6 +116,7 @@ void TextRenderer::Add(size_t p_count)
 		);
 	};
 	UploadWholeBuffer();
+	return l;
 }
 
 void TextRenderer::Delete(size_t p_from,size_t p_to)
@@ -199,7 +200,7 @@ void TextRenderer::Write(size_t p_o, const string& p_s)
 	}
 }
 
-void TextRenderer::Resolution(int p_w,int p_h)
+void TextRenderer::Resolution(int p_w,int p_h) const
 {
 	GLint resolution=glGetUniformLocation(_program,"resolution");
 	glUniform2f(resolution,static_cast<float>(p_w),

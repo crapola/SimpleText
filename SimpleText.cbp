@@ -40,6 +40,7 @@
 				<Compiler>
 					<Add option="-flto" />
 					<Add option="-O3" />
+					<Add option="-DNDEBUG" />
 					<Add directory="src/utils" />
 					<Add directory="src/utils/gfx/gl" />
 				</Compiler>

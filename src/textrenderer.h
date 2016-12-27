@@ -15,7 +15,7 @@ public:
 	TextRenderer();
 	~TextRenderer();
 	// Add a number of characters to the end.
-	void Add(size_t count);
+	size_t Add(size_t count);
 	// Delete characters in range [from,to[.
 	void Delete(size_t from,size_t to);
 	// Draw everything.
@@ -29,7 +29,7 @@ public:
 	// Write string at offset.
 	void Write(size_t offset,const std::string& s);
 	// Set pixel resolution.
-	void Resolution(int width,int height);
+	void Resolution(int width,int height) const;
 private:
 	void UploadWholeBuffer();
 

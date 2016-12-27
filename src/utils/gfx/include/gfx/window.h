@@ -1,8 +1,9 @@
 #pragma once
 #include <SDL2/SDL.h>
 
-// SDL window and initialization.
-
+/** \brief SDL window and initialization.
+ *  SDL_Init is called in the constructor.
+ */
 class Window
 {
 public:

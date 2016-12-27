@@ -32,4 +32,3 @@ bool gl::LogErrors(const char* p_message)
 	std::cerr<<std::endl;
 	return true;
 }
-

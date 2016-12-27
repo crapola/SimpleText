@@ -2,15 +2,12 @@
 #include "../../src/glid.hpp"
 namespace gl
 {
-class VAO: Identifiable
+class VAO: public Identifiable
 {
 public:
 	VAO();
 	~VAO();
-	using Identifiable::operator GLuint;
 	void Bind() const;
 	static void Unbind();
-private:
-	using Identifiable::_id;
 };
 }

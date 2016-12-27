@@ -21,8 +21,6 @@ constexpr Color2B(int r,int g,int b)
 int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
-	// Required for glDebugMessageCallback
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS,SDL_GL_CONTEXT_DEBUG_FLAG);
 	Context glcontext(window);
 
 	glClearColor(0.0f,0.0f,1.0f,1.0f);
@@ -35,11 +33,9 @@ int main(int,char**) try
 	//glEnable(GL_COLOR_LOGIC_OP);
 	//glLogicOp(GL_EQUIV);
 
-	TextRenderer textrend;
-
-
-
 	//glUseProgram(123);
+
+	TextRenderer textrend;
 
 	textrend.Add(100);
 	textrend.Delete(50,50);
@@ -59,7 +55,9 @@ int main(int,char**) try
 		return a;
 	});
 
-
+	auto lol=textrend.Add(16);
+	textrend.Write(lol,"Some more text!!");
+	textrend.SetColor(lol,16,Color2B(1,3,2)<<8);
 
 	struct Meh
 	{

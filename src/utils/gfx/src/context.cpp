@@ -12,6 +12,10 @@ Context::Context(SDL_Window* p_screen):_context(nullptr)
 		throw std::runtime_error("Can't create GLEW context, "
 								 "missing SDL_WINDOW_OPENGL flag.");
 	}
+#ifndef NDEBUG
+	// Set debug flag, so that we can use glDebugMessageCallback.
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS,SDL_GL_CONTEXT_DEBUG_FLAG);
+#endif
 	_context=SDL_GL_CreateContext(p_screen);
 	if (_context==nullptr)
 	{

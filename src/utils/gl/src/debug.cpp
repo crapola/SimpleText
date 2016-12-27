@@ -16,6 +16,13 @@ void GLAPIENTRY CallBack(
 
 void InitDebugProc()
 {
+	GLint flag(0);
+	glGetIntegerv(GL_CONTEXT_FLAGS,&flag);
+	if (!(flag&GL_CONTEXT_FLAG_DEBUG_BIT))
+	{
+		std::cerr<<"InitDebugProc requires a debug context!\n";
+		return;
+	}
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(CallBack,nullptr);
 }
