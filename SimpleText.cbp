@@ -38,11 +38,13 @@
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-flto" />
+					<Add option="-O3" />
 					<Add directory="src/utils" />
 					<Add directory="src/utils/gfx/gl" />
 				</Compiler>
 				<Linker>
+					<Add option="-flto" />
 					<Add option="-s" />
 				</Linker>
 			</Target>

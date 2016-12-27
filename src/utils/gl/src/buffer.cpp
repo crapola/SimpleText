@@ -14,4 +14,9 @@ Buffer::~Buffer()
 	glDeleteBuffers(1,&_id);
 }
 
+void Buffer::Bind(GLenum target) const
+{
+	glBindBuffer(target,_id);
+}
+
 }

@@ -2,17 +2,11 @@
 #include "../../src/glid.hpp"
 namespace gl
 {
-class Buffer: Identifiable
+class Buffer: public Identifiable
 {
 public:
 	Buffer();
 	~Buffer();
-	using Identifiable::operator GLuint;
-	void Bind(GLenum target) const
-	{
-		glBindBuffer(target,_id);
-	}
-private:
-	using Identifiable::_id;
+	void Bind(GLenum target) const;
 };
 }
