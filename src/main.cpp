@@ -43,7 +43,7 @@ int main(int,char**) try
 	textrend.Write(0,">! HELLO WORLD !<");
 	textrend.Paragraph(0,30,200,200,10);
 
-	textrend.SetColor(0,100,Color2B(3,3,0)<<8);
+	textrend.SetColor(0,100,Color2B(3,3,0),0);
 
 	textrend.ForEach(0,16,[](auto c)->TextRenderer::Character
 	{
@@ -57,7 +57,7 @@ int main(int,char**) try
 
 	auto lol=textrend.Add(16);
 	textrend.Write(lol,"Some more text!!");
-	textrend.SetColor(lol,16,Color2B(1,3,2)<<8);
+	textrend.SetColor(lol,16,Color2B(1,3,2),255);
 
 	struct Meh
 	{
@@ -68,7 +68,7 @@ int main(int,char**) try
 		void operator()(SDL_KeyboardEvent& ke)
 		{
 			cout<<"keyboard event ";
-			if (ke.type==SDL_KEYUP)
+			if(ke.type==SDL_KEYUP)
 			{
 				switch(ke.keysym.sym)
 				{
@@ -91,7 +91,7 @@ int main(int,char**) try
 		}
 		void operator()(SDL_WindowEvent& we)
 		{
-			switch (we.event)
+			switch(we.event)
 			{
 				default:
 					break;
@@ -107,14 +107,14 @@ int main(int,char**) try
 	} meh(textrend);
 
 	long time=0;
-	while (ProcessEvents(meh))
+	while(ProcessEvents(meh))
 	{
 		// Counter
 		stringstream foo;
 		foo<<">> "<<time++;
 		string s(foo.str());
 
-		if (time%3==0) textrend.Write(0,s);
+		if(time%3==0) textrend.Write(0,s);
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -125,10 +125,9 @@ int main(int,char**) try
 
 	return 0;
 }
-catch (const runtime_error& e)
+catch(const runtime_error& e)
 {
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,u8"Error",u8"Sum ting wong",
-							 0);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,u8"Error",u8"Sum ting wong",0);
 	std::cerr<<"Runtime error: "<<e.what();
 	return -1;
 }

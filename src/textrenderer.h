@@ -14,7 +14,7 @@ class TextRenderer
 public:
 	TextRenderer();
 	~TextRenderer();
-	// Add a number of characters to the end.
+	// Add a number of characters to the end and return offset of added chars.
 	size_t Add(size_t count);
 	// Delete characters in range [from,to[.
 	void Delete(size_t from,size_t to);
@@ -24,8 +24,8 @@ public:
 	void ForEach(size_t offset,size_t lenght,std::function<Character(Character)> f);
 	// Arrange in a box.
 	void Paragraph(size_t offset,size_t lenght,int x_px,int y_px,int width);
-	// Set color for range of characters.
-	void SetColor(size_t offset,size_t lenght,unsigned short color);
+	// Set colors for range of characters.
+	void SetColor(size_t offset,size_t lenght,color_t front,color_t back);
 	// Write string at offset.
 	void Write(size_t offset,const std::string& s);
 	// Set pixel resolution.

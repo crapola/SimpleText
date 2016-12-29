@@ -175,11 +175,11 @@ void TextRenderer::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 	};
 }
 
-void TextRenderer::SetColor(size_t p_o,size_t p_l,unsigned short p_color)
+void TextRenderer::SetColor(size_t p_o,size_t p_l,color_t p_front,color_t p_back)
 {
 	for(size_t i=p_o;i<p_o+p_l;++i)
 	{
-		_chars[i].colors=p_color;
+		_chars[i].colors=p_front<<8|p_back;
 	}
 }
 

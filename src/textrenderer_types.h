@@ -11,3 +11,4 @@ struct Character
 
 	//+2 padding
 };
+typedef GLushort color_t;
