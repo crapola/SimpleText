@@ -26,10 +26,10 @@ public:
 	void Paragraph(size_t offset,size_t lenght,int x_px,int y_px,int width);
 	// Set colors for range of characters.
 	void SetColor(size_t offset,size_t lenght,color_t front,color_t back);
-	// Write string at offset.
-	void Write(size_t offset,const std::string& s);
 	// Set pixel resolution.
 	void Resolution(int width,int height) const;
+	// Write string at offset.
+	void Write(size_t offset,const std::string& s);
 private:
 	void UploadWholeBuffer();
 
@@ -39,3 +39,8 @@ private:
 	gl::Texture _texture;
 	gl::VAO _vao;
 };
+
+constexpr Color2B(int r,int g,int b)
+{
+	return ((r<<4)|(g<<2)|b);
+}

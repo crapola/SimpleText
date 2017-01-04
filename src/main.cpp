@@ -13,11 +13,6 @@
 
 using namespace std;
 
-constexpr Color2B(int r,int g,int b)
-{
-	return ((r<<4)|(g<<2)|b);
-}
-
 int main(int,char**) try
 {
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);

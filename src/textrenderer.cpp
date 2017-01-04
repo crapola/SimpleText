@@ -183,23 +183,6 @@ void TextRenderer::SetColor(size_t p_o,size_t p_l,color_t p_front,color_t p_back
 	}
 }
 
-void TextRenderer::Write(size_t p_o, const string& p_s)
-{
-	// Return if offset out of bounds
-	if(p_o>=_chars.size())
-	{
-		return;
-	}
-	// Copy string
-	auto it=_chars.begin()+p_o;
-	size_t numChars=min(p_s.size(),_chars.size()-p_o);
-	cout<<"numChars="<<numChars;
-	for(size_t i=0; i<numChars; ++i)
-	{
-		_chars[i+p_o].c=static_cast<GLubyte>(p_s[i]);
-	}
-}
-
 void TextRenderer::Resolution(int p_w,int p_h) const
 {
 	GLint resolution=glGetUniformLocation(_program,"resolution");
@@ -213,4 +196,20 @@ void TextRenderer::UploadWholeBuffer()
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),
 				 _chars.data(),
 				 GL_STATIC_DRAW);
+}
+
+void TextRenderer::Write(size_t p_o, const string& p_s)
+{
+	// Return if offset out of bounds
+	if(p_o>=_chars.size())
+	{
+		return;
+	}
+	// Copy string
+	size_t numChars=min(p_s.size(),_chars.size()-p_o);
+	cout<<"numChars="<<numChars;
+	for(size_t i=0; i<numChars; ++i)
+	{
+		_chars[i+p_o].c=static_cast<GLubyte>(p_s[i]);
+	}
 }
