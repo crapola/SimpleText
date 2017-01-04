@@ -1,4 +1,4 @@
-#include "textrenderer.h"
+#include "smalltext.h"
 #include "gl/logerrors.h"
 #include "misc/loadstring.h"
 #include "fonttexture.h"
@@ -22,7 +22,7 @@ void VSubData(GLenum p_target,const C& p_container,size_t p_from,size_t p_count)
 				   );
 }
 
-TextRenderer::TextRenderer():
+SmallText::SmallText():
 	_chars(),_charBuf(),_program(),_texture(),_vao()
 {
 	_vao.Bind();
@@ -88,11 +88,11 @@ TextRenderer::TextRenderer():
 	cout<<"sizeof(Character)="<<sizeof(Character)<<'\n';
 }
 
-TextRenderer::~TextRenderer()
+SmallText::~SmallText()
 {
 }
 
-size_t TextRenderer::Add(size_t p_count)
+size_t SmallText::Add(size_t p_count)
 {
 	/* use this later
 		vector<Character> extra(p_count,{0,
@@ -119,13 +119,13 @@ size_t TextRenderer::Add(size_t p_count)
 	return l;
 }
 
-void TextRenderer::Delete(size_t p_from,size_t p_to)
+void SmallText::Delete(size_t p_from,size_t p_to)
 {
 	_chars.erase(_chars.begin()+p_from,_chars.begin()+p_to);
 	UploadWholeBuffer();
 }
 
-void TextRenderer::Draw()
+void SmallText::Draw()
 {
 	if(_chars.Pending())
 	{
@@ -145,7 +145,7 @@ void TextRenderer::Draw()
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
-void TextRenderer::ForEach(size_t p_from,size_t p_len,
+void SmallText::ForEach(size_t p_from,size_t p_len,
 						   std::function<Character(Character)> f)
 {
 	//std::for_each(_chars.begin(),_chars.end(),f);
@@ -157,7 +157,7 @@ void TextRenderer::ForEach(size_t p_from,size_t p_len,
 	}
 }
 
-void TextRenderer::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
+void SmallText::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 {
 	if(p_w<=0) p_w=p_l;
 
@@ -175,7 +175,7 @@ void TextRenderer::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 	};
 }
 
-void TextRenderer::SetColor(size_t p_o,size_t p_l,color_t p_front,color_t p_back)
+void SmallText::SetColor(size_t p_o,size_t p_l,color_t p_front,color_t p_back)
 {
 	for(size_t i=p_o;i<p_o+p_l;++i)
 	{
@@ -183,14 +183,14 @@ void TextRenderer::SetColor(size_t p_o,size_t p_l,color_t p_front,color_t p_back
 	}
 }
 
-void TextRenderer::Resolution(int p_w,int p_h) const
+void SmallText::Resolution(int p_w,int p_h) const
 {
 	GLint resolution=glGetUniformLocation(_program,"resolution");
 	glUniform2f(resolution,static_cast<float>(p_w),
 				static_cast<float>(p_h));
 }
 
-void TextRenderer::UploadWholeBuffer()
+void SmallText::UploadWholeBuffer()
 {
 	_charBuf.Bind(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Character)*_chars.size(),
@@ -198,7 +198,7 @@ void TextRenderer::UploadWholeBuffer()
 				 GL_STATIC_DRAW);
 }
 
-void TextRenderer::Write(size_t p_o, const string& p_s)
+void SmallText::Write(size_t p_o, const string& p_s)
 {
 	// Return if offset out of bounds
 	if(p_o>=_chars.size())

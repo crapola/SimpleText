@@ -8,12 +8,12 @@
 #include <functional>
 #include <string>
 
-class TextRenderer
+class SmallText
 {
-	#include "textrenderer_types.h"
+#include "smalltext_types.h"
 public:
-	TextRenderer();
-	~TextRenderer();
+	SmallText();
+	~SmallText();
 	// Add a number of characters to the end and return offset of added chars.
 	size_t Add(size_t count);
 	// Delete characters in range [from,to[.

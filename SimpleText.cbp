@@ -77,9 +77,9 @@
 		<Unit filename="src/indexmap.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
-		<Unit filename="src/textrenderer.cpp" />
-		<Unit filename="src/textrenderer.h" />
-		<Unit filename="src/textrenderer_types.h" />
+		<Unit filename="src/smalltext.cpp" />
+		<Unit filename="src/smalltext.h" />
+		<Unit filename="src/smalltext_types.h" />
 		<Unit filename="src/utils/gfx/include/gfx/context.h" />
 		<Unit filename="src/utils/gfx/include/gfx/window.h" />
 		<Unit filename="src/utils/gfx/src/context.cpp" />

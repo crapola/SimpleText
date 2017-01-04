@@ -30,7 +30,7 @@ int main(int,char**) try
 
 	//glUseProgram(123);
 
-	TextRenderer textrend;
+	SmallText textrend;
 
 	textrend.Add(100);
 	textrend.Delete(50,50);
@@ -40,10 +40,10 @@ int main(int,char**) try
 
 	textrend.SetColor(0,100,Color2B(3,3,0),0);
 
-	textrend.ForEach(0,16,[](auto c)->TextRenderer::Character
+	textrend.ForEach(0,16,[](auto c)->SmallText::Character
 	{
 		static int i=0;
-		TextRenderer::Character a=c;
+		SmallText::Character a=c;
 		a.y+=30;
 		a.colors=(Color2B(3,3,0)+i)<<8;
 		i--;
@@ -56,8 +56,8 @@ int main(int,char**) try
 
 	struct Meh
 	{
-		TextRenderer& t;
-		Meh(TextRenderer& t):t(t)
+		SmallText& t;
+		Meh(SmallText& t):t(t)
 		{
 		}
 		void operator()(SDL_KeyboardEvent& ke)
