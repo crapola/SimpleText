@@ -1,7 +1,8 @@
-#include "smalltext.h"
+#include "../include/text/smalltext.h"
+#include "cpcfont.h"
 #include "gl/logerrors.h"
 #include "misc/loadstring.h"
-#include "fonttexture.h"
+#include "smalltext_shaders.h"
 #include <algorithm> // for_each
 #include <iostream>
 
@@ -30,9 +31,12 @@ SmallText::SmallText():
 	// Program
 	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),
 	fs(GL_FRAGMENT_SHADER);
-	vs.Compile(LoadString("data/vert.glsl"));
-	gs.Compile(LoadString("data/geo.glsl"));
-	fs.Compile(LoadString("data/frag.glsl"));
+	//vs.Compile(LoadString("src/utils/text/src/shaders/vert.glsl"));
+	//gs.Compile(LoadString("src/utils/text/src/shaders/geo.glsl"));
+	//fs.Compile(LoadString("src/utils/text/src/shaders/frag.glsl"));
+	vs.Compile(SHADERS_STR[0]);
+	gs.Compile(SHADERS_STR[1]);
+	fs.Compile(SHADERS_STR[2]);
 	_program.Attach(vs);
 	_program.Attach(gs);
 	_program.Attach(fs);

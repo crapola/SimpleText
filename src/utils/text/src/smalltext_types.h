@@ -1,7 +1,8 @@
+typedef GLushort color_t;
 struct Character
 {
 	// Front and back colors
-	GLushort colors;
+	color_t colors;
 	// Flags
 	GLubyte flags;
 	// Character code
@@ -11,4 +12,4 @@ struct Character
 
 	//+2 padding
 };
-typedef GLushort color_t;
+

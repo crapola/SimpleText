@@ -4,7 +4,7 @@
 	<Project>
 		<Option title="SimpleText" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="mingw64_gcc" />
 		<MakeCommands>
 			<Build command="" />
 			<CompileFile command="" />
@@ -18,7 +18,7 @@
 				<Option output="bin/Debug/SimpleText" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="mingw64_gcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -35,7 +35,7 @@
 				<Option output="bin/Release/SimpleText" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/obj/Release/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="mingw64_gcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-flto" />
@@ -55,6 +55,7 @@
 			<Add directory="src/utils/gfx/include" />
 			<Add directory="src/utils/misc/include" />
 			<Add directory="src/utils/gl/include" />
+			<Add directory="src/utils/text/include" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
@@ -63,23 +64,10 @@
 			<Add library="glew32" />
 			<Add library="opengl32" />
 		</Linker>
-		<Unit filename="data/frag.glsl">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="data/geo.glsl">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="data/vert.glsl">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="src/fonttexture.h" />
 		<Unit filename="src/indexmap.cpp" />
 		<Unit filename="src/indexmap.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
-		<Unit filename="src/smalltext.cpp" />
-		<Unit filename="src/smalltext.h" />
-		<Unit filename="src/smalltext_types.h" />
 		<Unit filename="src/utils/gfx/include/gfx/context.h" />
 		<Unit filename="src/utils/gfx/include/gfx/window.h" />
 		<Unit filename="src/utils/gfx/src/context.cpp" />
@@ -102,6 +90,11 @@
 		<Unit filename="src/utils/misc/include/misc/backcache.hpp" />
 		<Unit filename="src/utils/misc/include/misc/loadstring.h" />
 		<Unit filename="src/utils/misc/src/loadstring.cpp" />
+		<Unit filename="src/utils/text/include/text/smalltext.h" />
+		<Unit filename="src/utils/text/src/cpcfont.h" />
+		<Unit filename="src/utils/text/src/smalltext.cpp" />
+		<Unit filename="src/utils/text/src/smalltext_shaders.h" />
+		<Unit filename="src/utils/text/src/smalltext_types.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

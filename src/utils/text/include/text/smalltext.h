@@ -10,7 +10,7 @@
 
 class SmallText
 {
-#include "smalltext_types.h"
+#include "../src/smalltext_types.h"
 public:
 	SmallText();
 	~SmallText();

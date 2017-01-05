@@ -9,7 +9,7 @@
 #include "processevents.h"
 #include "gl/debug.h"
 
-#include "textrenderer.h"
+#include "text/smalltext.h"
 
 using namespace std;
 
