@@ -2,7 +2,7 @@
 #include <iostream>
 namespace gl
 {
-void GLAPIENTRY CallBack(
+static void GLAPIENTRY CallBack(
 	GLenum/* p_source*/,
 	GLenum/* p_type*/,
 	GLuint/* p_id*/,

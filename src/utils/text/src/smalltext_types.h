@@ -9,7 +9,6 @@ struct Character
 	GLubyte c;		//ivec2.x 24
 	// Position in pixels
 	GLshort x,y;	//ivec2.y
-
 	//+2 padding
 };
-
+static_assert(sizeof(Character)==sizeof(GLint)*2,"Wrong size.");

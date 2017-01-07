@@ -1,9 +1,10 @@
 /*
-	Character data
-		GLushort colors;
-		GLubyte flags;
-		GLubyte c;
-		GLshort x,y;
+Character data
+	GLushort colors;	X_0
+	GLubyte flags;		X_16
+	GLubyte c;			X_24
+	GLshort x;			Y_0
+	GLshort y;			Y_16
 */
 layout(location=0) in ivec2 chardata;
 
@@ -11,7 +12,12 @@ uniform vec2 resolution;
 
 flat out uint charoffset;
 flat out vec2 charsizendc;
-out vec4 charColor;
+
+out Color
+{
+	vec4 front;
+	vec4 back;
+} outColor;
 
 //----------------------------------------------------------------------------
 
@@ -28,7 +34,7 @@ vec2 GetPos()
 	return PixToNDC(u);
 }
 
-// Get character value.
+// Get character ASCII256 value.
 uint GetChar()
 {
 	return chardata.x>>24&0xFF;
@@ -43,11 +49,17 @@ vec4 GetColor()
 	return vec4(red,green,blue,1);
 }
 
+// Get flags.
+uint GetFlags()
+{
+	return chardata.x>>16;
+}
+
 void main()
 {
 	charsizendc=vec2(8.f * 2.f/resolution.x,8.f * 2.f/resolution.y);
 	charoffset=GetChar();
 	vec2 position=GetPos();
-	charColor=GetColor();
+	outColor.front=GetColor();
 	gl_Position=vec4(position, 0.0, 1.0);
 }

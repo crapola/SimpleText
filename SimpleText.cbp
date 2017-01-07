@@ -92,6 +92,9 @@
 		<Unit filename="src/utils/misc/src/loadstring.cpp" />
 		<Unit filename="src/utils/text/include/text/smalltext.h" />
 		<Unit filename="src/utils/text/src/cpcfont.h" />
+		<Unit filename="src/utils/text/src/shaders/frag.glsl" />
+		<Unit filename="src/utils/text/src/shaders/geo.glsl" />
+		<Unit filename="src/utils/text/src/shaders/vert.glsl" />
 		<Unit filename="src/utils/text/src/smalltext.cpp" />
 		<Unit filename="src/utils/text/src/smalltext_shaders.h" />
 		<Unit filename="src/utils/text/src/smalltext_types.h" />

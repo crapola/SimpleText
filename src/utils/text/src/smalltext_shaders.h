@@ -17,8 +17,6 @@ flat out uint charoffset;
 flat out vec2 charsizendc;
 out vec4 charColor;
 
-//------------------------------------------------------------------------------
-
 // Convert pixel position to NDC according to resolution.
 vec2 PixToNDC(in vec2 v)
 {
