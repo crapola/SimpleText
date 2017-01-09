@@ -40,7 +40,16 @@ uint GetChar()
 	return chardata.x>>24&0xFF;
 }
 
-vec4 GetColor()
+vec4 GetBackColor()
+{
+	uint fc=chardata.x&0xFF;
+	float blue=(fc&3)/3.0f;
+	float green=(fc>>2&3)/3.0f;
+	float red=(fc>>4&3)/3.0f;
+	return vec4(red,green,blue,1);
+}
+
+vec4 GetFrontColor()
 {
 	uint fc=chardata.x>>8&0xFF;
 	float blue=(fc&3)/3.0f;
@@ -60,6 +69,7 @@ void main()
 	charsizendc=vec2(8.f * 2.f/resolution.x,8.f * 2.f/resolution.y);
 	charoffset=GetChar();
 	vec2 position=GetPos();
-	outColor.front=GetColor();
+	outColor.front=GetFrontColor();
+	outColor.back=GetBackColor();
 	gl_Position=vec4(position, 0.0, 1.0);
 }

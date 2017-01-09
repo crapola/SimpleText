@@ -33,6 +33,7 @@ void main()
 	vec4 v=gl_in[0].gl_Position;
 
 	outColor.front=inColor[0].front;
+	outColor.back=inColor[0].back;
 
 	gl_Position=v;
 	uv=uvc+vec2(0,0);

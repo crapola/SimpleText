@@ -6,12 +6,12 @@ in Color
 {
 	vec4 front;
 	vec4 back;
-} inColor;
+};
 
 out vec4 outColor;
 
 void main()
 {
 	float r=texture(tex,uv).r;
-	outColor=r*inColor.front;
+	outColor=r*front+(1-r)*back;
 }

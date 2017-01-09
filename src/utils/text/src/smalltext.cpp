@@ -6,6 +6,7 @@
 #include <algorithm> // for_each
 #include <iostream>
 
+#define USE_EMBEDDED_SHADERS 0
 #define TEST(x) gl::LogErrors(x);
 //#define TEST(x)
 
@@ -31,16 +32,15 @@ SmallText::SmallText():
 	// Program
 	gl::Shader vs(GL_VERTEX_SHADER),gs(GL_GEOMETRY_SHADER),
 	fs(GL_FRAGMENT_SHADER);
-	//*
-	vs.Compile(LoadString("src/utils/text/src/shaders/vert.glsl"));
-	gs.Compile(LoadString("src/utils/text/src/shaders/geo.glsl"));
-	fs.Compile(LoadString("src/utils/text/src/shaders/frag.glsl"));
-	//*/
-	/*
+#if USE_EMBEDDED_SHADERS
 	vs.Compile(SHADERS_STR[0]);
 	gs.Compile(SHADERS_STR[1]);
 	fs.Compile(SHADERS_STR[2]);
-	*/
+#else
+	vs.Compile(LoadString("src/utils/text/src/shaders/vert.glsl"));
+	gs.Compile(LoadString("src/utils/text/src/shaders/geo.glsl"));
+	fs.Compile(LoadString("src/utils/text/src/shaders/frag.glsl"));
+#endif
 	_program.Attach(vs);
 	_program.Attach(gs);
 	_program.Attach(fs);

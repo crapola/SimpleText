@@ -64,8 +64,6 @@
 			<Add library="glew32" />
 			<Add library="opengl32" />
 		</Linker>
-		<Unit filename="src/indexmap.cpp" />
-		<Unit filename="src/indexmap.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/processevents.h" />
 		<Unit filename="src/utils/gfx/include/gfx/context.h" />
