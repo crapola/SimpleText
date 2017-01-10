@@ -2,25 +2,25 @@ constexpr char const* SHADERS_STR[3]={
 // Vertex
 // -----------------------------------------------------------------------------
 R"(
-/*
-	Character data
-		GLushort colors;
-		GLubyte flags;
-		GLubyte c;
-		GLshort x,y;
-*/
 layout(location=0) in ivec2 chardata;
 
 uniform vec2 resolution;
 
 flat out uint charoffset;
 flat out vec2 charsizendc;
-out vec4 charColor;
+
+out Color
+{
+	vec4 front;
+	vec4 back;
+} outColor;
+
+//----------------------------------------------------------------------------
 
 // Convert pixel position to NDC according to resolution.
 vec2 PixToNDC(in vec2 v)
 {
-	return vec2( (2.0f*v.x)/resolution.x-1.0f, -(2.0f*v.y)/resolution.y+1.0f);
+	return vec2((2.0f*v.x)/resolution.x-1.0f, -(2.0f*v.y)/resolution.y+1.0f);
 }
 
 // Get character position.
@@ -30,19 +30,25 @@ vec2 GetPos()
 	return PixToNDC(u);
 }
 
-// Get character value.
+// Get character ASCII256 value.
 uint GetChar()
 {
 	return chardata.x>>24&0xFF;
 }
 
-vec4 GetColor()
+vec4 ExtractColor(uint c)
 {
-	uint fc=chardata.x>>8&0xFF;
-	float blue=(fc&3)/3.0f;
-	float green=(fc>>2&3)/3.0f;
-	float red=(fc>>4&3)/3.0f;
-	return vec4(red,green,blue,1);
+	float alpha=(c&3)/3.0f;
+	float blue=(c>>2&3)/3.0f;
+	float green=(c>>4&3)/3.0f;
+	float red=(c>>6&3)/3.0f;
+	return vec4(red,green,blue,alpha);
+}
+
+// Get flags.
+uint GetFlags()
+{
+	return chardata.x>>16;
 }
 
 void main()
@@ -50,9 +56,11 @@ void main()
 	charsizendc=vec2(8.f * 2.f/resolution.x,8.f * 2.f/resolution.y);
 	charoffset=GetChar();
 	vec2 position=GetPos();
-	charColor=GetColor();
+	outColor.front=ExtractColor(chardata.x>>8&0xFF);
+	outColor.back=ExtractColor(chardata.x&0xFF);
 	gl_Position=vec4(position, 0.0, 1.0);
-})",
+}
+)",
 // Geometry
 // -----------------------------------------------------------------------------
 R"(
@@ -61,10 +69,21 @@ layout(triangle_strip,max_vertices=4) out;
 
 flat in uint charoffset[];
 flat in vec2 charsizendc[];
-in vec4 charColor[];
+in vec4 frontColor[];
+
+in Color
+{
+	vec4 front;
+	vec4 back;
+} inColor[];
+
+out Color
+{
+	vec4 front;
+	vec4 back;
+} outColor;
 
 out vec2 uv;
-out vec4 fragColor;
 
 void main()
 {
@@ -79,7 +98,8 @@ void main()
 
 	vec4 v=gl_in[0].gl_Position;
 
-	fragColor=charColor[0];
+	outColor.front=inColor[0].front;
+	outColor.back=inColor[0].back;
 
 	gl_Position=v;
 	uv=uvc+vec2(0,0);
@@ -96,7 +116,8 @@ void main()
 	gl_Position+=vec4(0,-sy,0,0);
 	uv=uvc+vec2(uvx,uvy);
 	EmitVertex();
-})",
+}
+)",
 // Fragment
 // -----------------------------------------------------------------------------
 R"(
@@ -104,11 +125,17 @@ uniform sampler2D tex;
 
 in vec2 uv;
 
-in vec4 fragColor;
+in Color
+{
+	vec4 front;
+	vec4 back;
+};
+
 out vec4 outColor;
 
 void main()
 {
 	float r=texture(tex,uv).r;
-	outColor=r*fragColor;
-})"};
+	outColor=r*front+(1-r)*back;
+}
+)"};

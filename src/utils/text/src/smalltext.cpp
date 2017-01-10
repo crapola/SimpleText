@@ -4,7 +4,6 @@
 #include "smalltext_shaders.h"
 #include "smalltext_types.h"
 #include <algorithm> // for_each
-#include <iostream>
 
 #define USE_EMBEDDED_SHADERS 0
 
@@ -87,8 +86,6 @@ SmallText::SmallText():
 	Resolution(800,600);
 
 	_vao.Unbind();
-
-	cout<<"sizeof(Character)="<<sizeof(Character)<<'\n';
 }
 
 SmallText::~SmallText()
@@ -97,27 +94,28 @@ SmallText::~SmallText()
 
 size_t SmallText::Add(size_t p_count)
 {
-	/* use this later
-		vector<Character> extra(p_count,{0,
-				0,
-				GLubyte('0'),
-				GLshort(0),
-				GLshort(0)});
-		_chars.insert(_chars.end(),extra.begin(),extra.end());
-	*/
 	size_t l=_chars.size();
-	for(size_t i=0; i<p_count; ++i)
-	{
-		_chars.push_back(
+
+	vector<Character> extra(p_count, {0xFF00,
+									  0,
+									  GLubyte('0'),
+									  GLshort(0),
+									  GLshort(0)
+									 });
+	_chars.insert(_chars.end(),extra.begin(),extra.end());
+	/*
+		for(size_t i=0; i<p_count; ++i)
 		{
-			0,
-			0,
-			GLubyte('0'+i),
-			GLshort(l+i*16%128),
-			GLshort(l+i)
-		}
-		);
-	};
+			_chars.push_back(
+			{
+				0,
+				0,
+				GLubyte('0'+i),
+				GLshort(l+i*16%128),
+				GLshort(l+i)
+			}
+			);
+		};*/
 	UploadWholeBuffer();
 	return l;
 }
@@ -180,7 +178,7 @@ void SmallText::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 	};
 }
 
-void SmallText::SetColor(size_t p_o,size_t p_l,color_t p_front,color_t p_back)
+void SmallText::SetColor(size_t p_o,size_t p_l,uint8_t p_front,uint8_t p_back)
 {
 	for(size_t i=p_o; i<p_o+p_l; ++i)
 	{
@@ -212,7 +210,6 @@ void SmallText::Write(size_t p_o, const string& p_s)
 	}
 	// Copy string
 	size_t numChars=min(p_s.size(),_chars.size()-p_o);
-	//cout<<"numChars="<<numChars;
 	for(size_t i=0; i<numChars; ++i)
 	{
 		_chars[i+p_o].c=static_cast<GLubyte>(p_s[i]);
@@ -221,5 +218,5 @@ void SmallText::Write(size_t p_o, const string& p_s)
 
 void SmallText::Character::SetColors(uint8_t p_front,uint8_t p_back)
 {
-	colors=p_front<<8|p_back;
+	colors=(p_front<<8)|p_back;
 }

@@ -62,6 +62,5 @@ void main()
 	vec2 position=GetPos();
 	outColor.front=ExtractColor(chardata.x>>8&0xFF);
 	outColor.back=ExtractColor(chardata.x&0xFF);
-	outColor.back.a=GetFlags();
 	gl_Position=vec4(position, 0.0, 1.0);
 }

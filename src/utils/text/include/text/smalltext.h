@@ -22,11 +22,11 @@ public:
 	// Draw everything.
 	void Draw();
 	// Apply function to range.
-	void ForEach(size_t offset,size_t lenght,std::function<Character(Character)> f);
+	void ForEach(size_t offset,size_t length,std::function<Character(Character)> f);
 	// Arrange in a box.
-	void Paragraph(size_t offset,size_t lenght,int x_px,int y_px,int width);
+	void Paragraph(size_t offset,size_t length,int x_px,int y_px,int width);
 	// Set colors for range of characters.
-	void SetColor(size_t offset,size_t lenght,color_t front,color_t back);
+	void SetColor(size_t offset,size_t length,uint8_t front,uint8_t back);
 	// Set pixel resolution.
 	void Resolution(int width,int height) const;
 	// Write string at offset.

@@ -4,7 +4,7 @@ struct Character
 	void SetColors(uint8_t front,uint8_t back);
 	// Front and back colors
 	color_t colors;
-	// Flags
+	// Flags (Unused)
 	GLubyte flags;
 	// Character code
 	GLubyte c;		//ivec2.x 24

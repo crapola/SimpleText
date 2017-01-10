@@ -36,21 +36,22 @@ int main(int,char**) try
 	textrend.Delete(50,50);
 
 	textrend.Write(0,">! HELLO WORLD !<");
-	textrend.Paragraph(0,30,200,200,10);
+	textrend.Paragraph(0,100,31,55,30);
 
-	textrend.SetColor(0,100,Color2B(3,3,0,3),0);
+	textrend.SetColor(0,50,Color2B(3,3,0,1),Color2B(0,0,0,1));
 
 	textrend.ForEach(0,16,[](auto c)->SmallText::Character
 	{
 		static int i=0;
 		SmallText::Character a=c;
-		a.y+=50;
-		a.SetColors(Color2B(3,i,3,3),Color2B(1,1,1,2));
+		a.y+=100+i;
+		a.SetColors(Color2B(3,i,3,3),Color2B(1,1,1,1));
 		i--;
 		return a;
 	});
 
 	auto lol=textrend.Add("Some more text!!");
+	textrend.Paragraph(lol,16,300,300,8);
 	textrend.SetColor(lol,16,Color2B(0,3,0,3),Color2B(3,0,0,3));
 	textrend.Delete(lol+15,lol+15);
 
@@ -109,7 +110,8 @@ int main(int,char**) try
 		foo<<">> "<<time++;
 		string s(foo.str());
 
-		if(time%3==0) textrend.Write(0,s);
+		if(time%3==0) textrend.Write(50,s);
+		textrend.SetColor(0,50,time|0x03,Color2B(0,0,0,time%4));
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
