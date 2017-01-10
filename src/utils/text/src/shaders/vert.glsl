@@ -24,7 +24,7 @@ out Color
 // Convert pixel position to NDC according to resolution.
 vec2 PixToNDC(in vec2 v)
 {
-	return vec2( (2.0f*v.x)/resolution.x-1.0f, -(2.0f*v.y)/resolution.y+1.0f);
+	return vec2((2.0f*v.x)/resolution.x-1.0f, -(2.0f*v.y)/resolution.y+1.0f);
 }
 
 // Get character position.
@@ -40,22 +40,13 @@ uint GetChar()
 	return chardata.x>>24&0xFF;
 }
 
-vec4 GetBackColor()
+vec4 ExtractColor(uint c)
 {
-	uint fc=chardata.x&0xFF;
-	float blue=(fc&3)/3.0f;
-	float green=(fc>>2&3)/3.0f;
-	float red=(fc>>4&3)/3.0f;
-	return vec4(red,green,blue,1);
-}
-
-vec4 GetFrontColor()
-{
-	uint fc=chardata.x>>8&0xFF;
-	float blue=(fc&3)/3.0f;
-	float green=(fc>>2&3)/3.0f;
-	float red=(fc>>4&3)/3.0f;
-	return vec4(red,green,blue,1);
+	float alpha=(c&3)/3.0f;
+	float blue=(c>>2&3)/3.0f;
+	float green=(c>>4&3)/3.0f;
+	float red=(c>>6&3)/3.0f;
+	return vec4(red,green,blue,alpha);
 }
 
 // Get flags.
@@ -69,7 +60,8 @@ void main()
 	charsizendc=vec2(8.f * 2.f/resolution.x,8.f * 2.f/resolution.y);
 	charoffset=GetChar();
 	vec2 position=GetPos();
-	outColor.front=GetFrontColor();
-	outColor.back=GetBackColor();
+	outColor.front=ExtractColor(chardata.x>>8&0xFF);
+	outColor.back=ExtractColor(chardata.x&0xFF);
+	outColor.back.a=GetFlags();
 	gl_Position=vec4(position, 0.0, 1.0);
 }

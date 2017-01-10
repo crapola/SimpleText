@@ -3,6 +3,7 @@
 #include "gl/logerrors.h"
 #include "misc/loadstring.h"
 #include "smalltext_shaders.h"
+#include "smalltext_types.h"
 #include <algorithm> // for_each
 #include <iostream>
 
@@ -187,7 +188,7 @@ void SmallText::SetColor(size_t p_o,size_t p_l,color_t p_front,color_t p_back)
 {
 	for(size_t i=p_o;i<p_o+p_l;++i)
 	{
-		_chars[i].colors=p_front<<8|p_back;
+		_chars[i].SetColors(p_front,p_back);
 	}
 }
 
@@ -220,4 +221,9 @@ void SmallText::Write(size_t p_o, const string& p_s)
 	{
 		_chars[i+p_o].c=static_cast<GLubyte>(p_s[i]);
 	}
+}
+
+void SmallText::Character::SetColors(uint8_t p_front,uint8_t p_back)
+{
+	colors=p_front<<8|p_back;
 }

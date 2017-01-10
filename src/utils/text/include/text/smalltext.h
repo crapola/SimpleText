@@ -40,7 +40,12 @@ private:
 	gl::VAO _vao;
 };
 
-constexpr Color2B(int r,int g,int b)
+constexpr Color2B(int r,int g,int b,int a)
 {
-	return ((r<<4)|(g<<2)|b);
+	return ((r<<6)|(g<<4)|(b<<2)|a);
 }
+
+/*uint16_t Color2B(uint8_t r,uint8_t g,uint8_t b,uint8_t a)
+{
+	return ((r<<6)|(g<<4)|(b<<2)|a);
+}*/

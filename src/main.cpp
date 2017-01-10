@@ -18,9 +18,9 @@ int main(int,char**) try
 	Window window("SimpleText",800,600,SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
 	Context glcontext(window);
 
-	glClearColor(0.0f,0.0f,1.0f,1.0f);/*
+	glClearColor(0.0f,0.0f,1.0f,1.0f);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	gl::InitDebugProc();
 	// Wires
@@ -38,21 +38,21 @@ int main(int,char**) try
 	textrend.Write(0,">! HELLO WORLD !<");
 	textrend.Paragraph(0,30,200,200,10);
 
-	textrend.SetColor(0,100,Color2B(3,3,0),0);
+	textrend.SetColor(0,100,Color2B(3,3,0,3),0);
 
 	textrend.ForEach(0,16,[](auto c)->SmallText::Character
 	{
 		static int i=0;
 		SmallText::Character a=c;
-		a.y+=30;
-		a.colors=(Color2B(3,3,0)+i)<<8 | Color2B(1,1,1);
+		a.y+=50;
+		a.SetColors(Color2B(3,3,0,2),Color2B(1,1,1,2));
 		i--;
 		return a;
 	});
 
 	auto lol=textrend.Add(16);
 	textrend.Write(lol,"Some more text!!");
-	textrend.SetColor(lol,16,Color2B(0,3,0),Color2B(3,0,0));
+	textrend.SetColor(lol,16,Color2B(0,3,0,3),Color2B(3,0,0,3));
 
 	struct Meh
 	{
