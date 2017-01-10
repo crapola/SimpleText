@@ -1,6 +1,5 @@
 #include "../include/text/smalltext.h"
 #include "cpcfont.h"
-#include "gl/logerrors.h"
 #include "misc/loadstring.h"
 #include "smalltext_shaders.h"
 #include "smalltext_types.h"
@@ -8,8 +7,6 @@
 #include <iostream>
 
 #define USE_EMBEDDED_SHADERS 0
-#define TEST(x) gl::LogErrors(x);
-//#define TEST(x)
 
 using namespace std;
 
@@ -77,7 +74,6 @@ SmallText::SmallText():
 				 GL_UNSIGNED_BYTE,dest);
 	GLint samplerLoc=glGetUniformLocation(_program,"tex");
 	glUniform1i(samplerLoc,0);
-	TEST("Texture")
 
 	// Chars
 	_charBuf.Bind(GL_ARRAY_BUFFER);
@@ -86,11 +82,9 @@ SmallText::SmallText():
 	GLint charAttrib = glGetAttribLocation(_program,"chardata");
 	glVertexAttribIPointer(charAttrib,2,GL_UNSIGNED_INT,0,0);
 	glEnableVertexAttribArray(charAttrib);
-	TEST("Chars")
 
 	// Window size
 	Resolution(800,600);
-	TEST("Size")
 
 	_vao.Unbind();
 
@@ -128,6 +122,14 @@ size_t SmallText::Add(size_t p_count)
 	return l;
 }
 
+size_t SmallText::Add(const std::string& p_str)
+{
+	size_t length=p_str.length();
+	size_t offset=Add(length);
+	Write(offset,p_str);
+	return offset;
+}
+
 void SmallText::Delete(size_t p_from,size_t p_to)
 {
 	_chars.erase(_chars.begin()+p_from,_chars.begin()+p_to);
@@ -138,31 +140,25 @@ void SmallText::Draw()
 {
 	if(_chars.Pending())
 	{
-		cout<<"u";
 		_charBuf.Bind(GL_ARRAY_BUFFER);
 		// Need to add 1 to get count because BackCache's range is a closed
 		// interval.
 		VSubData(GL_ARRAY_BUFFER,_chars,_chars.From(),
 				 1+_chars.To()-_chars.From());
-		cout<<"("<<_chars.From()<<","<<_chars.To()<<")\n";
 		_chars.Reset();
 	}
-	cout<<"d";
-
 	_vao.Bind();
 	_program.Bind();
 	glDrawArrays(GL_POINTS,0,_chars.size());
 }
 
 void SmallText::ForEach(size_t p_from,size_t p_len,
-						   std::function<Character(Character)> f)
+						std::function<Character(Character)> f)
 {
-	//std::for_each(_chars.begin(),_chars.end(),f);
+	std::for_each(_chars.begin(),_chars.end(),f);
 	for(size_t i=p_from; i<p_from+p_len; ++i)
 	{
-		//_chars[i]=f(_chars.at(i));
-		auto c=_chars.at(i);
-		_chars[i]=f(c);
+		_chars[i]=f(_chars.at(i));
 	}
 }
 
@@ -186,7 +182,7 @@ void SmallText::Paragraph(size_t p_o,size_t p_l,int p_x,int p_y,int p_w)
 
 void SmallText::SetColor(size_t p_o,size_t p_l,color_t p_front,color_t p_back)
 {
-	for(size_t i=p_o;i<p_o+p_l;++i)
+	for(size_t i=p_o; i<p_o+p_l; ++i)
 	{
 		_chars[i].SetColors(p_front,p_back);
 	}
@@ -216,7 +212,7 @@ void SmallText::Write(size_t p_o, const string& p_s)
 	}
 	// Copy string
 	size_t numChars=min(p_s.size(),_chars.size()-p_o);
-	cout<<"numChars="<<numChars;
+	//cout<<"numChars="<<numChars;
 	for(size_t i=0; i<numChars; ++i)
 	{
 		_chars[i+p_o].c=static_cast<GLubyte>(p_s[i]);

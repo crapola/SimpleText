@@ -16,6 +16,7 @@ public:
 	~SmallText();
 	// Add a number of characters to the end and return offset of added chars.
 	size_t Add(size_t count);
+	size_t Add(const std::string& s);
 	// Delete characters in range [from,to[.
 	void Delete(size_t from,size_t to);
 	// Draw everything.
@@ -44,8 +45,3 @@ constexpr Color2B(int r,int g,int b,int a)
 {
 	return ((r<<6)|(g<<4)|(b<<2)|a);
 }
-
-/*uint16_t Color2B(uint8_t r,uint8_t g,uint8_t b,uint8_t a)
-{
-	return ((r<<6)|(g<<4)|(b<<2)|a);
-}*/

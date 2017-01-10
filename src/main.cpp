@@ -45,14 +45,14 @@ int main(int,char**) try
 		static int i=0;
 		SmallText::Character a=c;
 		a.y+=50;
-		a.SetColors(Color2B(3,3,0,2),Color2B(1,1,1,2));
+		a.SetColors(Color2B(3,i,3,3),Color2B(1,1,1,2));
 		i--;
 		return a;
 	});
 
-	auto lol=textrend.Add(16);
-	textrend.Write(lol,"Some more text!!");
+	auto lol=textrend.Add("Some more text!!");
 	textrend.SetColor(lol,16,Color2B(0,3,0,3),Color2B(3,0,0,3));
+	textrend.Delete(lol+15,lol+15);
 
 	struct Meh
 	{
