@@ -15,8 +15,6 @@ out Color
 	vec4 back;
 } outColor;
 
-//----------------------------------------------------------------------------
-
 // Convert pixel position to NDC according to resolution.
 vec2 PixToNDC(in vec2 v)
 {

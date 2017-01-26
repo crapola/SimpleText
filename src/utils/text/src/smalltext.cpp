@@ -5,7 +5,7 @@
 #include "smalltext_types.h"
 #include <algorithm> // for_each
 
-#define USE_EMBEDDED_SHADERS 0
+#define USE_EMBEDDED_SHADERS 1
 
 using namespace std;
 
@@ -103,19 +103,6 @@ size_t SmallText::Add(size_t p_count)
 									  GLshort(0)
 									 });
 	_chars.insert(_chars.end(),extra.begin(),extra.end());
-	/*
-		for(size_t i=0; i<p_count; ++i)
-		{
-			_chars.push_back(
-			{
-				0,
-				0,
-				GLubyte('0'+i),
-				GLshort(l+i*16%128),
-				GLshort(l+i)
-			}
-			);
-		};*/
 	UploadWholeBuffer();
 	return l;
 }

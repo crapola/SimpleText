@@ -1,9 +1,8 @@
-typedef GLushort color_t;
 struct Character
 {
 	void SetColors(uint8_t front,uint8_t back);
 	// Front and back colors
-	color_t colors;
+	GLushort colors;
 	// Flags (Unused)
 	GLubyte flags;
 	// Character code
